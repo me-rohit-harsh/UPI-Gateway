@@ -1,0 +1,64 @@
+package com.emailSender.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.emailSender.Repository.UserRepository;
+import com.emailSender.Service.EmailService;
+import com.emailSender.model.User;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class EmailController {
+	@Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private EmailService emailService;
+
+
+    @PostMapping("/sendEmail")
+    public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text, RedirectAttributes redirectAttributes) {
+        emailService.sendSimpleEmail(to, subject, text);
+        redirectAttributes.addFlashAttribute("success", true);
+        return "redirect:/mail";
+    }
+    @GetMapping("/fetchEmail")
+    public String fetchEmails(HttpSession session,RedirectAttributes redirectAttributes) {
+
+        try {
+
+            // Retrieve submittedUtr and moneySent from session attributes
+            String submittedUtr = (String) session.getAttribute("submittedUtr");
+            float moneySent = (float) session.getAttribute("moneySent");
+
+            // Call fetchEmails from emailService and get the result
+            boolean utrFound = emailService.fetchEmails(submittedUtr, moneySent);
+
+            // Set the status based on the result
+            if (utrFound) {
+                // UTR was found, set status accordingly
+                User newUser = (User) session.getAttribute("newUser");
+                newUser.setStatus(true);
+                userRepository.save(newUser);
+                emailService.sendSimpleEmail("rohitkumarah369@gmail.com", "We Have Recieved Your Payment", "Welcome to the Oxyclouds");
+                redirectAttributes.addFlashAttribute("success", true);
+                return "redirect:/success";
+            } else {
+                // UTR was not found, redirect to error page
+                session.setAttribute("SubmitAuthError", true);
+                redirectAttributes.addFlashAttribute("error", true);
+                return "redirect:/requesterror";
+            }
+        } catch (Exception e) {
+            // Handle exceptions
+            // e.printStackTrace(); // Print the stack trace for debugging
+            System.out.println("Exception occurs in the email Controller" + e);
+            return "redirect:/payment?error";
+        }
+    }
+
+}

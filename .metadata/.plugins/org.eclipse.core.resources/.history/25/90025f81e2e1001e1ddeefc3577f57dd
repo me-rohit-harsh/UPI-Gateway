@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPI Payment Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    .card:hover {
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container ">
+    
+    <div class="card text-center m-5 p-5">
+        <div th:if="${error}" class="alert alert-success">Something Went wrong!! Try Again or contact our Support</div>
+    
+      <h2>UPI Payment</h2>
+      <img src="https://img.freepik.com/free-vector/scan-me-qr-code_78370-2915.jpg" class="img-fluid mt-3 mb-3"
+        alt="QR Code with UPI Id">
+      <form method="post" th:action="@{/save-utr}">
+        <div class="form-group">
+          <input  value="102040.00" type="number" class="form-control" name="txAmmount" id="txAmmount" placeholder="Enter Ammount" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="upiRefNo" id="upiRefNo" placeholder="Enter UTR or UPI Ref No." required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      </form>
+    </div>
+ </div>
+</body>
+</html>

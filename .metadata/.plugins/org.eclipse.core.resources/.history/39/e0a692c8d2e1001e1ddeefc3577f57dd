@@ -1,0 +1,24 @@
+package com.emailSender.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.emailSender.Service.EmailService;
+
+@Controller
+public class EmailController {
+
+    @Autowired
+    private EmailService emailService;
+
+
+    @PostMapping("/sendEmail")
+    public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text, RedirectAttributes redirectAttributes) {
+        emailService.sendSimpleEmail(to, subject, text);
+        redirectAttributes.addFlashAttribute("success", true);
+        return "redirect:/mail";
+    }
+}
