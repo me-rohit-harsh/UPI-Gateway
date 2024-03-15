@@ -8,17 +8,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.emailSender.Repository.UserRepository;
-import com.emailSender.model.User;
+import com.emailSender.Repository.TransactionRepository;
+import com.emailSender.Service.EmailService;
+import com.emailSender.model.Transaction;
 
 import jakarta.servlet.http.HttpSession;
-
 
 @Controller
 public class HomeController {
 	@Autowired
-	private UserRepository userRepository;
-
+	private TransactionRepository transactionRepository;
+@Autowired
+private EmailService emailService;
 	@GetMapping("/payment")
 	public String showQR() {
 		return ("payment");
@@ -50,14 +51,18 @@ public class HomeController {
 	}
 
 	@PostMapping("/save-utr")
-	public String saveUtr(@RequestParam("upiRefNo") String upiRefNo, @RequestParam("txAmmount") Float txAmmount,
-			@RequestParam("email") String email,		HttpSession session) {
+	public String saveUtr(@RequestParam("upiRefNo") String upiRefNo, @RequestParam("txAmmount") Float ammount,
+			@RequestParam("method") String method,@RequestParam("email") String email, HttpSession session) {
 		session.setAttribute("SubmitAuth", true);
 		try {
 			// Check if the UTR already exists in the database
-			User existingUser = userRepository.findByRefId(upiRefNo);
-			if (existingUser != null) {
+			Transaction existingTransaction = transactionRepository.findByRefId(upiRefNo);
+			if (existingTransaction != null) {
 				// UTR already exists, handle accordingly (e.g., show error message)
+				// UTR was not found, redirect to error page
+				String userEmail = (String) session.getAttribute("userEmail");
+				emailService.sendSimpleEmail(userEmail, "Payment Rejection - Oxyclouds",
+						"Your payment has already been processed.");
 				System.out.println("Already Redeemed");
 				session.setAttribute("SubmitAuthError", true);
 
@@ -66,17 +71,18 @@ public class HomeController {
 			}
 
 			// Create a new User object
-			User newUser = new User();
-			session.setAttribute("newUser", newUser);
-			newUser.setRefId(upiRefNo);
-			newUser.setStatus(false);
-			newUser.setTxAmmount((int) txAmmount.floatValue());
-			newUser.setEmail(email);
+			Transaction newTransaction = new Transaction();
+			session.setAttribute("newTransaction", newTransaction);
+			newTransaction.setRefId(upiRefNo);
+			newTransaction.setStatus(false);
+			newTransaction.setAmmount((int) ammount.floatValue());
+			newTransaction.setEmail(email);
+			newTransaction.setMethod(method);
 			// Save the new User object to the database
-			userRepository.save(newUser);
-			session.setAttribute("submittedUtr", newUser.getRefId());
-			session.setAttribute("moneySent", newUser.getTxAmmount());
-			session.setAttribute("userEmail", newUser.getEmail());
+			transactionRepository.save(newTransaction);
+			session.setAttribute("submittedUtr", newTransaction.getRefId());
+			session.setAttribute("moneySent", newTransaction.getAmmount());
+			session.setAttribute("userEmail", newTransaction.getEmail());
 			// Redirect to the fetchEmail page to check for valid UTR
 			return "redirect:/fetchEmail";
 		} catch (DataIntegrityViolationException e) {

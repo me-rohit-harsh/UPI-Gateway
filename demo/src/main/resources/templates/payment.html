@@ -30,12 +30,13 @@
   <div class="container ">
     
     <div class="card text-center m-5 p-5">
-        <div th:if="${error}" class="alert alert-success">Something Went wrong!! Try Again or contact our Support</div>
+        <div th:if="${error}" class="alert alert-error">Something Went wrong!! Try Again or contact our Support</div>
     
       <h2>UPI Payment</h2>
       <img src="https://img.freepik.com/free-vector/scan-me-qr-code_78370-2915.jpg" class="img-fluid mt-3 mb-3"
         alt="QR Code with UPI Id">
       <form method="post" th:action="@{/save-utr}">
+        <input type="text" name="method"  value="Not Found" hidden>
         <div class="form-group">
           <input  value="102040.00" type="number" class="form-control" name="txAmmount" id="txAmmount" placeholder="Enter Ammount" required>
         </div>

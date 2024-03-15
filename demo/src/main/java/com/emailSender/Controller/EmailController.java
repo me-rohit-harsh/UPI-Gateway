@@ -1,4 +1,5 @@
 package com.emailSender.Controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
@@ -7,28 +8,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.emailSender.Repository.UserRepository;
+import com.emailSender.Repository.EmailRepository;
+import com.emailSender.Repository.TransactionRepository;
 import com.emailSender.Service.EmailService;
-import com.emailSender.model.User;
+import com.emailSender.model.Email;
+import com.emailSender.model.Transaction;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class EmailController {
-	@Autowired
-    private UserRepository userRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
     @Autowired
     private EmailService emailService;
-
+    @Autowired
+    private EmailRepository emailRepository;
 
     @PostMapping("/sendEmail")
-    public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text, RedirectAttributes redirectAttributes) {
+    public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text,
+            RedirectAttributes redirectAttributes) {
         emailService.sendSimpleEmail(to, subject, text);
+        Email newEmail = new Email();
+        newEmail.setStatus(true);
+        newEmail.setTo_address(to);
+        newEmail.setText(text);
+        newEmail.setSubject(subject);
+        emailRepository.save(newEmail);
         redirectAttributes.addFlashAttribute("success", true);
         return "redirect:/mail";
     }
+
     @GetMapping("/fetchEmail")
-    public String fetchEmails(HttpSession session,RedirectAttributes redirectAttributes) {
+    public String fetchEmails(HttpSession session, RedirectAttributes redirectAttributes) {
 
         try {
 
@@ -42,17 +54,23 @@ public class EmailController {
             // Set the status based on the result
             if (utrFound) {
                 // UTR was found, set status accordingly
-                User newUser = (User) session.getAttribute("newUser");
-                newUser.setStatus(true);
-                userRepository.save(newUser);
-             // Call the sendEmail method asynchronously
-                String userEmail= (String) session.getAttribute("userEmail");
-                emailService.sendSimpleEmail(userEmail, "Payment Confirmation - Welcome to Oxyclouds", "Welcome to the Oxyclouds. Your payment of Rs" + moneySent + " has been successfully received.");
-
+                Transaction newTransaction = (Transaction) session.getAttribute("newTransaction");
+                newTransaction.setStatus(true);
+                newTransaction.setType("Credited");
+                transactionRepository.save(newTransaction);
+                // Call the sendEmail method asynchronously
+                String userEmail = (String) session.getAttribute("userEmail");
+                emailService.sendSimpleEmail(userEmail, "Payment Confirmation - Welcome to Oxyclouds",
+                        "Welcome to the Oxyclouds. Your payment of Rs" + moneySent
+                                + " has been successfully received.");
                 redirectAttributes.addFlashAttribute("success", true);
                 return "redirect:/success";
             } else {
                 // UTR was not found, redirect to error page
+                String userEmail = (String) session.getAttribute("userEmail");
+                emailService.sendSimpleEmail(userEmail, "Payment Rejection - Oxyclouds",
+                        "Welcome to the Oxyclouds. Your payment of Rs" + moneySent
+                                + " has failed  .");
                 session.setAttribute("SubmitAuthError", true);
                 redirectAttributes.addFlashAttribute("error", true);
                 return "redirect:/requesterror";
@@ -65,6 +83,7 @@ public class EmailController {
             return "redirect:/payment?error";
         }
     }
+
     @Async
     public void sendEmailAsync(String to, String subject, String body) {
         emailService.sendSimpleEmail(to, subject, body);
