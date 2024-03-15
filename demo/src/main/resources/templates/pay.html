@@ -55,25 +55,25 @@
     </div>
     <div class="container  mt-3">
 
-        <div class="card-content card shadow">
-            <div class="card-body">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-md-8 col-12">
-                            <p><strong>Your Balance:</strong></p>
-                            <h1>$ 0.00</h1>
-                            <p class="mb-0">You can make a new deposit of minimum $10</p>
-                        </div>
-                        <div
-                            class="col-md-4 col-12 d-flex align-items-center justify-content-center justify-content-md-end">
-                            <a class="btn-secondary btn mt-2 lnkbtn" id="addFundButton" data-toggle="modal"
-                                data-target="#raiseTicketModal">Deposit Now<i
-                                    class="m-2 fa-solid fas ml-2 fa-angle-right"></i> </a>
-                        </div>
+    <div class="card-content card shadow">
+        <div class="card-body">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-md-8 col-12">
+                        <p><strong>Your Balance:</strong></p>
+                        <h1>$ <span th:text="${totalAmount}">0.00</span></h1>
+                        <p class="mb-0">You can make a new deposit of minimum $10</p>
+                    </div>
+                    <div class="col-md-4 col-12 d-flex align-items-center justify-content-center justify-content-md-end">
+                        <a class="btn-secondary btn mt-2 lnkbtn" id="addFundButton" data-toggle="modal"
+                            data-target="#raiseTicketModal">Deposit Now<i class="m-2 fa-solid fas ml-2 fa-angle-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
         <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog"
             aria-labelledby="raiseTicketModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -285,203 +285,46 @@
             <table id="example" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start Date</th>
-                        <th>Salary</th>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Reference ID</th>
+                        <th>Type</th>
+                        <th>Method</th>
+                        <th>Updated At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td><span>Edinburgh</span></td>
-                        <td><span class="old">61</span></td>
-                        <td>2011-04-25</td>
-                        <td><span>$320,800.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td><span>Tokyo</span></td>
-                        <td><span class="old">63</span></td>
-                        <td>2011-07-25</td>
-                        <td><span>$170,750.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Ashton Cox</td>
-                        <td>Junior Technical Author</td>
-                        <td><span>San Francisco</span></td>
-                        <td><span class="old">66</span></td>
-                        <td>2009-01-12</td>
-                        <td><span>$86,000.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Cedric Kelly</td>
-                        <td>Senior Javascript Developer</td>
-                        <td><span>Edinburgh</span></td>
-                        <td><span class="young">22</span></td>
-                        <td>2012-03-29</td>
-                        <td><span>$433,060.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Airi Satou</td>
-                        <td>Accountant</td>
-                        <td><span>Tokyo</span></td>
-                        <td><span class="young">33</span></td>
-                        <td>2008-11-28</td>
-                        <td><span>$162,700.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Brielle Williamson</td>
-                        <td>Integration Specialist</td>
-                        <td><span>New York</span></td>
-                        <td><span class="old">61</span></td>
-                        <td>2012-12-02</td>
-                        <td><span>$372,000.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Herrod Chandler</td>
-                        <td>Sales Assistant</td>
-                        <td><span>San Francisco</span></td>
-                        <td><span class="old">59</span></td>
-                        <td>2012-08-06</td>
-                        <td><span>$137,500.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Rhona Davidson</td>
-                        <td>Integration Specialist</td>
-                        <td><span>Tokyo</span></td>
-                        <td><span class="old">55</span></td>
-                        <td>2010-10-14</td>
-                        <td><span>$327,900.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Colleen Hurst</td>
-                        <td>Javascript Developer</td>
-                        <td><span>San Francisco</span></td>
-                        <td><span class="middleaged">39</span></td>
-                        <td>2009-09-15</td>
-                        <td><span>$205,500.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Sonya Frost</td>
-                        <td>Software Engineer</td>
-                        <td><span>Edinburgh</span></td>
-                        <td><span class="young">23</span></td>
-                        <td>2008-12-13</td>
-                        <td><span>$103,600.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Jena Gaines</td>
-                        <td>Office Manager</td>
-                        <td><span>London</span></td>
-                        <td><span class="young">30</span></td>
-                        <td>2008-12-19</td>
-                        <td><span>$90,560.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Quinn Flynn</td>
-                        <td>Support Lead</td>
-                        <td><span>Edinburgh</span></td>
-                        <td><span class="young">22</span></td>
-                        <td>2013-03-03</td>
-                        <td><span>$342,000.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Charde Marshall</td>
-                        <td>Regional Director</td>
-                        <td><span>San Francisco</span></td>
-                        <td><span class="middleaged">36</span></td>
-                        <td>2008-10-16</td>
-                        <td><span>$470,600.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Haley Kennedy</td>
-                        <td>Senior Marketing Designer</td>
-                        <td><span>London</span></td>
-                        <td><span class="middleaged">43</span></td>
-                        <td>2012-12-18</td>
-                        <td><span>$313,500.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Tatyana Fitzpatrick</td>
-                        <td>Regional Director</td>
-                        <td><span>London</span></td>
-                        <td><span class="young">19</span></td>
-                        <td>2010-03-17</td>
-                        <td><span>$385,750.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Michael Silva</td>
-                        <td>Marketing Designer</td>
-                        <td><span>London</span></td>
-                        <td><span class="old">66</span></td>
-                        <td>2012-11-27</td>
-                        <td><span>$198,500.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Paul Byrd</td>
-                        <td>Chief Financial Officer (CFO)</td>
-                        <td><span>New York</span></td>
-                        <td><span class="old">64</span></td>
-                        <td>2010-06-09</td>
-                        <td><span>$725,000.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Gloria Little</td>
-                        <td>Systems Administrator</td>
-                        <td><span>New York</span></td>
-                        <td><span class="old">59</span></td>
-                        <td>2009-04-10</td>
-                        <td><span>$237,500.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Bradley Greer</td>
-                        <td>Software Engineer</td>
-                        <td><span>London</span></td>
-                        <td><span class="middleaged">41</span></td>
-                        <td>2012-10-13</td>
-                        <td><span>$132,000.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Dai Rios</td>
-                        <td>Personnel Lead</td>
-                        <td><span>Edinburgh</span></td>
-                        <td><span class="middleaged">35</span></td>
-                        <td>2012-09-26</td>
-                        <td><span>$217,500.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Jenette Caldwell</td>
-                        <td>Development Lead</td>
-                        <td><span>New York</span></td>
-                        <td><span class="young">30</span></td>
-                        <td>2011-09-03</td>
-                        <td><span>$345,000.00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Yuri Berry</td>
-                        <td>Chief Marketing Officer (CMO)</td>
-                        <td><span>New York</span></td>
-                        <td><span class="middleaged">40</span></td>
-                        <td>2009-06-25</td>
-                        <td><span>$675,000.00</span></td>
+                    <tr th:each="transaction : ${transactions}">
+                        <td th:text="${transaction.id}"></td>
+                        <td th:text="${transaction.email}"></td>
+                        <td th:text="${transaction.ammount}"></td>
+                        <td>
+                            <span th:if="${transaction.status}" style="color: rgb(32, 184, 32);">Successful</span>
+                            <span th:unless="${transaction.status}" style="color: red;">Failed</span>
+                        </td>
+
+                        <td th:text="${transaction.refId}"></td>
+                        <td th:text="${transaction.type}"></td>
+                        <td th:text="${transaction.method}"></td>
+                        <td th:text="${transaction.updatedAt}"></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start Date</th>
-                        <th>Salary</th>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Reference ID</th>
+                        <th>Type</th>
+                        <th>Method</th>
+                        <th>Updated At</th>
                     </tr>
                 </tfoot>
             </table>
+
         </div>
     </div>
     <script>
