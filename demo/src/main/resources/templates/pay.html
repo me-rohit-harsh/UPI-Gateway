@@ -89,15 +89,8 @@
                     <div class="modal-body">
 
 
-                        <form method="post" action="">
-
-
-
+                        <form method="post" th:action="@{/save-utr}">
                             <div class="main-content  ">
-
-
-
-                                <input type="hidden" name="token" value="e07251161b8375f22837177ee3ec7a4b7e2df7d4" />
                                 <p>Add funds to your account with us to
                                     avoid lots of
                                     small transactions and to automatically take care of any
@@ -106,7 +99,7 @@
                                 <div class="form-group my-3">
                                     <label for="paymentmethod" class="control-label">Payment
                                         Method:</label>
-                                    <select name="paymentMethod" id="paymentMethod" class="form-control" required>
+                                    <select name="method" id="paymentMethod" class="form-control" required>
                                         <option value="" selected disabled>Select Payment Method</option>
                                         <option value="Bank to Bank">Bank to Bank</option>
                                         <option value="Paytm">Paytm</option>
@@ -114,7 +107,7 @@
 
                                         <option value="Google Pay">Google pay</option>
                                         <option value="QR Code">QR Code</option>
-                                        <option value="USDT">USDT (Cryptocurrency)</option>
+                                        <!-- <option value="USDT">USDT (Cryptocurrency)</option> -->
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -131,6 +124,7 @@
                                         <h5>Paytm Details</h5>
                                         <p><strong>Bank Name:</strong> ABC Kumar</p>
                                         <p><strong>Paytm UPI ID:</strong> rohitkumar@paytm</p>
+                                        <a class="btn btn-success" href="upi://pay?pa=rohitkumarah369@ibl">Pay with paytm</a>
                                     </div>
 
                                     <div id="phonepayDetails"
@@ -138,6 +132,7 @@
                                         <h5>PhonePe Details</h5>
                                         <p><strong>Bank Name:</strong> ABC Kumar</p>
                                         <p><strong>PhonePe UPI ID:</strong> rohitkumar@ybl</p>
+                                        <a class="btn btn-primary" href="phonepe://pay?pa=rohitkumarah369@ibl">Pay with PhonePe</a>
                                     </div>
 
                                     <div id="googlepayDetails"
@@ -145,6 +140,7 @@
                                         <h5>Google Pay Details</h5>
                                         <p><strong>Bank Name:</strong> ABC Kumar</p>
                                         <p><strong>GooglePay UPI ID:</strong> rohitkumar@apl</p>
+                                        <a class="btn btn-success" href="upi://pay?pa=rohitkumarah369@ibl">Pay with Gpay</a>
                                     </div>
 
                                     <div id="qrCodeDetails" style="display: none; text-align: center; ">
@@ -153,9 +149,9 @@
                                             alt="QR Code"
                                             style="max-width: 100%; max-height: 200px; margin: auto; display: block;">
                                     </div>
-                                    <div id="usdtDetails" style="display: none; text-align: center;">
+                                    <!-- <div id="usdtDetails" style="display: none; text-align: center;">
                                         <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
-                                            value="OX4234234543REFSGDFFD">
+                                            value="OX4234234543REFSGDFFD" class="form-control text-center">
                                     </div>
 
                                     <script>
@@ -165,13 +161,13 @@
                                             document.execCommand("copy");
                                             alert("Copied to clipboard: " + usdtInput.value);
                                         }
-                                    </script>
+                                    </script> -->
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="amount" class="control-label">Amount to Add:</label>
                                     <div class="input-group">
-                                        <input type="number" name="amount" id="amount" placeholder="Enter an amount"
+                                        <input type="number" name="txAmmount" id="amount" placeholder="Enter an amount"
                                             class="form-control" required />
                                     </div>
                                     <div class="buttons-group buttons-5 m-b-2x my-2" id="add-credits-buttons">
@@ -248,7 +244,7 @@
                             <div class="form-group my-2">
                                 <!-- Input field for the selected payment method -->
                                 <label for="exampleInputEmail1">Payment ID </label>
-                                <input type="text" id="paymentInput" name="payment_id" class="form-control"
+                                <input type="text" id="paymentInput" name="upiRefNo" class="form-control"
                                     placeholder="Enter Txn Id/UTR/UPI Ref No." required>
                             </div>
 
@@ -350,14 +346,14 @@
             var phonepayDiv = document.getElementById('phonepayDetails');
             var googlepayDiv = document.getElementById('googlepayDetails');
             var qrCodeDiv = document.getElementById('qrCodeDetails');
-            var usdtDiv = document.getElementById('usdtDetails');
+            // var usdtDiv = document.getElementById('usdtDetails');
 
             bankDetailsDiv.style.display = 'none';
             paytmDiv.style.display = 'none';
             phonepayDiv.style.display = 'none';
             googlepayDiv.style.display = 'none';
             qrCodeDiv.style.display = 'none';
-            usdtDiv.style.display = 'none';
+            // usdtDiv.style.display = 'none';
 
             switch (this.value) {
                 case 'Bank to Bank':
@@ -375,9 +371,9 @@
                 case 'QR Code':
                     qrCodeDiv.style.display = 'block';
                     break;
-                case 'USDT':
-                    usdtDiv.style.display = 'block';
-                    break;
+                // case 'USDT':
+                //     usdtDiv.style.display = 'block';
+                //     break;
                 // Add cases for other payment methods as needed
             }
         });

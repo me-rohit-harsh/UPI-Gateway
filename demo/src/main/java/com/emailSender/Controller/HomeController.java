@@ -52,7 +52,7 @@ private EmailService emailService;
 
 	@PostMapping("/save-utr")
 	public String saveUtr(@RequestParam("upiRefNo") String upiRefNo, @RequestParam("txAmmount") Float ammount,
-			@RequestParam("email") String email, HttpSession session) {
+			@RequestParam("method") String method,@RequestParam("email") String email, HttpSession session) {
 		session.setAttribute("SubmitAuth", true);
 		try {
 			// Check if the UTR already exists in the database
@@ -77,6 +77,7 @@ private EmailService emailService;
 			newTransaction.setStatus(false);
 			newTransaction.setAmmount((int) ammount.floatValue());
 			newTransaction.setEmail(email);
+			newTransaction.setMethod(method);
 			// Save the new User object to the database
 			transactionRepository.save(newTransaction);
 			session.setAttribute("submittedUtr", newTransaction.getRefId());

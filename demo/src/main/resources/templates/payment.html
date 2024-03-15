@@ -36,6 +36,7 @@
       <img src="https://img.freepik.com/free-vector/scan-me-qr-code_78370-2915.jpg" class="img-fluid mt-3 mb-3"
         alt="QR Code with UPI Id">
       <form method="post" th:action="@{/save-utr}">
+        <input type="text" name="method"  value="Not Found" hidden>
         <div class="form-group">
           <input  value="102040.00" type="number" class="form-control" name="txAmmount" id="txAmmount" placeholder="Enter Ammount" required>
         </div>
