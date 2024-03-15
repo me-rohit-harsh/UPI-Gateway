@@ -13,7 +13,6 @@ import com.emailSender.model.User;
 
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 public class HomeController {
 	@Autowired
@@ -22,6 +21,11 @@ public class HomeController {
 	@GetMapping("/payment")
 	public String showQR() {
 		return ("payment");
+	}
+
+	@GetMapping("pay")
+	public String pay() {
+		return ("pay");
 	}
 
 	@GetMapping("/mail")
@@ -51,7 +55,7 @@ public class HomeController {
 
 	@PostMapping("/save-utr")
 	public String saveUtr(@RequestParam("upiRefNo") String upiRefNo, @RequestParam("txAmmount") Float txAmmount,
-			@RequestParam("email") String email,		HttpSession session) {
+			@RequestParam("email") String email, HttpSession session) {
 		session.setAttribute("SubmitAuth", true);
 		try {
 			// Check if the UTR already exists in the database
