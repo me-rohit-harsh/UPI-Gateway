@@ -102,7 +102,7 @@
                                 <div class="form-group my-3">
                                     <label for="amount" class="control-label">Amount to Add:</label>
                                     <div class="input-group">
-                                        <input type="number" name="amount" id="amount" placeholder="Enter an amount"
+                                        <input type="number" name="ammount" id="amount" placeholder="Enter an amount"
                                             class="form-control" required />
                                     </div>
                                     <div class="buttons-group buttons-5 m-b-2x my-2" id="add-credits-buttons">
@@ -120,7 +120,7 @@
                                 <div class="form-group my-3">
                                     <label for="paymentmethod" class="control-label">Payment
                                         Method:</label>
-                                    <select name="method" id="paymentMethod" class="form-control" required>
+                                    <select name="method" id="paymentMethod" class="form-control" required disabled>
                                         <option value="" selected disabled>Select Payment Method</option>
                                         <option value="Bank to Bank">Bank to Bank</option>
                                         <option value="Paytm">Paytm</option>
@@ -219,7 +219,7 @@
                                 </div>
 
 
-                                <!-- <script>
+                              <script>
                                     document.getElementById('amount').addEventListener('input', function () {
                                         var amountInput = this.value.trim();
                                         var paymentMethodSelect = document.getElementById('paymentMethod');
@@ -238,13 +238,13 @@
                                         var amountField = document.getElementById('amount');
                                         var creditButton = document.getElementById('add-credits-buttons');
                                         creditButton.style.display = 'none';
-                                        amountField.setAttribute('disabled', 'disabled');
+                                        amountField.setAttribute('readonly', 'readonly');
                                         if (amountInput === "") {
                                             alert("Please fill out the amount to proceed.");
                                             this.selectedIndex = 0; // Reset the select element to the default option
                                         }
                                     });
-                                </script> -->
+                                </script>
 
 
                                 <div class="form-actions">
@@ -291,9 +291,9 @@
                             </div> -->
                             <div class="form-group my-2">
 
-                                <label for="exampleInputEmail1">Email ID(Optional) </label>
+                                <label for="exampleInputEmail1">Email ID </label>
                                 <input type="email" id="emailId" name="email" class="form-control"
-                                    placeholder="Enter Email to recieve Confirmation mail">
+                                    placeholder="Enter Email to recieve Confirmation mail" required>
                             </div>
                             <!-- Submit button -->
                             <button type="submit" class="btn btn-primary btn-lg btn-block">
@@ -415,36 +415,36 @@
             }
 
 
-         // Get the amount
-            // var amount = document.getElementById('amount').value;
-            // console.log(amount);
+        //  Get the amount
+            var amount = document.getElementById('amount').value;
+            console.log(amount);
 
-            // // Send POST request with the amount in the body
-            // fetch('/generateUPIQR', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ amount: amount }),
-            // }).then(data => {
-            //     // Handle the response data
-            //      console.log(data); // Log the entire response data
-            //     console.log(data.qrImage); // Access qrImage attribute
-            //     console.log(data.upiId);    // Access upiId attribute
-            //     console.log(data.amount);   // Access amount attribute
+            // Send POST request with the amount in the body
+            fetch('/generateUPIQR', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: amount }),
+            }).then(data => {
+                // Handle the response data
+                 console.log(data); // Log the entire response data
+                console.log(data.qrImage); // Access qrImage attribute
+                console.log(data.upiId);    // Access upiId attribute
+                console.log(data.amount);   // Access amount attribute
                 
-            //     // Now you can use these attributes as needed
-            // })
-            //     .then(response => {
-            //         if (!response.ok) {
-            //             throw new Error('Network response was not ok');
-            //         }
-            //         return response.text();
-            //     })
-            //     .catch(error => {
-            //         // Handle errors
-            //         console.error('There was a problem with the fetch operation:', error);
-            //     });
+                // Now you can use these attributes as needed
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('There was a problem with the fetch operation:', error);
+                });
 
         });
 
@@ -463,6 +463,7 @@
                 button.addEventListener('click', function () {
                     var price = parseInt(this.getAttribute('data-price')).toFixed(0);
                     amountInput.value = price;
+                       paymentMethodSelect.removeAttribute('disabled');
                 });
             });
         });

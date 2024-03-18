@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.emailSender.Repository.TransactionRepository;
 import com.emailSender.Service.EmailService;
@@ -52,10 +51,10 @@ private EmailService emailService;
 	}
 
 	@PostMapping("/save-utr")
-	public String saveUtr(@ModelAttribute Transaction transaction,@RequestParam Integer amount, HttpSession session) {
+	public String saveUtr(@ModelAttribute Transaction transaction, HttpSession session) {
 		session.setAttribute("SubmitAuth", true);
 		String upiRefNo = transaction.getRefId();
-//		Integer ammount = transaction.getAmmount();
+		Integer amount = transaction.getAmmount();
 		String method = transaction.getMethod();
 		String email = transaction.getEmail();
 		System.out.println("***********" +upiRefNo+' '+ amount+' '+method+' '+email+"***********");
