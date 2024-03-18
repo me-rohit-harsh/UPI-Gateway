@@ -120,7 +120,7 @@
                                 <div class="form-group my-3">
                                     <label for="paymentmethod" class="control-label">Payment
                                         Method:</label>
-                                    <select name="method" id="paymentMethod" class="form-control" required>
+                                    <select name="method" id="paymentMethod" class="form-control" required disabled>
                                         <option value="" selected disabled>Select Payment Method</option>
                                         <option value="Bank to Bank">Bank to Bank</option>
                                         <option value="Paytm">Paytm</option>
@@ -463,6 +463,7 @@
                 button.addEventListener('click', function () {
                     var price = parseInt(this.getAttribute('data-price')).toFixed(0);
                     amountInput.value = price;
+                       paymentMethodSelect.removeAttribute('disabled');
                 });
             });
         });
