@@ -1,0 +1,67 @@
+package com.emailSender.Controller;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Map;
+
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+@SessionAttributes("base64Image")
+public class QrController {
+
+
+	@PostMapping(value = "/generateUPIQR", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String generateUPIQRCode(@RequestBody Map<String, Object> requestBody, HttpSession session) {
+	    double amount = Double.parseDouble(requestBody.get("amount").toString());
+	          try {
+	        	  session.removeAttribute("qrImage");
+	        	  session.removeAttribute("upiId");
+	        	  session.removeAttribute("amount");
+            // Construct UPI URL
+            String vpa = "rohitkumarah369@ibl";
+            String upiUrl = "upi://pay?pa=" + vpa + "&am=" + amount;
+
+            // Generate QR code
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(upiUrl, BarcodeFormat.QR_CODE, 300, 300);
+
+            // Convert BitMatrix to byte array
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", byteArrayOutputStream);
+            byte[] qrCodeBytes = byteArrayOutputStream.toByteArray();
+
+            // Convert byte array to base64 string
+            String base64Image = Base64.getEncoder().encodeToString(qrCodeBytes);
+
+            // Store base64 image data in session
+            session.setAttribute("qrImage", base64Image);
+            session.setAttribute("upiId", vpa);
+            session.setAttribute("amount", amount);
+            System.out.println(vpa);
+            System.out.println("Amount received: " + amount);
+            System.out.println(base64Image);
+            return "redirect:/pay";
+
+        } catch (WriterException | IOException e) {
+            e.printStackTrace();
+            // Handle error, you can redirect to an error page
+            return "redirect:/error";
+        }
+    }
+
+	
+}

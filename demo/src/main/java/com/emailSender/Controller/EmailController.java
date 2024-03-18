@@ -41,7 +41,7 @@ public class EmailController {
 
     @GetMapping("/fetchEmail")
     public String fetchEmails(HttpSession session, RedirectAttributes redirectAttributes) {
-
+System.out.println("here is the flow");
         try {
 
             // Retrieve submittedUtr and moneySent from session attributes
@@ -50,6 +50,7 @@ public class EmailController {
 
             // Call fetchEmails from emailService and get the result
             boolean utrFound = emailService.fetchEmails(submittedUtr, moneySent);
+            System.out.println("here is the flow111");
 
             // Set the status based on the result
             if (utrFound) {
@@ -60,22 +61,29 @@ public class EmailController {
                 transactionRepository.save(newTransaction);
                 // Call the sendEmail method asynchronously
                 String userEmail = (String) session.getAttribute("userEmail");
+                if(userEmail!=null){
                 emailService.sendSimpleEmail(userEmail, "Payment Confirmation - Welcome to Oxyclouds",
                         "Welcome to the Oxyclouds. Your payment of Rs" + moneySent
-                                + " has been successfully received.");
+                                + " has been successfully received.");}
                 redirectAttributes.addFlashAttribute("success", true);
                 return "redirect:/success";
             } else {
+                System.out.println("here is the flow22 Email controller");
+
                 // UTR was not found, redirect to error page
                 String userEmail = (String) session.getAttribute("userEmail");
+                if(userEmail!=null){
                 emailService.sendSimpleEmail(userEmail, "Payment Rejection - Oxyclouds",
                         "Welcome to the Oxyclouds. Your payment of Rs" + moneySent
-                                + " has failed  .");
+                                + " has failed  .");}
                 session.setAttribute("SubmitAuthError", true);
                 redirectAttributes.addFlashAttribute("error", true);
                 return "redirect:/requesterror";
             }
+            
         } catch (Exception e) {
+            System.out.println("here is the flow3333");
+
             // Handle exceptions
             // e.printStackTrace(); // Print the stack trace for debugging
             System.out.println("Exception occurs in the email Controller" + e);

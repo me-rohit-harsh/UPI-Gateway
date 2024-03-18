@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,9 +52,14 @@ private EmailService emailService;
 	}
 
 	@PostMapping("/save-utr")
-	public String saveUtr(@RequestParam("upiRefNo") String upiRefNo, @RequestParam("txAmmount") Float ammount,
-			@RequestParam("method") String method,@RequestParam("email") String email, HttpSession session) {
+	public String saveUtr(@ModelAttribute Transaction transaction,@RequestParam Integer amount, HttpSession session) {
 		session.setAttribute("SubmitAuth", true);
+		String upiRefNo = transaction.getRefId();
+//		Integer ammount = transaction.getAmmount();
+		String method = transaction.getMethod();
+		String email = transaction.getEmail();
+		System.out.println("***********" +upiRefNo+' '+ amount+' '+method+' '+email+"***********");
+		System.out.println("Here is the flow");
 		try {
 			// Check if the UTR already exists in the database
 			Transaction existingTransaction = transactionRepository.findByRefId(upiRefNo);
@@ -61,21 +67,24 @@ private EmailService emailService;
 				// UTR already exists, handle accordingly (e.g., show error message)
 				// UTR was not found, redirect to error page
 				String userEmail = (String) session.getAttribute("userEmail");
-				emailService.sendSimpleEmail(userEmail, "Payment Rejection - Oxyclouds",
-						"Your payment has already been processed.");
-				System.out.println("Already Redeemed");
+				if(userEmail!=null){
+					emailService.sendSimpleEmail(userEmail, "Payment Rejection - Oxyclouds",
+							"Your payment has already been processed.");
+					System.out.println("Already Redeemed");
+				}
 				session.setAttribute("SubmitAuthError", true);
 
 				// Redirect to an error page or return a response indicating UTR already exists
 				return "redirect:/requesterror";
 			}
-
-			// Create a new User object
+			
+			// Create a new Transaction object
 			Transaction newTransaction = new Transaction();
 			session.setAttribute("newTransaction", newTransaction);
 			newTransaction.setRefId(upiRefNo);
 			newTransaction.setStatus(false);
-			newTransaction.setAmmount((int) ammount.floatValue());
+			newTransaction.setAmmount(amount);
+			System.out.println("Here is the flow 11");
 			newTransaction.setEmail(email);
 			newTransaction.setMethod(method);
 			// Save the new User object to the database
@@ -84,6 +93,8 @@ private EmailService emailService;
 			session.setAttribute("moneySent", newTransaction.getAmmount());
 			session.setAttribute("userEmail", newTransaction.getEmail());
 			// Redirect to the fetchEmail page to check for valid UTR
+
+			System.out.println("Here is the flow22");
 			return "redirect:/fetchEmail";
 		} catch (DataIntegrityViolationException e) {
 			session.setAttribute("SubmitAuthError", true);
