@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update View on POST Response</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+</head>
+<body>
+    <div id="responseDiv"></div>
+
+    <form id="myForm" th:action="@{/sendData}" method="post">
+        <input type="text" id="dataInput" name="data" />
+        <button type="submit" id="submitButton">Send Data</button>
+    </form>
+
+    <!-- JavaScript to handle form submission -->
+    <script>
+        $(document).ready(function() {
+            // Handle form submission
+            $('#myForm').submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                // Get form data
+                var formData = {
+                    'data': $('#dataInput').val()
+                };
+                
+                // Send AJAX POST request
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'), // Form action URL
+                    data: formData,
+                    success: function(response) {
+                        // Update responseDiv with the received data
+                        $('#responseDiv').text(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

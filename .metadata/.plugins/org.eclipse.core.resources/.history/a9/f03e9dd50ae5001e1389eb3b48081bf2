@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update View on POST Response</title>
+</head>
+<body>
+    <div id="responseDiv" th:text="${response}"></div>
+
+    <form th:action="@{/sendData}" method="post">
+        <input type="text" name="data" />
+        <button type="submit">Send Data</button>
+    </form>
+</body>
+</html>

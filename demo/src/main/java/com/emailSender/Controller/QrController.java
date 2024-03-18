@@ -38,10 +38,10 @@ public class QrController {
 	        	  
 	        	  model.asMap().remove("amount");
 	        	  
-//	        	  System.out.println(model.getAttribute("ammount"));
-//	              System.out.println(session.getAttribute("qrImage"));
-//	              System.out.println(session.getAttribute("upiId"));
-//	              System.out.println(session.getAttribute("amount"));
+//	        System.out.println(model.getAttribute("ammount"));
+//	        System.out.println(session.getAttribute("qrImage"));
+//	        System.out.println(session.getAttribute("upiId"));
+//	        System.out.println(session.getAttribute("amount"));
             // Construct UPI URL
             String vpa = "rohitkumarah369@ibl";
             String upiUrl = "upi://pay?pa=" + vpa + "&am=" + amount;
@@ -74,11 +74,11 @@ public class QrController {
 //           System.out.println(model.getAttribute("qrImage"));
 //           System.out.println(model.getAttribute("upiId"));
            System.out.println(model.getAttribute("ammount"));
-        // Construct the response data
+           // Construct the response data
            Map<String, Object> responseData = new HashMap<>();
-           responseData.put("qrImage", session.getAttribute("qrImage"));
-           responseData.put("upiId", session.getAttribute("upiId"));
-           responseData.put("amount", session.getAttribute("amount"));
+           responseData.put("qrCode", base64Image);
+           responseData.put("upi", vpa);
+           responseData.put("money", amount);
 
            // Return the response data
            return ResponseEntity.ok().body(responseData);
