@@ -52,10 +52,10 @@ private EmailService emailService;
 	}
 
 	@PostMapping("/save-utr")
-	public String saveUtr(@ModelAttribute Transaction transaction,@RequestParam Integer amount, HttpSession session) {
+	public String saveUtr(@ModelAttribute Transaction transaction, HttpSession session) {
 		session.setAttribute("SubmitAuth", true);
 		String upiRefNo = transaction.getRefId();
-//		Integer ammount = transaction.getAmmount();
+		Integer amount = transaction.getAmmount();
 		String method = transaction.getMethod();
 		String email = transaction.getEmail();
 		System.out.println("***********" +upiRefNo+' '+ amount+' '+method+' '+email+"***********");
