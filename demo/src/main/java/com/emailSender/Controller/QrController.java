@@ -3,93 +3,60 @@ package com.emailSender.Controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 
-import jakarta.servlet.http.HttpSession;
+import reactor.core.publisher.Mono;
 
 @Controller
 @SessionAttributes("base64Image")
 public class QrController {
 
-
-	@PostMapping(value = "/generateUPIQR", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<Map<String, Object>> generateUPIQRCode(@RequestBody Map<String, Object> requestBody, HttpSession session, Model model) {
-	    double amount = Double.parseDouble(requestBody.get("amount").toString());
-	          try {
-	        	  session.removeAttribute("qrImage");
-	        	  session.removeAttribute("upiId");
-	        	  session.removeAttribute("amount");
-	        	  
-	        	  model.asMap().remove("amount");
-	        	  
-//	        	  System.out.println(model.getAttribute("ammount"));
-//	              System.out.println(session.getAttribute("qrImage"));
-//	              System.out.println(session.getAttribute("upiId"));
-//	              System.out.println(session.getAttribute("amount"));
+	@GetMapping("qr")
+	public String showPage() {
+		return "qrcode";
+	}
+	
+	@PostMapping("/generateQRCode")
+    @ResponseBody
+    public Mono<ResponseEntity<String>> generateQRCode(@RequestBody Map<String, Object> requestBody) {
+        double amount = Double.parseDouble(requestBody.get("amount").toString());
+        try {
             // Construct UPI URL
-            String vpa = "rohitkumarah369@ibl";
+            String vpa = "rohitkumarah369@ibl"; //My Vpa
             String upiUrl = "upi://pay?pa=" + vpa + "&am=" + amount;
 
             // Generate QR code
-            QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(upiUrl, BarcodeFormat.QR_CODE, 300, 300);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(upiUrl, BarcodeFormat.QR_CODE, 300, 300);
 
             // Convert BitMatrix to byte array
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", byteArrayOutputStream);
-            byte[] qrCodeBytes = byteArrayOutputStream.toByteArray();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
+            byte[] qrCodeBytes = outputStream.toByteArray();
 
             // Convert byte array to base64 string
             String base64Image = Base64.getEncoder().encodeToString(qrCodeBytes);
 
-            // Store base64 image data in session
-            session.setAttribute("qrImage", base64Image);
-            session.setAttribute("upiId", vpa);
-            session.setAttribute("amount", amount);
-           System.out.println(session.getAttribute("qrImage"));
-           System.out.println(session.getAttribute("upiId"));
-           System.out.println(session.getAttribute("amount"));
-
-           //Store base64 image data in model attributes instead of session
-//           model.addAttribute("qrImage", base64Image);
-//           model.addAttribute("upiId", vpa);
-           model.addAttribute("ammount", session.getAttribute("amount"));
-           System.out.println("*****Model Part *****");
-//           System.out.println(model.getAttribute("qrImage"));
-//           System.out.println(model.getAttribute("upiId"));
-           System.out.println(model.getAttribute("ammount"));
-        // Construct the response data
-           Map<String, Object> responseData = new HashMap<>();
-           responseData.put("qrImage", session.getAttribute("qrImage"));
-           responseData.put("upiId", session.getAttribute("upiId"));
-           responseData.put("amount", session.getAttribute("amount"));
-
-           // Return the response data
-           return ResponseEntity.ok().body(responseData);
-
+            // Return the base64 encoded QR code image
+            return Mono.just(ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(base64Image));
         } catch (WriterException | IOException e) {
             e.printStackTrace();
-            // Handle error, you can redirect to an error page
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-
+            return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating QR code"));
         }
     }
-
-	
 }

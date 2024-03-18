@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>QR Code Generator</title>
+</head>
+<body>
+    <h1>Generate QR Code</h1>
+
+    <form id="qrForm">
+        <label for="amount">Enter Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+        <button type="submit">Generate QR Code</button>
+    </form>
+
+    <div id="qrCodeContainer"></div>
+
+    <script>
+        document.getElementById("qrForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            generateQRCode();
+        });
+
+        function generateQRCode() {
+            var amount = document.getElementById("amount").value;
+            fetch('/generateQRCode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ amount: amount })
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display the QR code image
+                document.getElementById("qrCodeContainer").innerHTML = '<img src="data:image/png;base64,' + data + '" alt="QR Code">';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
