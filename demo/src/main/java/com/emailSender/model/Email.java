@@ -13,7 +13,7 @@ import lombok.Data;
 @Table
 public class Email {
     @Id
-    @Column(name = "Id")
+    @Column(name = "transaction_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String subject;
