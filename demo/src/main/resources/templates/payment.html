@@ -38,13 +38,13 @@
       <form method="post" th:action="@{/save-utr}">
         <input type="text" name="method"  value="Not Found" hidden>
         <div class="form-group">
-          <input  value="102040.00" type="number" class="form-control" name="txAmmount" id="txAmmount" placeholder="Enter Ammount" required>
+          <input  value="10" type="number" class="form-control" name="ammount" id="txAmmount" placeholder="Enter Ammount" required>
         </div>
         <div class="form-group">
           <input  value="rohitkumarah369@gmail.com" type="text" class="form-control" name="email" id="email" placeholder="Enter your email Id" required>
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" name="upiRefNo" id="upiRefNo" placeholder="Enter UTR or UPI Ref No." required>
+          <input type="text" class="form-control" name="refId" id="refId" placeholder="Enter UTR or UPI Ref No." required>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
       </form>
