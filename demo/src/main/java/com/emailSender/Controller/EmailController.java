@@ -62,9 +62,10 @@ System.out.println("here is the flow");
                 // Call the sendEmail method asynchronously
                 String userEmail = (String) session.getAttribute("userEmail");
                 if(userEmail!=null){
-                emailService.sendSimpleEmail(userEmail, "Payment Confirmation - Welcome to Oxyclouds",
-                        "Welcome to the Oxyclouds. Your payment of Rs" + moneySent
+                emailService.sendSimpleEmail(userEmail, "Payment Confirmation - Welcome to Jixwallet",
+                        "Welcome to the Jixwallet. Your payment of Rs" + moneySent
                                 + " has been successfully received.");}
+
                 redirectAttributes.addFlashAttribute("success", true);
                 return "redirect:/success";
             } else {
@@ -73,8 +74,8 @@ System.out.println("here is the flow");
                 // UTR was not found, redirect to error page
                 String userEmail = (String) session.getAttribute("userEmail");
                 if(userEmail!=null){
-                emailService.sendSimpleEmail(userEmail, "Payment Rejection - Oxyclouds",
-                        "Welcome to the Oxyclouds. Your payment of Rs" + moneySent
+                emailService.sendSimpleEmail(userEmail, "Payment Rejection - Jixwallet",
+                        "Welcome to the Jixwallet. Your payment of Rs" + moneySent
                                 + " has failed  .");}
                 session.setAttribute("SubmitAuthError", true);
                 redirectAttributes.addFlashAttribute("error", true);

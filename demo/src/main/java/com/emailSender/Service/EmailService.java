@@ -31,6 +31,7 @@ public class EmailService {
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
+        System.out.println("Email Sent "+ message);
     }
     
     
@@ -47,7 +48,7 @@ public class EmailService {
         boolean utrFound = false; // Flag to track if the UTR is found
         try {
             // Connect to the IMAP server
-            store.connect("paymentgatewayproject@gmail.com", "jbhsozifcuegjmpf");
+            store.connect("alerts@jixwallet.com", "uejwrmbebaiflxem");
 
             // Open the Inbox and Trash folders
             Folder inbox = store.getFolder("INBOX");
@@ -60,8 +61,8 @@ public class EmailService {
                 // Process each email message
 //            	System.out.println(message.getFrom()[0]);
 //            	System.out.println(message.getSubject());
-                if (message.getSubject().equals("Received")
-                        && message.getFrom()[0].toString().equals("paymentgatewayproject@gmail.com")) {
+                if (message.getSubject().equals("Credit Alert")
+                        && message.getFrom()[0].toString().equals("alerts@yesbank.in")) {
                     // Assume submittedUtr is the UTR you want to match against
 
                     // Retrieve and print the email body
@@ -73,6 +74,7 @@ public class EmailService {
                         if (emailBody.contains(submittedUtr) && emailBody.contains(Integer.toString(moneySent))) {
                             utrFound = true;
                             // Move the email to the Trash folder
+                            System.out.println(emailBody);
                             inbox.copyMessages(new Message[] { message }, trash);
                             System.out.println("UTR Found!!");
                             System.out.println("Email moved to Trash successfully.");

@@ -19,7 +19,7 @@ public class MyController {
 	        // Handle the POST request here
 	        return ResponseEntity.ok("Received POST request with data: " + requestBody);
 	    }
-	
+	// No need made for only experimental purpose
 	@GetMapping("/post")
 	public String checkPost() {
 		return "posttest";

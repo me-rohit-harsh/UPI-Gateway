@@ -21,17 +21,22 @@ public class HomeController {
 @Autowired
 private EmailService emailService;
 	@GetMapping("/payment")
-	public String showQR() {
+	public String showQR(HttpSession session) {
+		session.removeAttribute("SubmitAuth");
+		session.removeAttribute("SubmitAuthError");
 		return ("payment");
 	}
 
 	@GetMapping("/mail")
-	public String sendMail() {
+	public String sendMail(HttpSession session) {
+		session.removeAttribute("SubmitAuth");
+		session.removeAttribute("SubmitAuthError");
 		return ("mail");
 	}
 
 	@GetMapping("/success")
 	public String success(HttpSession session) {
+		session.removeAttribute("SubmitAuthError");
 		Boolean SubmitAuth = (Boolean) session.getAttribute("SubmitAuth");
 		if (SubmitAuth != null && SubmitAuth) {
 			return "success";
@@ -42,6 +47,7 @@ private EmailService emailService;
 
 	@GetMapping("/requesterror")
 	public String error(HttpSession session) {
+		session.removeAttribute("SubmitAuth");
 		Boolean SubmitAuth = (Boolean) session.getAttribute("SubmitAuthError");
 		if (SubmitAuth != null && SubmitAuth) {
 			return "errorPage";
@@ -67,7 +73,7 @@ private EmailService emailService;
 				// UTR was not found, redirect to error page
 				String userEmail = (String) session.getAttribute("userEmail");
 				if(userEmail!=null){
-					emailService.sendSimpleEmail(userEmail, "Payment Rejection - Oxyclouds",
+					emailService.sendSimpleEmail(userEmail, "Payment Rejection - Jixwallet",
 							"Your payment has already been processed.");
 					System.out.println("Already Redeemed");
 				}

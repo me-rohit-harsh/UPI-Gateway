@@ -21,6 +21,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
+import jakarta.servlet.http.HttpSession;
 import reactor.core.publisher.Mono;
 
 @Controller
@@ -28,7 +29,9 @@ import reactor.core.publisher.Mono;
 public class QrController {
 
 	@GetMapping("qr")
-	public String showPage() {
+	public String showPage(HttpSession session) {
+        session.removeAttribute("SubmitAuth");
+        session.removeAttribute("SubmitAuthError");
 		return "qrcode";
 	}
 	
@@ -38,7 +41,7 @@ public class QrController {
         double amount = Double.parseDouble(requestBody.get("amount").toString());
         try {
             // Construct UPI URL
-            String vpa = "rohitkumarah369@ibl"; //My Vpa
+            String vpa = "ambitionyes@ibl"; //My Vpa
             String upiUrl = "upi://pay?pa=" + vpa + "&am=" + amount;
 
             // Generate QR code
