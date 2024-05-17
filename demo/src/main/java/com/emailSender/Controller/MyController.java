@@ -14,17 +14,24 @@ import reactor.core.publisher.Mono;
 
 @Controller
 public class MyController {
-	 @PostMapping("/post")
-	    public ResponseEntity<String> handlePostRequest(@RequestBody String requestBody) {
-	        // Handle the POST request here
-	        return ResponseEntity.ok("Received POST request with data: " + requestBody);
-	    }
-	// No need made for only experimental purpose
-	@GetMapping("/post")
-	public String checkPost() {
-		return "posttest";
-	}
-	
+
+    @GetMapping("/")
+    public String showHome() {
+        return "home";
+    }
+
+    @PostMapping("/post")
+    public ResponseEntity<String> handlePostRequest(@RequestBody String requestBody) {
+        // Handle the POST request here
+        return ResponseEntity.ok("Received POST request with data: " + requestBody);
+    }
+
+    // No need made for only experimental purpose
+    @GetMapping("/post")
+    public String checkPost() {
+        return "posttest";
+    }
+
     private final WebClient webClient;
 
     public MyController(WebClient.Builder webClientBuilder) {
