@@ -59,8 +59,8 @@ public class EmailService {
             Message[] messages = inbox.getMessages();
             for (Message message : messages) {
                 // Process each email message
-//            	System.out.println(message.getFrom()[0]);
-//            	System.out.println(message.getSubject());
+           	// System.out.println(message.getFrom()[0]);
+           	// System.out.println(message.getSubject());
                 if (message.getSubject().equals("Credit Alert")
                         && message.getFrom()[0].toString().equals("alerts@yesbank.in")) {
                     // Assume submittedUtr is the UTR you want to match against
@@ -74,7 +74,7 @@ public class EmailService {
                         if (emailBody.contains(submittedUtr) && emailBody.contains(Integer.toString(moneySent))) {
                             utrFound = true;
                             // Move the email to the Trash folder
-                            System.out.println(emailBody);
+                            // System.out.println(emailBody);
                             inbox.copyMessages(new Message[] { message }, trash);
                             System.out.println("UTR Found!!");
                             System.out.println("Email moved to Trash successfully.");
