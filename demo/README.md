@@ -85,3 +85,7 @@
                                          |
                                          |
                           [Success/Error Page]
+
+
+
+For Production just need to chnage the database and the email configuration and IMP server thats it.
