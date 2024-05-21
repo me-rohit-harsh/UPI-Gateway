@@ -91,6 +91,15 @@ public class UserController {
         return "redirect:/signin";
     }
 
+    @GetMapping("/signout")
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        // Invalidate the session to remove all session attributes
+        session.invalidate();
+        // Add a flash attribute to notify the user they have been logged out
+        redirectAttributes.addFlashAttribute("message", "You have been logged out successfully.");
+        // Redirect to the login page or home page
+        return "redirect:/signin";
+    }
     @PostMapping("/api/check-username")
     @ResponseBody
     public Map<String, Boolean> checkUsernameAvailability(@RequestBody Map<String, String> requestBody) {

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.emailSender.Repository.TransactionRepository;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.TransactionService;
 import com.emailSender.model.Transaction;
@@ -16,21 +15,17 @@ import com.emailSender.model.User;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class TransactionController {
-	@Autowired
-	TransactionRepository transactionRepository;
-	@Autowired
-	TransactionService transactionService;
-	@Autowired
-	UserRepository userRepository;
+public class CreditController {
 
-	@GetMapping("/pay")
-	public String pay(Model model, HttpSession session) {
-		// Remove previous session attributes
-		session.removeAttribute("SubmitAuth");
-		session.removeAttribute("SubmitAuthError");
+    @Autowired 
+    private UserRepository userRepository;
+    @Autowired
+    private TransactionService transactionService;
 
-		// Check if user is authenticated
+    @GetMapping("/credittransaction")
+    public String showCreditTransaction(HttpSession session, Model model) {
+
+	// Check if user is authenticated
 		Boolean isAuthenticated = (Boolean) session.getAttribute("auth");
 		if (isAuthenticated != null && isAuthenticated) {
 			// Get authenticated user ID
@@ -49,13 +44,13 @@ public class TransactionController {
 					// System.err.println(TransactionList.size());
 					model.addAttribute("transactions", transactionList);
 					// System.out.println(model.getAttribute("transactions"));
-					return "client/dashboard"; // Make sure this corresponds to your actual Thymeleaf template for the payment page
+					return "client/creditHistory"; // Make sure this corresponds to your actual Thymeleaf template for the payment page
 				}
 			}
 		}
 
 		// Redirect to sign-in page if not authenticated or user not found
-		return "redirect:/signin";
-	}
+        return "client/signin";
+    }
 
 }

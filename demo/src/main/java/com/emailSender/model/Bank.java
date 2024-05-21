@@ -17,40 +17,43 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
 
-
 @Data
 @Entity
 @Table
 public class Bank {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String holderName;
+	private String holderName;
 
-    @Column(unique = true, nullable = false)
-    private String accountNo;
+	@Column(unique = true, nullable = false)
+	private String accountNo;
 
-    private String branch;
+	private String branch;
 
-    private String ifsc;
+	private String ifsc;
 
-    @Column(unique = true, nullable = false)
-    private String upiId;
+	private String securityCode;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+	private Date lastLogin;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", updatable = false)
-    private Date createdAt;
+	@Column(unique = true, nullable = false)
+	private String upiId;
 
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
-    private Date updatedAt;
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
+
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at", updatable = false)
+	private Date createdAt;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at", nullable = false)
+	private Date updatedAt;
 
 	public Long getId() {
 		return id;
@@ -149,6 +152,5 @@ public class Bank {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-    
-    
+
 }

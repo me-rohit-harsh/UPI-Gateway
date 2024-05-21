@@ -2,63 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-<!-- bootstrap -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dashboard</title>
+	<!-- bootstrap -->
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
-<!-- External Libraries -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<!-- DataTables -->
-<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
-<!-- DataTables SearchBuilder -->
-<script
-	src="https://cdn.datatables.net/searchbuilder/1.7.0/js/dataTables.searchBuilder.js"></script>
-<script
-	src="https://cdn.datatables.net/searchbuilder/1.7.0/js/searchBuilder.dataTables.js"></script>
-<!-- DataTables DateTime -->
-<script
-	src="https://cdn.datatables.net/datetime/1.5.2/js/dataTables.dateTime.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+	<!-- External Libraries -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<!-- DataTables -->
+	<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+	<!-- DataTables SearchBuilder -->
+	<script src="https://cdn.datatables.net/searchbuilder/1.7.0/js/dataTables.searchBuilder.js"></script>
+	<script src="https://cdn.datatables.net/searchbuilder/1.7.0/js/searchBuilder.dataTables.js"></script>
+	<!-- DataTables DateTime -->
+	<script src="https://cdn.datatables.net/datetime/1.5.2/js/dataTables.dateTime.min.js"></script>
 
-<!-- Bootstrap bundled JavaScript -->
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap bundled JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-<script>
-	$(document).ready(function() {
-		$('#example').DataTable();
-	});
-	new DataTable('#example', {
-		layout : {
-			top1 : 'searchBuilder'
-		}
-	});
-</script>
-<!-- DataTables CSS -->
-<link
-	href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css"
-	rel="stylesheet">
-<!-- DataTables SearchBuilder CSS -->
-<link
-	href="https://cdn.datatables.net/searchbuilder/1.7.0/css/searchBuilder.dataTables.css"
-	rel="stylesheet">
-<!-- DataTables DateTime CSS -->
-<link
-	href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css"
-	rel="stylesheet">
+	<script>
+		$(document).ready(function () {
+			$('#example').DataTable();
+		});
+		new DataTable('#example', {
+			layout: {
+				top1: 'searchBuilder'
+			}
+		});
+	</script>
+	<!-- DataTables CSS -->
+	<link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" rel="stylesheet">
+	<!-- DataTables SearchBuilder CSS -->
+	<link href="https://cdn.datatables.net/searchbuilder/1.7.0/css/searchBuilder.dataTables.css" rel="stylesheet">
+	<!-- DataTables DateTime CSS -->
+	<link href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css" rel="stylesheet">
 
-<!-- Custom Styles -->
-<link rel="stylesheet" th:href="@{/css/common.css}">
-</style>
+	<!-- Custom Styles -->
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	</style>
 
 </head>
 
@@ -68,7 +54,7 @@
 		<!-- Display flash message if available -->
 		<div th:if="${message}" class="alert alert-success" role="alert">
 			<strong th:text="${message}"></strong>
-			
+
 		</div>
 		<div th:if="${errorMsg}" class="alert alert-danger" role="alert">
 			<strong th:text="${errorMsg}"></strong>
@@ -96,12 +82,13 @@
 							<h1>
 								₹ <span th:text="${totalAmount}">0.00</span>
 							</h1>
-							<p class="mb-0">Adding funds can help reduce the number of small transactions on your account</p>
+							<p class="mb-0">Adding funds can help reduce the number of small transactions on your
+								account</p>
 						</div>
 						<div
 							class="col-md-4 col-12 d-flex align-items-center justify-content-center justify-content-md-end">
-							<a class="btn-secondary btn mt-2 lnkbtn" id="addFundButton"
-								data-toggle="modal" data-target="#raiseTicketModal">Deposit
+							<a class="btn-secondary btn mt-2 lnkbtn" id="addFundButton" data-toggle="modal"
+								data-target="#raiseTicketModal">Deposit
 								Now<i class="m-2 fa-solid fas ml-2 fa-angle-right"></i>
 							</a>
 						</div>
@@ -111,19 +98,14 @@
 		</div>
 	</div>
 	<form method="post" th:action="@{/save-utr}">
-		<div class="modal fade" id="raiseTicketModal" tabindex="-1"
-			role="dialog" aria-labelledby="raiseTicketModalLabel"
-			aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
+		<div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog"
+			aria-labelledby="raiseTicketModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 				<div class="modal-content">
-					<div
-						class="modal-header d-flex justify-content-between align-items-center">
+					<div class="modal-header d-flex justify-content-between align-items-center">
 						<h5 class="modal-title" id="raiseTicketModalLabel">Add Funds</h5>
-						<a type="button" class="close" data-dismiss="modal"
-							aria-label="Close"> <span aria-hidden="true"
-							style="font-size: 30px !important; padding: 0 10px;">&times;</span>
+						<a type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true"
+								style="font-size: 30px !important; padding: 0 10px;">&times;</span>
 						</a>
 					</div>
 
@@ -138,27 +120,21 @@
 							<div class="form-group my-3">
 								<label for="amount" class="control-label">Amount to Add:</label>
 								<div class="input-group">
-									<input type="number" name="amount" id="amount"
-										placeholder="Enter an amount" class="form-control" required />
+									<input type="number" name="amount" id="amount" placeholder="Enter an amount"
+										class="form-control" required />
 								</div>
-								<div class="buttons-group buttons-5 m-b-2x my-2"
-									id="add-credits-buttons">
-									<button class="btn btn-lg btn-light" type="button"
-										data-price="50">₹50</button>
-									<button class="btn btn-lg btn-light" type="button"
-										data-price="100">₹100</button>
-									<button class="btn btn-lg btn-light" type="button"
-										data-price="250">₹250</button>
-									<button class="btn btn-lg btn-light" type="button"
-										data-price="500">₹500</button>
-									<button class="btn btn-lg btn-light" type="button"
-										data-price="1000">₹1000</button>
+								<div class="buttons-group buttons-5 m-b-2x my-2" id="add-credits-buttons">
+									<button class="btn btn-lg btn-light" type="button" data-price="50">₹50</button>
+									<button class="btn btn-lg btn-light" type="button" data-price="100">₹100</button>
+									<button class="btn btn-lg btn-light" type="button" data-price="250">₹250</button>
+									<button class="btn btn-lg btn-light" type="button" data-price="500">₹500</button>
+									<button class="btn btn-lg btn-light" type="button" data-price="1000">₹1000</button>
 								</div>
 							</div>
 							<div class="form-group my-3">
 								<label for="paymentmethod" class="control-label">Payment
-									Method:</label> <select name="method" id="paymentMethod"
-									class="form-control" required disabled>
+									Method:</label> <select name="method" id="paymentMethod" class="form-control"
+									required disabled>
 									<option value="" selected disabled>Select Payment
 										Method</option>
 									<option value="Bank to Bank">Bank to Bank</option>
@@ -194,11 +170,11 @@
 									<p>
 										<strong>Paytm UPI ID:</strong> rohitkumar@paytm
 									</p>
-									
-									
-										<a id="paytmLink" class="btn btn-success">Pay with Paytm</a>
 
-								
+
+									<a id="paytmLink" class="btn btn-success">Pay with Paytm</a>
+
+
 								</div>
 
 								<div id="phonepayDetails"
@@ -209,8 +185,8 @@
 									</p>
 									<p>
 										<strong>PhonePe UPI ID:</strong> rohitkumar@ybl
-									</p>						
-								<a id="phonepeLink" class="btn btn-primary">Pay with PhonePe</a>
+									</p>
+									<a id="phonepeLink" class="btn btn-primary">Pay with PhonePe</a>
 
 								</div>
 
@@ -224,13 +200,12 @@
 										<strong>GooglePay UPI ID:</strong> rohitkumar@apl
 									</p>
 
-										<a id="googlepayLink" class="btn btn-success">Pay with Gpay</a>
+									<a id="googlepayLink" class="btn btn-success">Pay with Gpay</a>
 
 
 								</div>
 
-								<div id="qrCodeDetails"
-									style="display: none; text-align: center;">
+								<div id="qrCodeDetails" style="display: none; text-align: center;">
 									<h5 class="mb-0">UPI QR Code</h5>
 									<!--  <img th:if="${session.qrImage eq null}" src="https://media.istockphoto.com/id/828088276/vector/qr-code-illustration.jpg?s=612x612&w=0&k=20&c=FnA7agr57XpFi081ZT5sEmxhLytMBlK4vzdQxt8A70M="
                                             alt="QR Code"
@@ -238,16 +213,16 @@
 									<div class="text-center" id="qrCodeContainer">
 
 
-										
+
 
 									</div>
 									<p>
-											Amount to be paid: <strong id="totalAmount"></strong>/-
-										</p>
+										Amount to be paid: <strong id="totalAmount"></strong>/-
+									</p>
 
 
 								</div>
-								
+
 								<!-- <div id="usdtDetails" style="display: none; text-align: center;">
                                         <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
                                             value="OX4234234543REFSGDFFD" class="form-control text-center">
@@ -266,55 +241,54 @@
 
 							<script>
 								document
-										.getElementById('amount')
-										.addEventListener(
-												'input',
-												function() {
-													var amountInput = this.value
-															.trim();
-													var paymentMethodSelect = document
-															.getElementById('paymentMethod');
+									.getElementById('amount')
+									.addEventListener(
+										'input',
+										function () {
+											var amountInput = this.value
+												.trim();
+											var paymentMethodSelect = document
+												.getElementById('paymentMethod');
 
-													if (amountInput !== "") {
-														paymentMethodSelect
-																.removeAttribute('disabled');
+											if (amountInput !== "") {
+												paymentMethodSelect
+													.removeAttribute('disabled');
 
-													} else {
-														paymentMethodSelect
-																.setAttribute(
-																		'disabled',
-																		'disabled');
-													}
-												});
+											} else {
+												paymentMethodSelect
+													.setAttribute(
+														'disabled',
+														'disabled');
+											}
+										});
 
 								document
-										.getElementById('paymentMethod')
-										.addEventListener(
-												'change',
-												function() {
-													var amountInput = document
-															.getElementById('amount').value
-															.trim();
-													var amountField = document
-															.getElementById('amount');
-													var creditButton = document
-															.getElementById('add-credits-buttons');
-													creditButton.style.display = 'none';
-													amountField.setAttribute(
-															'readonly',
-															'readonly');
-													if (amountInput === "") {
-														alert("Please fill out the amount to proceed.");
-														this.selectedIndex = 0; // Reset the select element to the default option
-													}
-												});
+									.getElementById('paymentMethod')
+									.addEventListener(
+										'change',
+										function () {
+											var amountInput = document
+												.getElementById('amount').value
+												.trim();
+											var amountField = document
+												.getElementById('amount');
+											var creditButton = document
+												.getElementById('add-credits-buttons');
+											creditButton.style.display = 'none';
+											amountField.setAttribute(
+												'readonly',
+												'readonly');
+											if (amountInput === "") {
+												alert("Please fill out the amount to proceed.");
+												this.selectedIndex = 0; // Reset the select element to the default option
+											}
+										});
 							</script>
 
 
 							<div class="form-actions">
-								<button type="button" value="Submit Order"
-									class="btn btn-lg btn-block btn-primary" data-btn-loader
-									onclick="submitOrder()">Submit Order</button>
+								<button type="button" value="Submit Order" class="btn btn-lg btn-block btn-primary"
+									data-btn-loader onclick="submitOrder()">Submit Order</button>
 							</div>
 
 						</div>
@@ -322,19 +296,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="secondModal" tabindex="-1" role="dialog"
-			aria-labelledby="secondModalLabel" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable "
-				role="document">
+		<div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " role="document">
 				<div class="modal-content">
-					<div
-						class="modal-header d-flex justify-content-between align-items-center">
+					<div class="modal-header d-flex justify-content-between align-items-center">
 						<h5 class="modal-title" id="raiseTicketModalLabel">Submit
 							Payment Details</h5>
-						<a type="button" class="close" data-dismiss="modal"
-							aria-label="Close"> <span aria-hidden="true"
-							style="font-size: 30px !important; padding: 0 10px;">&times;</span>
+						<a type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true"
+								style="font-size: 30px !important; padding: 0 10px;">&times;</span>
 						</a>
 					</div>
 					<div class="modal-body">
@@ -345,9 +315,9 @@
 
 							<div class="form-group my-2">
 								<!-- Input field for the selected payment method -->
-								<label for="exampleInputEmail1">Payment ID </label> <input
-									type="text" id="paymentInput" name="refId" class="form-control"
-									placeholder="Enter Txn Id/UTR/UPI Ref No." required>
+								<label for="exampleInputEmail1">Payment ID </label> <input type="text" id="paymentInput"
+									name="refId" class="form-control" placeholder="Enter Txn Id/UTR/UPI Ref No."
+									required>
 							</div>
 
 							<!-- Attachment button -->
@@ -360,9 +330,10 @@
                             </div> -->
 							<div class="form-group my-2">
 
-								<label for="exampleInputEmail1">Email ID </label> <input
-									type="email" id="emailId" name="email" class="form-control"
-									placeholder="You will recieve confirmation mail on the registred email Id" readonly disabled>
+								<label for="exampleInputEmail1">Email ID </label> <input type="email" id="emailId"
+									name="email" class="form-control"
+									placeholder="You will recieve confirmation mail on the registred email Id" readonly
+									disabled>
 							</div>
 							<!-- Submit button -->
 							<button type="submit" class="btn btn-primary btn-lg btn-block">
@@ -401,9 +372,8 @@
 						<td th:text="${transaction.id}"></td>
 						<!-- <td th:text="${transaction.email}"></td> -->
 						<td th:text="${transaction.amount}"></td>
-						<td><span th:if="${transaction.status}"
-							style="color: rgb(32, 184, 32);">Successful</span> <span
-							th:unless="${transaction.status}" style="color: red;">Failed</span>
+						<td><span th:if="${transaction.status}" style="color: rgb(32, 184, 32);">Successful</span> <span
+								th:unless="${transaction.status}" style="color: red;">Failed</span>
 						</td>
 						<td th:text="${transaction.refId}"></td>
 						<td th:text="${transaction.type}"></td>
@@ -430,7 +400,7 @@
 	<script>
 		function openSecondModal() {
 			// Hide the first modal when it's hidden
-			$('#raiseTicketModal').on('hidden.bs.modal', function(e) {
+			$('#raiseTicketModal').on('hidden.bs.modal', function (e) {
 				// Open the second modal
 				$('#secondModal').modal('show');
 
@@ -443,95 +413,95 @@
 		}
 	</script>
 
-<script>
-    document.getElementById('paymentMethod').addEventListener('change', function() {
-    	var totalAmount = document.getElementById("amount").value;
-        var bankDetailsDiv = document.getElementById('bankDetails');
-        var paytmDiv = document.getElementById('paytmDetails');
-        var phonepayDiv = document.getElementById('phonepayDetails');
-        var googlepayDiv = document.getElementById('googlepayDetails');
-        var qrCodeDiv = document.getElementById('qrCodeDetails');
-        // var usdtDiv = document.getElementById('usdtDetails');
+	<script>
+		document.getElementById('paymentMethod').addEventListener('change', function () {
+			var totalAmount = document.getElementById("amount").value;
+			var bankDetailsDiv = document.getElementById('bankDetails');
+			var paytmDiv = document.getElementById('paytmDetails');
+			var phonepayDiv = document.getElementById('phonepayDetails');
+			var googlepayDiv = document.getElementById('googlepayDetails');
+			var qrCodeDiv = document.getElementById('qrCodeDetails');
+			// var usdtDiv = document.getElementById('usdtDetails');
 
-        bankDetailsDiv.style.display = 'none';
-        paytmDiv.style.display = 'none';
-        phonepayDiv.style.display = 'none';
-        googlepayDiv.style.display = 'none';
-        qrCodeDiv.style.display = 'none';
-        // usdtDiv.style.display = 'none';
+			bankDetailsDiv.style.display = 'none';
+			paytmDiv.style.display = 'none';
+			phonepayDiv.style.display = 'none';
+			googlepayDiv.style.display = 'none';
+			qrCodeDiv.style.display = 'none';
+			// usdtDiv.style.display = 'none';
 
-        switch (this.value) {
-            case 'Bank to Bank':
-                bankDetailsDiv.style.display = 'block';
-                break;
-            case 'Google Pay':
-                googlepayDiv.style.display = 'block';
-                var gpayLink = document.getElementById("googlepayLink");
-                var gPayurl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                gpayLink.setAttribute("href", gPayurl);
-                break;
-            case 'Paytm':
-                paytmDiv.style.display = 'block';
-                var paytmLink = document.getElementById("paytmLink");
-                var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                paytmLink.setAttribute("href", paytmUrl);
-                break;
-            case 'PhonePe':
-                phonepayDiv.style.display = 'block';  
-                var phonepeLink = document.getElementById("phonepeLink");
-                var phonepeUrl = "phonepe://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                phonepeLink.setAttribute("href", phonepeUrl);
-                break;
-            case 'QR Code':
-                qrCodeDiv.style.display = 'block';
-                generateQRCode();
-                // Call generateQRCode function when QR Code option is selected
-                break;
-            // case 'USDT':
-            //     usdtDiv.style.display = 'block';
-            //     break;
-            // Add cases for other payment methods as needed
-        }
-    });
+			switch (this.value) {
+				case 'Bank to Bank':
+					bankDetailsDiv.style.display = 'block';
+					break;
+				case 'Google Pay':
+					googlepayDiv.style.display = 'block';
+					var gpayLink = document.getElementById("googlepayLink");
+					var gPayurl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
+					gpayLink.setAttribute("href", gPayurl);
+					break;
+				case 'Paytm':
+					paytmDiv.style.display = 'block';
+					var paytmLink = document.getElementById("paytmLink");
+					var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
+					paytmLink.setAttribute("href", paytmUrl);
+					break;
+				case 'PhonePe':
+					phonepayDiv.style.display = 'block';
+					var phonepeLink = document.getElementById("phonepeLink");
+					var phonepeUrl = "phonepe://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
+					phonepeLink.setAttribute("href", phonepeUrl);
+					break;
+				case 'QR Code':
+					qrCodeDiv.style.display = 'block';
+					generateQRCode();
+					// Call generateQRCode function when QR Code option is selected
+					break;
+				// case 'USDT':
+				//     usdtDiv.style.display = 'block';
+				//     break;
+				// Add cases for other payment methods as needed
+			}
+		});
 
-    function generateQRCode() {
-        var amount = document.getElementById("amount").value;
-        document.getElementById("totalAmount").innerText = amount;
-        var paytmLink = document.getElementById("paytmLink");
-        var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&am=" + amount;
-        paytmLink.setAttribute("href", paytmUrl);
-        fetch('/generateQRCode', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ amount: amount })
-        })
-        .then(response => response.text())
-        .then(data => {
-            // Display the QR code image
-            
-            console.log(data);
-            document.getElementById("qrCodeContainer").innerHTML = '<img src="data:image/png;base64,' + data + '" alt="QR Code">';
-        })
-        .catch(error => console.error('Error:', error));
-    }
-</script>
+		function generateQRCode() {
+			var amount = document.getElementById("amount").value;
+			document.getElementById("totalAmount").innerText = amount;
+			var paytmLink = document.getElementById("paytmLink");
+			var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&am=" + amount;
+			paytmLink.setAttribute("href", paytmUrl);
+			fetch('/generateQRCode', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ amount: amount })
+			})
+				.then(response => response.text())
+				.then(data => {
+					// Display the QR code image
+
+					console.log(data);
+					document.getElementById("qrCodeContainer").innerHTML = '<img src="data:image/png;base64,' + data + '" alt="QR Code">';
+				})
+				.catch(error => console.error('Error:', error));
+		}
+	</script>
 
 
 
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function () {
 			var amountInput = document.getElementById('amount');
 			var buttons = document
-					.querySelectorAll('#add-credits-buttons button');
+				.querySelectorAll('#add-credits-buttons button');
 			var paymentMethodSelect = document.getElementById('paymentMethod');
 
-			buttons.forEach(function(button) {
-				button.addEventListener('click', function() {
+			buttons.forEach(function (button) {
+				button.addEventListener('click', function () {
 					var price = parseInt(this.getAttribute('data-price'))
-							.toFixed(0);
+						.toFixed(0);
 					amountInput.value = price;
 					paymentMethodSelect.removeAttribute('disabled');
 				});
@@ -555,8 +525,7 @@
 	</script>
 
 	<!-- Bootstrap budled JavaScript -->
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	<!-- Custom JavaScript -->
 	<script type="text/javascript" src="javascript/common.js"></script>
 </body>
