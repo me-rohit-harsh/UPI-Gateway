@@ -41,9 +41,9 @@ public class EmailController {
 		newEmail.setSubject(subject);
 		emailRepository.save(newEmail);
 		redirectAttributes.addFlashAttribute("success", true);
-//        } else {
-//            redirectAttributes.addFlashAttribute("error", "User not found.");
-//        }
+		// } else {
+		// redirectAttributes.addFlashAttribute("error", "User not found.");
+		// }
 
 		return "redirect:/mail";
 	}
@@ -76,9 +76,8 @@ public class EmailController {
 							"Welcome to the Jixwallet. Your payment of Rs" + moneySent
 									+ " has been successfully received.");
 				}
-
-				redirectAttributes.addFlashAttribute("success", true);
-				return "redirect:/success";
+				redirectAttributes.addFlashAttribute("message", "Payment has been added to your wallet successfully");
+				return "redirect:/dashboard";
 			} else {
 				System.out.println("here is the flow22 Email controller");
 
@@ -88,9 +87,10 @@ public class EmailController {
 					emailService.sendSimpleEmail(userEmail, "Payment Rejection - Jixwallet",
 							"Welcome to the Jixwallet. Your payment of Rs" + moneySent + " has failed  .");
 				}
-				session.setAttribute("SubmitAuthError", true);
-				redirectAttributes.addFlashAttribute("error", true);
-				return "redirect:/requesterror";
+				redirectAttributes.addFlashAttribute("errorMsg", "Payment has been failed!");
+
+				// redirectAttributes.addFlashAttribute("error", true);
+				return "redirect:/dashboard";
 			}
 
 		} catch (Exception e) {

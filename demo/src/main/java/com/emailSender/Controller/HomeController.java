@@ -29,15 +29,11 @@ public class HomeController {
 
 	@GetMapping("/payment")
 	public String showQR(HttpSession session) {
-		session.removeAttribute("SubmitAuth");
-		session.removeAttribute("SubmitAuthError");
 		return ("payment");
 	}
 
 	@GetMapping("/mail")
 	public String sendMail(HttpSession session) {
-		session.removeAttribute("SubmitAuth");
-		session.removeAttribute("SubmitAuthError");
 		// Check if user is authenticated
 		// Boolean isAuthenticated = (Boolean) session.getAttribute("auth");
 		// if (isAuthenticated != null && isAuthenticated) {
@@ -56,33 +52,32 @@ public class HomeController {
 		return "mail";
 	}
 
-	@GetMapping("/success")
-	public String success(HttpSession session) {
-		session.removeAttribute("SubmitAuthError");
-		Boolean SubmitAuth = (Boolean) session.getAttribute("SubmitAuth");
-		if (SubmitAuth != null && SubmitAuth) {
-			return "success";
-		} else {
-			return "redirect:/payment";
-		}
-	}
+	// @GetMapping("/success")
+	// public String success(HttpSession session) {
+	// session.removeAttribute("SubmitAuthError");
+	// Boolean SubmitAuth = (Boolean) session.getAttribute("SubmitAuth");
+	// if (SubmitAuth != null && SubmitAuth) {
+	// return "success";
+	// } else {
+	// return "redirect:/payment";
+	// }
+	// }
 
-	@GetMapping("/requesterror")
-	public String error(HttpSession session) {
-		session.removeAttribute("SubmitAuth");
-		Boolean SubmitAuth = (Boolean) session.getAttribute("SubmitAuthError");
-		if (SubmitAuth != null && SubmitAuth) {
-			return "errorPage";
-		} else {
-			return "redirect:/payment";
-		}
-	}
+	// @GetMapping("/requesterror")
+	// public String error(HttpSession session) {
+	// session.removeAttribute("SubmitAuth");
+	// Boolean SubmitAuth = (Boolean) session.getAttribute("SubmitAuthError");
+	// if (SubmitAuth != null && SubmitAuth) {
+	// return "errorPage";
+	// } else {
+	// return "redirect:/payment";
+	// }
+	// }
 
-	
 	@PostMapping("/save-utr")
-	public String saveUtr(@ModelAttribute Transaction transaction, HttpSession session, RedirectAttributes redirectAttributes) {
-		session.setAttribute("SubmitAuth", true);
-		Long userId= (Long) session.getAttribute("userId");
+	public String saveUtr(@ModelAttribute Transaction transaction, HttpSession session,
+			RedirectAttributes redirectAttributes) {
+		Long userId = (Long) session.getAttribute("userId");
 		User authUser = userRepository.findById(userId).orElse(null);
 		// System.out.println("********************");
 		// System.out.println(authUser);
@@ -104,11 +99,13 @@ public class HomeController {
 							"Your payment has already been processed.");
 					System.out.println("Already Redeemed");
 				}
-				session.setAttribute("SubmitAuthError", true);
-
+				
 				System.out.println("UTR already exists");
 				// Redirect to an error page or return a response indicating UTR already exists
-				return "redirect:/requesterror";
+				redirectAttributes.addFlashAttribute("errorMsg", "Your payment has already been processed for Tx ID: "+ upiRefNo);
+
+				// redirectAttributes.addFlashAttribute("error", true);
+				return "redirect:/dashboard";
 			}
 			System.out.println("No any existing UTR found next step is to save the tx ");
 			// Create a new Transaction object
@@ -118,7 +115,7 @@ public class HomeController {
 			newTransaction.setStatus(false);
 			newTransaction.setAmount(amount);
 			newTransaction.setMethod(method);
-			if(authUser==null){
+			if (authUser == null) {
 				redirectAttributes.addFlashAttribute("errorMsg", "Please Login to Continue!");
 				return "redirect:/signin";
 			}
@@ -136,17 +133,23 @@ public class HomeController {
 			System.out.println("Redirceting to the fetchEmail!");
 			return "redirect:/fetchEmail";
 		} catch (DataIntegrityViolationException e) {
-			session.setAttribute("SubmitAuthError", true);
 			// Handle data integrity violation (e.g., unique constraint violation)
-			return "redirect:/requesterror";
+			redirectAttributes.addFlashAttribute("errorMsg", "Payment has been failed!");
+
+			// redirectAttributes.addFlashAttribute("error", true);
+			return "redirect:/dashboard";
 		} catch (DataAccessException e) {
 			// Handle generic data access exception
-			session.setAttribute("SubmitAuthError", true);
-			return "redirect:/requesterror";
+			redirectAttributes.addFlashAttribute("errorMsg", "Payment has been failed!");
+
+			// redirectAttributes.addFlashAttribute("error", true);
+			return "redirect:/dashboard";
 		} catch (Exception e) {
 			// Handle any other unexpected exceptions
-			session.setAttribute("SubmitAuthError", true);
-			return "redirect:/requesterror";
+			redirectAttributes.addFlashAttribute("errorMsg", "Payment has been failed! Please try again");
+
+			// redirectAttributes.addFlashAttribute("error", true);
+			return "redirect:/dashboard";
 		}
 	}
 }
