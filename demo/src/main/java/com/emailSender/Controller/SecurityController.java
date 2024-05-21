@@ -42,7 +42,7 @@ public class SecurityController {
             }
         }
 
-        return "client/signin";
+        return "signin";
     }
 
     @PostMapping("changePassword")
