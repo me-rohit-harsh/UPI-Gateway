@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.TransactionService;
 import com.emailSender.model.Transaction;
 import com.emailSender.model.User;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -35,8 +38,8 @@ public class SecurityController {
                 if (user != null) {
                     // System.out.println("User" + user);
                     model.addAttribute("user", user);
-                   
-                    return "client/security"; 
+
+                    return "client/security";
                 }
             }
         }
@@ -44,4 +47,21 @@ public class SecurityController {
         return "client/signin";
     }
 
+    @PostMapping("changePassword")
+    public String changePassword(HttpServletRequest request, HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        User user = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
+
+        if (request.getParameter("oldPassword").equals(user.getPassword())
+                && request.getParameter("newPassword").equals(request.getParameter("newPasswordCopy"))) {
+            user.setPassword(request.getParameter("newPassword"));
+            userRepository.save(user);
+            redirectAttributes.addFlashAttribute("message", "Your Password has been updated successfully!");
+            return "redirect:/security";
+        }
+        redirectAttributes.addFlashAttribute("errorMsg", "Something went wrong");
+
+        return "redirect:/security";
+    }
 }

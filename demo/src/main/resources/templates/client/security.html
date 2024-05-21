@@ -104,7 +104,7 @@
             </header>
             <nav class="dashboard-nav-list">
                 <a href="/pay" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i> Dashboard </a>
-                <a href="/profile" class="dashboard-nav-item active"><i class="fas fa-user"></i> Profile </a>
+                <a href="/profile" class="dashboard-nav-item "><i class="fas fa-user"></i> Profile </a>
                 <a href="/credittransaction" class="dashboard-nav-item "><i class="fas fa-file-upload rotate-180"></i>
                     Credit
                     History </a>
@@ -117,7 +117,8 @@
                         <a href="#" class="dashboard-nav-dropdown-item">UPI Details</a>
                     </div>
                 </div>
-                <a href="/security" class="dashboard-nav-item"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
+                <a href="/security" class="dashboard-nav-item active"><i class="fas fa-solid fa-fingerprint"></i>
+                    Security </a>
 
                 <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings </a>
                 <div class="nav-item-divider"></div>
@@ -137,23 +138,106 @@
 
             </header>
             <div class='dashboard-content'>
-                <div class="container text-center mt-4">
-                    <!-- Display flash message if available -->
-                    <div th:if="${message}" class="alert alert-success" role="alert">
-                        <strong th:text="${message}"></strong>
-
-                    </div>
-                    <div th:if="${errorMsg}" class="alert alert-danger" role="alert">
-                        <strong th:text="${errorMsg}"></strong>
-                    </div>
-
-                </div>
-
-
-
                 <div class="container mt-3">
+                    <div class="card-header mb-3">
+                        <h1>Security Tabs</h1>
+                    </div>
+                    <div class="container text-center mt-4">
+                        <!-- Display flash message if available -->
+                        <div th:if="${message}" class="alert alert-success" role="alert">
+                            <strong th:text="${message}"></strong>
+
+                        </div>
+                        <div th:if="${errorMsg}" class="alert alert-danger" role="alert">
+                            <strong th:text="${errorMsg}"></strong>
+                        </div>
+
+                    </div>
+
+                    <div class="card shadow ">
+
+                        <form class="card-body p-3" method="post" th:action="@{changePassword}">
+                            <div class="row gutters">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h6 class="mb-3 text-primary">CHANGE PASSWORD</h6>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <label for="OldPassword">Old Password</label> <input type="text"
+                                            class="form-control" id="oldPassword" placeholder="Enter Old Password"
+                                            name="oldPassword">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <label for="NewPassword">New Password</label> <input type="text"
+                                            class="form-control" id="newPassword" placeholder="Enter New Password"
+                                            name="newPassword">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <label for="ReNewPassword">Confirm Password</label> <input type="password"
+                                            class="form-control" id="ReNewPassword" placeholder="Re-enter New Password"
+                                            name="newPasswordCopy">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row gutters">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                    <div class="text-right">
+                                        <button type="reset" id="submit" name="submit"
+                                            class="btn btn-secondary">Cancel</button>
+                                        <button type="submit" id="submit" name="submit"
+                                            class="custom-btn btn btn-primary">Change
+                                            password</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
                     <div class="card shadow p-3">
-                      This is the security page
+                        <form th:action="@{changesecuritycode}" method="post">
+                            <div class="row gutters">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h6 class="mb-3 text-primary">CHANGE SECURITY CODE</h6>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <label for="secCode">Old Security Code</label> <input type="text"
+                                            class="form-control" id="secCode" placeholder="Enter Old Sec Code"
+                                            name="oldSecCode">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <label for="newSecCode">New Security Code</label> <input type="text"
+                                            class="form-control" id="newSecCode" placeholder="Enter New Security Code"
+                                            name="newSecCode" a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <label for="reNewSecCode">Confirm Security Code</label> <input type="password"
+                                            class="form-control" id="reNewSecCode"
+                                            placeholder="Re-enter New Security Code" name="newSecCodeCopy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row gutters">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                                    <div class="text-right">
+                                        <button type="reset" id="submit" name="submit"
+                                            class="btn btn-secondary">Cancel</button>
+                                        <button type="submit" id="submit" name="submit"
+                                            class="custom-btn btn btn-primary">Change Security Code</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -186,7 +270,7 @@
             });
         });
     </script>
-  
+
     <!-- Bootstrap budled JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
