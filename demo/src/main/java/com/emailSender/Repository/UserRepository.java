@@ -6,10 +6,13 @@ import org.springframework.stereotype.Repository;
 import com.emailSender.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByRefId(String upiRefNo);
+//    User findByRefId(String upiRefNo);
     // You can define additional query methods here if needed
-
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
+    
+    User findByUsernameOrEmail(String username, String email);
 
 }

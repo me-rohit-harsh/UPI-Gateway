@@ -35,7 +35,7 @@ public class EmailService {
     }
     
     
-    public boolean fetchEmails(String submittedUtr, Integer moneySent) throws Exception {
+    public boolean fetchEmails(String submittedUtr, Double moneySent) throws Exception {
         // Configure email properties
         Properties properties = new Properties();
         properties.setProperty("mail.store.protocol", "imap");
@@ -71,7 +71,7 @@ public class EmailService {
                         // If the content is text/plain
                         String emailBody = (String) content;
 //                        System.out.println(emailBody);
-                        if (emailBody.contains(submittedUtr) && emailBody.contains(Integer.toString(moneySent))) {
+                        if (emailBody.contains(submittedUtr) && emailBody.contains(Double.toString(moneySent))) {
                             utrFound = true;
                             // Move the email to the Trash folder
                             // System.out.println(emailBody);
@@ -91,7 +91,7 @@ public class EmailService {
                             if (bodyPart.isMimeType("text/plain")) {
                                 // Get the text/plain part of the email body
                                 String emailBody = (String) bodyPart.getContent();
-                                if (emailBody.contains(submittedUtr) && emailBody.contains(Integer.toString(moneySent))) {
+                                if (emailBody.contains(submittedUtr) && emailBody.contains(Double.toString(moneySent))) {
                                     utrFound = true;
                                     // Move the email to the Trash folder
                                     inbox.copyMessages(new Message[] { message }, trash);

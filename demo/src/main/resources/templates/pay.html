@@ -65,7 +65,22 @@
 <body>
 
 	<div class="container text-center mt-4">
+		<!-- Display flash message if available -->
+		<div th:if="${message}" class="alert alert-success" role="alert">
+			<strong th:text="${message}"></strong>
+			
+		</div>
+		<div th:if="${errorMsg}" class="alert alert-danger" role="alert">
+			<strong th:text="${errorMsg}"></strong>
+		</div>
 		<h1>Fund Management</h1>
+		<!-- ID: 
+		<span th:text=${user.id}>
+
+		</span>	,
+		Email Id: 
+		<span th:text=${user.email}>
+		</span>	 -->
 	</div>
 	<div class="container  mt-3">
 
@@ -75,6 +90,7 @@
 					<div class="row">
 						<div class="col-md-8 col-12">
 							<p>
+								<!-- <strong th:text="${session.user}"></strong> -->
 								<strong>Your Balance:</strong>
 							</p>
 							<h1>
@@ -122,7 +138,7 @@
 							<div class="form-group my-3">
 								<label for="amount" class="control-label">Amount to Add:</label>
 								<div class="input-group">
-									<input type="number" name="ammount" id="amount"
+									<input type="number" name="amount" id="amount"
 										placeholder="Enter an amount" class="form-control" required />
 								</div>
 								<div class="buttons-group buttons-5 m-b-2x my-2"
@@ -346,7 +362,7 @@
 
 								<label for="exampleInputEmail1">Email ID </label> <input
 									type="email" id="emailId" name="email" class="form-control"
-									placeholder="Enter Email to recieve Confirmation mail" required>
+									placeholder="You will recieve confirmation mail on the registred email Id" readonly disabled>
 							</div>
 							<!-- Submit button -->
 							<button type="submit" class="btn btn-primary btn-lg btn-block">
@@ -371,7 +387,7 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Email</th>
+						<!-- <th>Email</th> -->
 						<th>Amount</th>
 						<th>Status</th>
 						<th>Reference ID</th>
@@ -383,13 +399,12 @@
 				<tbody>
 					<tr th:each="transaction : ${transactions}">
 						<td th:text="${transaction.id}"></td>
-						<td th:text="${transaction.email}"></td>
-						<td th:text="${transaction.ammount}"></td>
+						<!-- <td th:text="${transaction.email}"></td> -->
+						<td th:text="${transaction.amount}"></td>
 						<td><span th:if="${transaction.status}"
 							style="color: rgb(32, 184, 32);">Successful</span> <span
 							th:unless="${transaction.status}" style="color: red;">Failed</span>
 						</td>
-
 						<td th:text="${transaction.refId}"></td>
 						<td th:text="${transaction.type}"></td>
 						<td th:text="${transaction.method}"></td>
@@ -399,7 +414,7 @@
 				<tfoot>
 					<tr>
 						<th>ID</th>
-						<th>Email</th>
+						<!-- <th>Email</th> -->
 						<th>Amount</th>
 						<th>Status</th>
 						<th>Reference ID</th>

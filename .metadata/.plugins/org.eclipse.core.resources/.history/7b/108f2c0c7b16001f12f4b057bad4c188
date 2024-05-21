@@ -1,0 +1,44 @@
+package com.emailSender.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.emailSender.Repository.TransactionRepository;
+import com.emailSender.Repository.UserRepository;
+import com.emailSender.Service.TransactionService;
+import com.emailSender.model.User;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class TransactionController {
+	@Autowired
+	TransactionRepository transactionRepository;
+	@Autowired
+	TransactionService transactionService;
+	@Autowired
+	UserRepository userRepository;
+
+	@GetMapping("/pay")
+	public String pay(Model model, HttpSession session) {
+		session.removeAttribute("SubmitAuth");
+		session.removeAttribute("SubmitAuthError");
+		if ((Boolean) session.getAttribute("auth")) {
+			Long userId = (Long) session.getAttribute("userId");
+			User user = userRepository.findById(userId).orElse(null);
+			if (userId != null && user != null) {
+				model.addAttribute("AuthUser", user);
+				model.addAttribute("totalAmount", transactionService.calculateTotalAmount());
+				model.addAttribute("transactions", transactionRepository.findAll());
+			}
+		}
+		// session.setAttribute("auth", true);
+		// session.setAttribute("userId", user);
+		// model.addAttribute("AuthUser", user);
+
+		return ("redirect:/signin");
+	}
+
+}
