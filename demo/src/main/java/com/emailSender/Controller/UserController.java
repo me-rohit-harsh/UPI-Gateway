@@ -57,7 +57,7 @@ public class UserController {
         System.out.println("User ID: " + session.getAttribute("userId"));
 //        System.out.println("Session User: " + session.getAttribute("user"));
 //        System.out.println("user"+ user);
-        return "redirect:/pay";
+        return "redirect:/dashboard";
     }
     @PostMapping("/signup")
     public String signup(@ModelAttribute("user") @Valid User user, BindingResult result,

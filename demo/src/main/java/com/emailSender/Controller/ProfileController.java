@@ -1,6 +1,5 @@
 package com.emailSender.Controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.emailSender.Repository.UserRepository;
-import com.emailSender.Service.TransactionService;
-import com.emailSender.model.Transaction;
+
 import com.emailSender.model.User;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,8 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProfileController {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private TransactionService transactionService;
 
     @GetMapping("/profile")
     public String showProfile(HttpSession session, Model model) {

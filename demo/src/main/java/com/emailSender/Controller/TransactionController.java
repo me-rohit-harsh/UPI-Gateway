@@ -24,7 +24,7 @@ public class TransactionController {
 	@Autowired
 	UserRepository userRepository;
 
-	@GetMapping("/pay")
+	@GetMapping("/dashboard")
 	public String pay(Model model, HttpSession session) {
 		// Remove previous session attributes
 		session.removeAttribute("SubmitAuth");
