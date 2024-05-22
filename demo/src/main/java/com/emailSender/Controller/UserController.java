@@ -1,7 +1,9 @@
 package com.emailSender.Controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,12 +53,14 @@ public class UserController {
         session.setAttribute("userId", user.getId());
         session.setAttribute("user", user);
         session.setAttribute("userEmail",user.getEmail());
-        redirectAttributes.addFlashAttribute("message", "Logged In");
+        redirectAttributes.addFlashAttribute("message", "Access Approved");
         System.out.println("Session ID: " + session.getId());
-        System.out.println("Auth: " + session.getAttribute("auth"));
+//        System.out.println("Auth: " + session.getAttribute("auth"));
         System.out.println("User ID: " + session.getAttribute("userId"));
 //        System.out.println("Session User: " + session.getAttribute("user"));
 //        System.out.println("user"+ user);
+        user.setLastLogin(new Date());
+        userRepository.save(user);
         return "redirect:/dashboard";
     }
     @PostMapping("/signup")
@@ -86,8 +90,11 @@ public class UserController {
         }
 
         user.setBalance(0.0); // Set initial balance to 0
+        UUID uuid = UUID.randomUUID();
+		String secretCode = uuid.toString().replaceAll("[^a-zA-Z0-9]", "").substring(0, 6).toUpperCase();
+		user.setSecCode(secretCode);
         userRepository.save(user);
-        redirectAttributes.addFlashAttribute("message", "Account created successfully!");
+        redirectAttributes.addFlashAttribute("message", "Account created successfully!"+user.getSecCode()+"");
         return "redirect:/signin";
     }
 
