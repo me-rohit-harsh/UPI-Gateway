@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,15 +16,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.Data;
 
-@Data
+
 @Entity
 @Table
 public class Bank {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String bankName;
 
 	private String holderName;
 
@@ -34,14 +35,9 @@ public class Bank {
 
 	private String ifsc;
 
-	private String securityCode;
+	private String acType;
 
-	private Date lastLogin;
-
-	@Column(unique = true, nullable = false)
-	private String upiId;
-
-	@ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
@@ -95,14 +91,6 @@ public class Bank {
 		this.ifsc = ifsc;
 	}
 
-	public String getUpiId() {
-		return upiId;
-	}
-
-	public void setUpiId(String upiId) {
-		this.upiId = upiId;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -123,34 +111,44 @@ public class Bank {
 		return updatedAt;
 	}
 
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public String getAcType() {
+		return acType;
+	}
+
+	public void setAcType(String acType) {
+		this.acType = acType;
+	}
+
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
-	}
-
-	public Bank(Long id, String holderName, String accountNo, String branch, String ifsc, String upiId, User user,
-			Date createdAt, Date updatedAt) {
-		super();
-		this.id = id;
-		this.holderName = holderName;
-		this.accountNo = accountNo;
-		this.branch = branch;
-		this.ifsc = ifsc;
-		this.upiId = upiId;
-		this.user = user;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
-
-	@Override
-	public String toString() {
-		return "Bank [id=" + id + ", holderName=" + holderName + ", accountNo=" + accountNo + ", branch=" + branch
-				+ ", ifsc=" + ifsc + ", upiId=" + upiId + ", user=" + user + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
 	}
 
 	public Bank() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Bank(Long id, String bankName, String holderName, String accountNo, String branch, String ifsc,
+			String acType, User user, Date createdAt, Date updatedAt) {
+		super();
+		this.id = id;
+		this.bankName = bankName;
+		this.holderName = holderName;
+		this.accountNo = accountNo;
+		this.branch = branch;
+		this.ifsc = ifsc;
+		this.acType = acType;
+		this.user = user;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
 }

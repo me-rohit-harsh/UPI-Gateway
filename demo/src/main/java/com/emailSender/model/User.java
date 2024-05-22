@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,11 +22,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.Data;
 
 @Table
 @Entity
-@Data
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +55,10 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Transaction> transactions;
-
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<UPI> upi;
+    @JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Bank> banks;
 
@@ -153,6 +156,38 @@ public class User {
 	// this.emails = emails;
 	// }
 
+	public String getSecCode() {
+		return secCode;
+	}
+
+	public void setSecCode(String secCode) {
+		this.secCode = secCode;
+	}
+
+	public Integer getOtp() {
+		return otp;
+	}
+
+	public void setOtp(Integer otp) {
+		this.otp = otp;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public Set<UPI> getUpi() {
+		return upi;
+	}
+
+	public void setUpi(Set<UPI> upi) {
+		this.upi = upi;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -169,12 +204,7 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", name=" + name + ", email=" + email + ", password="
-				+ password + ", address=" + address + ", balance=" + balance + ", transactions=" + transactions
-				+ ", banks=" + banks + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-	}
+	
 
 	public User(Long id, @NotEmpty @Size(min = 3, max = 12) String username, String name, String email,
 			@NotEmpty String password, String address, Double balance, Set<Transaction> transactions, Set<Bank> banks,

@@ -97,7 +97,8 @@
             max-width: 100px;
             margin-top: 10px;
         }
-        .d-none{
+
+        .d-none {
             display: none !important;
         }
     </style>
@@ -142,7 +143,8 @@
                     <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
                     <div style="display: flex; flex-direction: column;">
                         <span th:text="${user.username}" style="font-weight: bold;"></span>
-                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}" style="font-size: 0.8em; color: gray;"></span>
+                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}"
+                            style="font-size: 0.8em; color: gray;"></span>
                     </div>
                 </a>
 
@@ -192,18 +194,21 @@
                                             <input type="text" id="branchInput" name="branch"
                                                 class="form-control d-none" th:value="${user.name}">
                                         </p>
-                                <p>Account Type: <span id="accountTypeDisplay" th:text="${user.username}"></span>
-                                    <span id="accountTypeInputs" class="d-none">
-                                        <div class="form-check d-none">
-                                            <input type="radio" id="saving" name="accountType" value="Saving" class="form-check-input d-none">
-                                            <label for="saving" class="form-check-label">Saving</label>
-                                        </div>
-                                        <div class="form-check d-none">
-                                            <input type="radio" id="current" name="accountType" value="Current" class="form-check-input d-none">
-                                            <label for="current" class="form-check-label">Current</label>
-                                        </div>
-                                    </span>
-                                </p>
+                                        <p>Account Type: <span id="accountTypeDisplay"
+                                                th:text="${user.username}"></span>
+                                            <span id="accountTypeInputs" class="d-none">
+                                                <div class="form-check d-none">
+                                                    <input type="radio" id="saving" name="accountType" value="Saving"
+                                                        class="form-check-input d-none">
+                                                    <label for="saving" class="form-check-label">Saving</label>
+                                                </div>
+                                                <div class="form-check d-none">
+                                                    <input type="radio" id="current" name="accountType" value="Current"
+                                                        class="form-check-input d-none">
+                                                    <label for="current" class="form-check-label">Current</label>
+                                                </div>
+                                            </span>
+                                        </p>
                                         <a href="#" id="editBankButton" class="edit-button"><i class="fas fa-edit"></i>
                                             Edit</a>
                                         <button type="submit" id="saveBankButton"
@@ -281,29 +286,29 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        function toggleEditForm(buttonId, displayClass, inputClass, saveButtonId, checkClass = null) {
-            const editButton = document.getElementById(buttonId);
-            const saveButton = document.getElementById(saveButtonId);
-            const displayElements = document.querySelectorAll(displayClass);
-            const inputElements = document.querySelectorAll(inputClass);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function toggleEditForm(buttonId, displayClass, inputClass, saveButtonId, checkClass = null) {
+                const editButton = document.getElementById(buttonId);
+                const saveButton = document.getElementById(saveButtonId);
+                const displayElements = document.querySelectorAll(displayClass);
+                const inputElements = document.querySelectorAll(inputClass);
 
-            editButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                displayElements.forEach(el => el.classList.toggle('d-none'));
-                inputElements.forEach(el => el.classList.toggle('d-none'));
-                if (checkClass) {
-                    document.querySelectorAll(checkClass).forEach(el => el.classList.remove('d-none'));
-                }
-                saveButton.classList.toggle('d-none');
-            });
-        }
+                editButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    displayElements.forEach(el => el.classList.toggle('d-none'));
+                    inputElements.forEach(el => el.classList.toggle('d-none'));
+                    if (checkClass) {
+                        document.querySelectorAll(checkClass).forEach(el => el.classList.remove('d-none'));
+                    }
+                    saveButton.classList.toggle('d-none');
+                });
+            }
 
-        toggleEditForm('editBankButton', '#bankForm span:not(#accountTypeInputs)', '#bankForm input', 'saveBankButton', '.form-check');
-        toggleEditForm('editUpiButton', '#upiForm span, #qrCodeDisplay', '#upiForm input', 'saveUpiButton');
-    });
-</script>
+            toggleEditForm('editBankButton', '#bankForm span:not(#accountTypeInputs)', '#bankForm input', 'saveBankButton', '.form-check');
+            toggleEditForm('editUpiButton', '#upiForm span, #qrCodeDisplay', '#upiForm input', 'saveUpiButton');
+        });
+    </script>
 </body>
 
 </html>
