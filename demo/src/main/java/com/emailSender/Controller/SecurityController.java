@@ -1,6 +1,5 @@
 package com.emailSender.Controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,8 +57,25 @@ public class SecurityController {
             redirectAttributes.addFlashAttribute("message", "Your Password has been updated successfully!");
             return "redirect:/security";
         }
+        redirectAttributes.addFlashAttribute("errorMsg", "Something Went Wrong!");
+        return "redirect:/security";
+    }
+
+    @PostMapping("changesecuritycode")
+    public String changeSecurityCode(HttpServletRequest request, HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        User user = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
+
+        if (request.getParameter("oldSecCode").equals(user.getSecCode())
+                && request.getParameter("newSecCode").equals(request.getParameter("newSecCodeCopy"))) {
+            user.setSecCode(request.getParameter("newSecCode"));
+            userRepository.save(user);
+            redirectAttributes.addFlashAttribute("message", "Your Security code has been changed successfully!");
+            return "redirect:/security";
+        }
         redirectAttributes.addFlashAttribute("errorMsg", "Something went wrong");
 
         return "redirect:/security";
+
     }
 }

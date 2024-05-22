@@ -53,7 +53,7 @@ public class UserController {
         session.setAttribute("userId", user.getId());
         session.setAttribute("user", user);
         session.setAttribute("userEmail",user.getEmail());
-        redirectAttributes.addFlashAttribute("message", "Logged In");
+        redirectAttributes.addFlashAttribute("message", "Access Approved");
         System.out.println("Session ID: " + session.getId());
 //        System.out.println("Auth: " + session.getAttribute("auth"));
         System.out.println("User ID: " + session.getAttribute("userId"));
