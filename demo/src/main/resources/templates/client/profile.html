@@ -92,7 +92,12 @@
         .edit-button:hover {
             color: #0056b3;
         }
-    </style>
+        
+#security-code {
+    font-weight: bold;
+    margin-right: 10px;
+}
+ </style>
 </head>
 
 <body>
@@ -108,7 +113,8 @@
                 <a href="/credittransaction" class="dashboard-nav-item "><i class="fas fa-file-upload rotate-180"></i>
                     Credit
                     History </a>
-                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History </a>
+                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History
+                </a>
                 <a href="refund" class="dashboard-nav-item"><i class="fa-solid fa-list fas"></i> Refund History </a>
                 <!-- <div class='dashboard-nav-dropdown'>
                                 <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
@@ -120,7 +126,7 @@
                             </div> -->
                 <a href="/method" class="dashboard-nav-item"><i class="fas fa-money-check-alt"></i> Payment Method </a>
                 <a href="/security" class="dashboard-nav-item"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
-            
+
                 <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
                 <div class="nav-item-divider"></div>
                 <a href="/signout" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout </a>
@@ -174,6 +180,10 @@
                                     <strong th:if="${user.name != null}" th:text="${user.name}"></strong>
                                     <strong th:if="${user.name == null}" th:text="${user.username}">\</strong>
                                 </h1>
+                            <p><b>Security Code:</b>
+                                <span id="security-code">******</span>
+                           <a href=""><i class="fas fa-solid fa-eye"> View Code</i></a>
+                            </p>
                                 <p>Manage your personal information here.</p>
                             </div>
 
