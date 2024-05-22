@@ -1,0 +1,11 @@
+package com.emailSender.Repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.emailSender.model.Mail;
+
+@Repository
+public interface EmailRepository extends JpaRepository<Mail, Long>{
+
+}

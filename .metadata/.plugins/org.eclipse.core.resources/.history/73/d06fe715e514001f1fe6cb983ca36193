@@ -1,0 +1,5 @@
+package com.emailSender.Service;
+
+public class BankService {
+
+}

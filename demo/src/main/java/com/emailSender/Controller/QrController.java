@@ -30,8 +30,6 @@ public class QrController {
 
 	@GetMapping("qr")
 	public String showPage(HttpSession session) {
-        session.removeAttribute("SubmitAuth");
-        session.removeAttribute("SubmitAuthError");
 		return "qrcode";
 	}
 	

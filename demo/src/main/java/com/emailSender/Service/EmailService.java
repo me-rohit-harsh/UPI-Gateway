@@ -35,7 +35,7 @@ public class EmailService {
     }
     
     
-    public boolean fetchEmails(String submittedUtr, Integer moneySent) throws Exception {
+    public boolean fetchEmails(String submittedUtr, Double moneySent) throws Exception {
         // Configure email properties
         Properties properties = new Properties();
         properties.setProperty("mail.store.protocol", "imap");
@@ -48,7 +48,7 @@ public class EmailService {
         boolean utrFound = false; // Flag to track if the UTR is found
         try {
             // Connect to the IMAP server
-            store.connect("alerts@jixwallet.com", "uejwrmbebaiflxem");
+            store.connect("paymentgatewayproject@gmail.com", "jbhsozifcuegjmpf");
 
             // Open the Inbox and Trash folders
             Folder inbox = store.getFolder("INBOX");
@@ -59,10 +59,10 @@ public class EmailService {
             Message[] messages = inbox.getMessages();
             for (Message message : messages) {
                 // Process each email message
-           	// System.out.println(message.getFrom()[0]);
-           	// System.out.println(message.getSubject());
+           	System.out.println(message.getFrom()[0]);
+           	System.out.println(message.getSubject());
                 if (message.getSubject().equals("Credit Alert")
-                        && message.getFrom()[0].toString().equals("alerts@yesbank.in")) {
+                        && message.getFrom()[0].toString().equals("alerts@jixwallet.com")) {
                     // Assume submittedUtr is the UTR you want to match against
 
                     // Retrieve and print the email body
@@ -71,7 +71,7 @@ public class EmailService {
                         // If the content is text/plain
                         String emailBody = (String) content;
 //                        System.out.println(emailBody);
-                        if (emailBody.contains(submittedUtr) && emailBody.contains(Integer.toString(moneySent))) {
+                        if (emailBody.contains(submittedUtr) && emailBody.contains(Double.toString(moneySent))) {
                             utrFound = true;
                             // Move the email to the Trash folder
                             // System.out.println(emailBody);
@@ -91,7 +91,7 @@ public class EmailService {
                             if (bodyPart.isMimeType("text/plain")) {
                                 // Get the text/plain part of the email body
                                 String emailBody = (String) bodyPart.getContent();
-                                if (emailBody.contains(submittedUtr) && emailBody.contains(Integer.toString(moneySent))) {
+                                if (emailBody.contains(submittedUtr) && emailBody.contains(Double.toString(moneySent))) {
                                     utrFound = true;
                                     // Move the email to the Trash folder
                                     inbox.copyMessages(new Message[] { message }, trash);

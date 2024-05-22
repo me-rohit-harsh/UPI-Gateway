@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile || Jixwallet</title>
+    <!-- bootstrap -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+    <!-- DataTables SearchBuilder -->
+    <script src="https://cdn.datatables.net/searchbuilder/1.7.0/js/dataTables.searchBuilder.js"></script>
+    <script src="https://cdn.datatables.net/searchbuilder/1.7.0/js/searchBuilder.dataTables.js"></script>
+    <!-- DataTables DateTime -->
+    <script src="https://cdn.datatables.net/datetime/1.5.2/js/dataTables.dateTime.min.js"></script>
+
+    <!-- Bootstrap bundled JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+        new DataTable('#example', {
+            layout: {
+                top1: 'searchBuilder'
+            }
+        });
+    </script>
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" rel="stylesheet">
+    <!-- DataTables SearchBuilder CSS -->
+    <link href="https://cdn.datatables.net/searchbuilder/1.7.0/css/searchBuilder.dataTables.css" rel="stylesheet">
+    <!-- DataTables DateTime CSS -->
+    <link href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/css/client/style.css}">
+
+    <style>
+        .profile-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .profile-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-header p {
+            color: #6c757d;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: rgb(237, 243, 247);
+            font-weight: bold;
+        }
+
+        .card-body {
+            background-color: white;
+        }
+
+        .edit-button {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 0.9rem;
+            float: right;
+        }
+
+        .edit-button:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class='dashboard'>
+        <div class="dashboard-nav">
+            <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+                <!-- <a href="#" class="brand-logo"><i class="fas fa-user"></i> <span>username</span></a> -->
+                <!-- <a href="/"><img src="logo2.png" alt="Logo" class="logo"></a> -->
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="/dashboard" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i> Dashboard </a>
+                <a href="/profile" class="dashboard-nav-item "><i class="fas fa-user"></i> Profile </a>
+                <a href="/credittransaction" class="dashboard-nav-item "><i class="fas fa-file-upload rotate-180"></i>
+                    Credit
+                    History </a>
+                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History </a>
+                <a href="refund" class="dashboard-nav-item"><i class="fa-solid fa-list fas"></i> Refund History </a>
+                <!-- <div class='dashboard-nav-dropdown'>
+                                <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
+                                        class="fas fa-money-check-alt"></i> Payment Method </a>
+                                <div class='dashboard-nav-dropdown-menu'>
+                                    <a href="#" class="dashboard-nav-dropdown-item">Bank Details</a>
+                                    <a href="#" class="dashboard-nav-dropdown-item">UPI Details</a>
+                                </div>
+                            </div> -->
+                <a href="/method" class="dashboard-nav-item"><i class="fas fa-money-check-alt"></i> Payment Method </a>
+                <a href="/security" class="dashboard-nav-item"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
+            
+                <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
+                <div class="nav-item-divider"></div>
+                <a href="/signout" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout </a>
+            </nav>
+        </div>
+        <div class='dashboard-app'>
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+                <a href="#" class="brand-logo" style="margin-right: 15px; display: flex; align-items: center;">
+                    <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
+                    <div style="display: flex; flex-direction: column;">
+                        <span th:text="${user.username}" style="font-weight: bold;"></span>
+                        <span th:text="${user.username}" style="font-size: 0.8em; color: gray;"></span>
+                    </div>
+                </a>
+
+            </header>
+            <div class='dashboard-content'>
+                <!-- <div class='container'>
+				<div class='card'>
+					<div class='card-header'>
+						<h1>Welcome back Jim</h1>
+					</div>
+					<div class='card-body'>
+						<p>Your account type is: Administrator</p>
+					</div>
+				</div>
+			</div> -->
+
+                <div class="container text-center mt-4">
+                    <!-- Display flash message if available -->
+                    <div th:if="${message}" class="alert alert-success" role="alert">
+                        <strong th:text="${message}"></strong>
+
+                    </div>
+                    <div th:if="${errorMsg}" class="alert alert-danger" role="alert">
+                        <strong th:text="${errorMsg}"></strong>
+                    </div>
+
+                </div>
+
+
+
+                <div class="container mt-3">
+                    <div class="card shadow p-3">
+                        <div class="container">
+                            <div class="profile-header">
+                                <!-- <img src="https://via.placeholder.com/100" alt="User Image"> -->
+                                <i class="fas fa-user fa-5x pb-3"></i>
+                                <h1>
+                                    <strong th:if="${user.name != null}" th:text="${user.name}"></strong>
+                                    <strong th:if="${user.name == null}" th:text="${user.username}">\</strong>
+                                </h1>
+                                <p>Manage your personal information here.</p>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    Profile information
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Basic information</h5>
+                                            <p>Username: <span th:text="${user.username}"></span></p>
+                                            <p>Primary email: <span th:text="${user.email}"></span> </p>
+                                            <p>Account Created: <span th:text="${user.createdAt}"></span></p>
+                                            <!-- <p>Address: <a href="#" class="edit-button"><i class="fas fa-edit"></i>
+                                                    Change password</a></p> -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Additional info.</h5>
+                                            <form id="userForm" action="/saveProfile" method="post">
+                                                <p>Full name: <span id="nameDisplay" th:text="${user.name}"></span>
+                                                    <input type="text" id="nameInput" name="name"
+                                                        class="form-control d-none" th:value="${user.name}">
+                                                </p>
+                                                <p>Address: <span id="addressDisplay" th:text="${user.address}"></span>
+                                                    <input type="text" id="addressInput" name="address"
+                                                        class="form-control d-none" th:value="${user.address}">
+                                                </p>
+                                                <a href="#" id="editButton" class="edit-button"><i
+                                                        class="fas fa-edit"></i> Edit</a>
+                                                <button type="submit" id="saveButton"
+                                                    class="btn btn-primary d-none">Save</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    Localization
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Language and currency</h5>
+                                            <p>Language: English – INDIA</p>
+                                            <p>Currency: INR – INDIA</p>
+                                            <!-- <a href="#" class="edit-button"><i class="fas fa-edit"></i> Edit</a> -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Timezone and datetime format</h5>
+                                            <p>Timezone: Asia/Kolkata (India Standard Time)</p>
+                                            <p>Date & Time Format: YYYY-MM-DD HH:MM:SS.SSS</p>
+                                            <!-- <a href="#" class="edit-button"><i class="fas fa-edit"></i> Edit</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        // for hamburger 
+        const mobileScreen = window.matchMedia("(max-width: 990px )");
+        $(document).ready(function () {
+            $(".dashboard-nav-dropdown-toggle").click(function () {
+                $(this).closest(".dashboard-nav-dropdown")
+                    .toggleClass("show")
+                    .find(".dashboard-nav-dropdown")
+                    .removeClass("show");
+                $(this).parent()
+                    .siblings()
+                    .removeClass("show");
+            });
+            $(".menu-toggle").click(function () {
+                if (mobileScreen.matches) {
+                    $(".dashboard-nav").toggleClass("mobile-show");
+                } else {
+                    $(".dashboard").toggleClass("dashboard-compact");
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#editButton').on('click', function (event) {
+                event.preventDefault();
+                $('#nameDisplay, #addressDisplay').addClass('d-none');
+                $('#nameInput, #addressInput, #saveButton').removeClass('d-none');
+                $(this).addClass('d-none');
+            });
+        });
+    </script>
+    <!-- Bootstrap budled JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+</body>
+
+</html>

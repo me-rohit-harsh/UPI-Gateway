@@ -1,0 +1,21 @@
+package com.emailSender.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.emailSender.Repository.UserRepository;
+import com.emailSender.model.User;
+
+@Controller
+public class UserController {
+	@Autowired
+	private UserRepository userRepository;
+
+	@GetMapping("/signup")
+	public String showSignupForm(Model model) {
+		model.addAttribute("user", new User());
+		return "signup";
+	}
+}
