@@ -16,7 +16,7 @@ public class PaymentMethodController {
     private UserRepository userRepository;
 
     @GetMapping("/method")
-    public String showProfile(HttpSession session, Model model) {
+    public String showMethod(HttpSession session, Model model) {
         // Check if user is authenticated
         Boolean isAuthenticated = (Boolean) session.getAttribute("auth");
         if (isAuthenticated != null && isAuthenticated) {
