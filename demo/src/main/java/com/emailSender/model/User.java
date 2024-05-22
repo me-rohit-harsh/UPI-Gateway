@@ -22,7 +22,6 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
 
-
 @Table
 @Entity
 @Data
@@ -35,7 +34,7 @@ public class User {
 	@Size(min = 3, max = 12)
 	@Column(unique = true, nullable = false)
 	private String username;
-	
+
 	private String name;
 
 	@Column(unique = true, nullable = false)
@@ -47,14 +46,22 @@ public class User {
 
 	private Double balance;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@Column(name = "secrete_code")
+	private String secCode;
+
+	private Integer otp;
+
+	private Date lastLogin;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Transaction> transactions;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Bank> banks;
 
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//	private Set<Email> emails;
+	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =
+	// true, fetch = FetchType.EAGER)
+	// private Set<Email> emails;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -138,13 +145,13 @@ public class User {
 		this.banks = banks;
 	}
 
-//	public Set<Email> getEmails() {
-//		return emails;
-//	}
-//
-//	public void setEmails(Set<Email> emails) {
-//		this.emails = emails;
-//	}
+	// public Set<Email> getEmails() {
+	// return emails;
+	// }
+	//
+	// public void setEmails(Set<Email> emails) {
+	// this.emails = emails;
+	// }
 
 	public Date getCreatedAt() {
 		return createdAt;
@@ -161,9 +168,6 @@ public class User {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-	
-
 
 	@Override
 	public String toString() {
@@ -193,6 +197,5 @@ public class User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 }

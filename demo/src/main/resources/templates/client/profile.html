@@ -92,12 +92,12 @@
         .edit-button:hover {
             color: #0056b3;
         }
-        
-#security-code {
-    font-weight: bold;
-    margin-right: 10px;
-}
- </style>
+
+        #security-code {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -139,7 +139,8 @@
                     <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
                     <div style="display: flex; flex-direction: column;">
                         <span th:text="${user.username}" style="font-weight: bold;"></span>
-                        <span th:text="${user.username}" style="font-size: 0.8em; color: gray;"></span>
+                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}"
+                            style="font-size: 0.8em; color: gray;"></span>
                     </div>
                 </a>
 
@@ -180,10 +181,10 @@
                                     <strong th:if="${user.name != null}" th:text="${user.name}"></strong>
                                     <strong th:if="${user.name == null}" th:text="${user.username}">\</strong>
                                 </h1>
-                            <p><b>Security Code:</b>
-                                <span id="security-code">******</span>
-                           <a href=""><i class="fas fa-solid fa-eye"> View Code</i></a>
-                            </p>
+                                <p><b>Security Code:</b>
+                                    <span id="security-code">******</span>
+                                    <a href=""><i class="fas fa-solid fa-eye"> View Code</i></a>
+                                </p>
                                 <p>Manage your personal information here.</p>
                             </div>
 
@@ -197,7 +198,9 @@
                                             <h5>Basic information</h5>
                                             <p>Username: <span th:text="${user.username}"></span></p>
                                             <p>Primary email: <span th:text="${user.email}"></span> </p>
-                                            <p>Account Created: <span th:text="${user.createdAt}"></span></p>
+                                            <p>Account Created: <span
+                                                    th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}"
+                                                    style="font-size: 1em; color: gray;"></span></p>
                                             <!-- <p>Address: <a href="#" class="edit-button"><i class="fas fa-edit"></i>
                                                     Change password</a></p> -->
                                         </div>
@@ -237,7 +240,7 @@
                                         <div class="col-md-6">
                                             <h5>Timezone and datetime format</h5>
                                             <p>Timezone: Asia/Kolkata (India Standard Time)</p>
-                                            <p>Date & Time Format: YYYY-MM-DD HH:MM:SS.SSS</p>
+                                            <p>Date & Time Format: yyyy-MM-dd HH:mm:ss</p>
                                             <!-- <a href="#" class="edit-button"><i class="fas fa-edit"></i> Edit</a> -->
                                         </div>
                                     </div>
