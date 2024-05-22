@@ -92,6 +92,14 @@
         .edit-button:hover {
             color: #0056b3;
         }
+
+        .qr-preview {
+            max-width: 100px;
+            margin-top: 10px;
+        }
+        .d-none{
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -108,7 +116,8 @@
                 <a href="/credittransaction" class="dashboard-nav-item "><i class="fas fa-file-upload rotate-180"></i>
                     Credit
                     History </a>
-                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History </a>
+                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History
+                </a>
                 <a href="refund" class="dashboard-nav-item"><i class="fa-solid fa-list fas"></i> Refund History </a>
                 <!-- <div class='dashboard-nav-dropdown'>
                     <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
@@ -120,8 +129,9 @@
                 </div> -->
                 <a href="/method" class="dashboard-nav-item"><i class="fas fa-money-check-alt"></i> Payment Method </a>
                 <a href="/security" class="dashboard-nav-item"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
-                
-                <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a> <div class="nav-item-divider"></div>
+
+                <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
+                <div class="nav-item-divider"></div>
                 <a href="/signout" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout </a>
             </nav>
         </div>
@@ -153,10 +163,90 @@
 
 
                 <div class="container mt-3">
-                    <div class="card shadow p-3">
-                        This is the payment method page
+                    <div class="row">
+                        <!-- Bank Account Details Card -->
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <h5>Bank Account Details</h5>
+                                </div>
+                                <div class="card-body p-3">
+                                    <form id="bankForm" action="/saveBankDetails" method="post">
+                                        <p>Bank Name: <span id="bankNameDisplay" th:text="${user.name}"></span>
+                                            <input type="text" id="bankNameInput" name="bankName"
+                                                class="form-control d-none" th:value="${user.name}">
+                                        </p>
+                                        <p>Holder Name: <span id="holderNameDisplay" th:text="${user.name}"></span>
+                                            <input type="text" id="holderNameInput" name="holderName"
+                                                class="form-control d-none" th:value="${user.name}">
+                                        </p>
+                                        <p>Account No.: <span id="accountNoDisplay" th:text="${user.name}"></span>
+                                            <input type="text" id="accountNoInput" name="accountNo"
+                                                class="form-control d-none" th:value="${user.name}">
+                                        </p>
+                                        <p>IFSC: <span id="ifscDisplay" th:text="${user.name}"></span>
+                                            <input type="text" id="ifscInput" name="ifsc" class="form-control d-none"
+                                                th:value="${user.name}">
+                                        </p>
+                                        <p>Branch: <span id="branchDisplay" th:text="${user.name}"></span>
+                                            <input type="text" id="branchInput" name="branch"
+                                                class="form-control d-none" th:value="${user.name}">
+                                        </p>
+                                <p>Account Type: <span id="accountTypeDisplay" th:text="${user.username}"></span>
+                                    <span id="accountTypeInputs" class="d-none">
+                                        <div class="form-check d-none">
+                                            <input type="radio" id="saving" name="accountType" value="Saving" class="form-check-input d-none">
+                                            <label for="saving" class="form-check-label">Saving</label>
+                                        </div>
+                                        <div class="form-check d-none">
+                                            <input type="radio" id="current" name="accountType" value="Current" class="form-check-input d-none">
+                                            <label for="current" class="form-check-label">Current</label>
+                                        </div>
+                                    </span>
+                                </p>
+                                        <a href="#" id="editBankButton" class="edit-button"><i class="fas fa-edit"></i>
+                                            Edit</a>
+                                        <button type="submit" id="saveBankButton"
+                                            class="btn btn-primary d-none">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- UPI Details Card -->
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow ">
+                                <div class="card-header">
+                                    <h5>UPI Details</h5>
+                                </div>
+                                <div class="card-body p-3">
+                                    <form id="upiForm" action="/saveUpiDetails" method="post">
+                                        <p>UPI ID: <span id="upiIdDisplay" th:text="${user.name}"></span>
+                                            <input type="text" id="upiIdInput" name="upiId" class="form-control d-none"
+                                                th:value="${user.name}">
+                                        </p>
+                                        <p>Relevant Name: <span id="upiNameDisplay" th:text="${user.name}"></span>
+                                            <input type="text" id="upiNameInput" name="upiName"
+                                                class="form-control d-none" th:value="${user.name}">
+                                        </p>
+                                        <p>QR Code:
+                                            <span id="qrCodeDisplay">
+                                                <img src="path/to/qr-code.png" alt="QR Code" class="qr-preview"
+                                                    th:src="${user.name}">
+                                            </span>
+                                            <input type="file" id="qrCodeInput" name="qrCode"
+                                                class="form-control d-none">
+                                        </p>
+                                        <a href="#" id="editUpiButton" class="edit-button"><i class="fas fa-edit"></i>
+                                            Edit</a>
+                                        <button type="submit" id="saveUpiButton"
+                                            class="btn btn-primary d-none">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -187,10 +277,33 @@
             });
         });
     </script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function toggleEditForm(buttonId, displayClass, inputClass, saveButtonId, checkClass = null) {
+            const editButton = document.getElementById(buttonId);
+            const saveButton = document.getElementById(saveButtonId);
+            const displayElements = document.querySelectorAll(displayClass);
+            const inputElements = document.querySelectorAll(inputClass);
 
-    <!-- Bootstrap budled JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JavaScript -->
+            editButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                displayElements.forEach(el => el.classList.toggle('d-none'));
+                inputElements.forEach(el => el.classList.toggle('d-none'));
+                if (checkClass) {
+                    document.querySelectorAll(checkClass).forEach(el => el.classList.remove('d-none'));
+                }
+                saveButton.classList.toggle('d-none');
+            });
+        }
+
+        toggleEditForm('editBankButton', '#bankForm span:not(#accountTypeInputs)', '#bankForm input', 'saveBankButton', '.form-check');
+        toggleEditForm('editUpiButton', '#upiForm span, #qrCodeDisplay', '#upiForm input', 'saveUpiButton');
+    });
+</script>
 </body>
 
 </html>
