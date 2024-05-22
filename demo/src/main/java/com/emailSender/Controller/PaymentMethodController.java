@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PaymentMethodController {
-      @Autowired
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/method")
@@ -28,8 +28,8 @@ public class PaymentMethodController {
                 if (user != null) {
                     // System.out.println("User" + user);
                     model.addAttribute("user", user);
-              
-                    return "client/paymentmethod"; 
+
+                    return "client/paymentmethod";
                 }
             }
         }

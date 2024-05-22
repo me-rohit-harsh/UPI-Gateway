@@ -97,6 +97,52 @@
             font-weight: bold;
             margin-right: 10px;
         }
+
+        .otp-field {
+            flex-direction: row;
+            column-gap: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .otp-field input {
+            height: 45px;
+            width: 42px;
+            border-radius: 6px;
+            outline: none;
+            font-size: 1.125rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .otp-field input:focus {
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .otp-field input::-webkit-inner-spin-button,
+        .otp-field input::-webkit-outer-spin-button {
+            display: none;
+        }
+
+        .resend {
+            font-size: 12px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: black;
+            font-size: 12px;
+            text-align: right;
+            font-family: monospace;
+        }
+
+        .footer a {
+            color: black;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -172,7 +218,15 @@
 
 
                 <div class="container mt-3">
+
+
                     <div class="card shadow p-3">
+                        <!-- <form method="post" th:action="@{/checkOtp}">
+                            <div class="otp-field mb-4">
+                                <input type="text" name="otp">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-3">Verify Now</button>
+                        </form> -->
                         <div class="container">
                             <div class="profile-header">
                                 <!-- <img src="https://via.placeholder.com/100" alt="User Image"> -->
@@ -181,13 +235,88 @@
                                     <strong th:if="${user.name != null}" th:text="${user.name}"></strong>
                                     <strong th:if="${user.name == null}" th:text="${user.username}">\</strong>
                                 </h1>
-                                <p><b>Security Code:</b>
-                                    <span id="security-code">******</span>
-                                    <a href=""><i class="fas fa-solid fa-eye"> View Code</i></a>
+                                <div th:if="${securityCode != null}">
+                                    <p><b>Security Code: <strong class="text-danger"
+                                                th:text="${securityCode}"></strong></b></p>
+                                </div>
+                                <div th:if="${securityCode == null}">
+                                    <p><b>Security Code: </b> <span id="security-code">******</span>
+                                        <a href="#" id="viewCodeButton"><i class="fas fa-solid fa-eye"> View
+                                                Code</i></a>
+                                    </p>
+                                </div>
+                                <div class="modal" id="otpModal" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <!-- <div class="card py-5 px-3">
+                                                    <h5 class="m-0">User verification</h5><span
+                                                        class="mobile-text">Enter the code we just send on your
+                                                        registred email : <b class="text-danger"
+                                                            th:text="${#strings.substring(user.email, 0, 4) + '...' + #strings.substring(user.email, #strings.length(user.email) - 9)}"></b>
+                                                    </span>
+                                                    <div class="d-flex flex-row mt-5"><input type="text"
+                                                            class="form-control" autofocus=""><input type="text"
+                                                            class="form-control"><input type="text"
+                                                            class="form-control"><input type="text"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="text-center mt-5"><span
+                                                            class="d-block mobile-text">Don't receive the
+                                                            code?</span><span
+                                                            class="font-weight-bold text-danger cursor">Resend</span>
+                                                    </div>
+                                                </div> -->
+                                                <section class="container-fluid bg-body-tertiary d-block">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12 col-md-6 col-lg-4" style="min-width: 400px;">
+                                                            <!-- <div class="card bg-white mb-5 mt-5 border-0"
+                                                                style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);"> -->
+                                                            <div class="card-body p-5 text-center">
+
+                                                                <h5 class="mb-2">User verification</h5><span
+                                                                    class="mobile-text mb-3">Enter the code we just send
+                                                                    on your
+                                                                    registred email : <b class="text-danger"
+                                                                        th:text="${#strings.substring(user.email, 0, 4) + '...' + #strings.substring(user.email, #strings.length(user.email) - 9)}"></b>
+                                                                </span>
+                                                                <br><br>
+                                                                <form method="post" th:action="@{/checkOtp}">
+                                                                    <div class="otp-field mb-4">
+                                                                        <input type="number" id="digit1" maxlength="1"
+                                                                            required name="d1">
+                                                                        <input type="number" id="digit2" maxlength="1"
+                                                                            disabled name="d2">
+                                                                        <input type="number" id="digit3" maxlength="1"
+                                                                            disabled name="d3">
+                                                                        <input type="number" id="digit4" maxlength="1"
+                                                                            disabled name="d4">
+                                                                    </div>
+
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary mb-3">Verify Now</button>
+                                                                </form>
+
+                                                                <div class="text-center"><span
+                                                                        class="d-block mobile-text">Don't receive
+                                                                        the
+                                                                        code?</span><a
+                                                                        class="font-weight-bold text-danger cursor"
+                                                                        href="/showCode">Resend</a>
+                                                                </div>
+                                                            </div>
+                                                            <!-- </div> -->
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 </p>
                                 <p>Manage your personal information here.</p>
                             </div>
-
                             <div class="card">
                                 <div class="card-header">
                                     Profile information
@@ -293,6 +422,91 @@
     <!-- Bootstrap budled JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
+    <script>
+        $(document).ready(function () {
+            $('#viewCodeButton').click(function (event) {
+                event.preventDefault();
+                // Send AJAX request to /showCode endpoint
+                $.ajax({
+                    url: '/showCode',
+                    method: 'GET',
+                });
+                $('#otpModal').modal('show');
+            });
+        });
+
+    </script>
+    <script>
+        const inputs = document.querySelectorAll(".otp-field > input");
+        const button = document.querySelector(".btn");
+
+        window.addEventListener("load", () => inputs[0].focus());
+        button.setAttribute("disabled", "disabled");
+
+        inputs[0].addEventListener("paste", function (event) {
+            event.preventDefault();
+
+            const pastedValue = (event.clipboardData || window.clipboardData).getData(
+                "text"
+            );
+            const otpLength = inputs.length;
+
+            for (let i = 0; i < otpLength; i++) {
+                if (i < pastedValue.length) {
+                    inputs[i].value = pastedValue[i];
+                    inputs[i].removeAttribute("disabled");
+                    inputs[i].focus;
+                } else {
+                    inputs[i].value = ""; // Clear any remaining inputs
+                    inputs[i].focus;
+                }
+            }
+        });
+
+        inputs.forEach((input, index1) => {
+            input.addEventListener("keyup", (e) => {
+                const currentInput = input;
+                const nextInput = input.nextElementSibling;
+                const prevInput = input.previousElementSibling;
+
+                if (currentInput.value.length > 1) {
+                    currentInput.value = "";
+                    return;
+                }
+
+                if (
+                    nextInput &&
+                    nextInput.hasAttribute("disabled") &&
+                    currentInput.value !== ""
+                ) {
+                    nextInput.removeAttribute("disabled");
+                    nextInput.focus();
+                }
+
+                if (e.key === "Backspace") {
+                    inputs.forEach((input, index2) => {
+                        if (index1 <= index2 && prevInput) {
+                            input.setAttribute("disabled", true);
+                            input.value = "";
+                            prevInput.focus();
+                        }
+                    });
+                }
+
+                button.classList.remove("active");
+                button.setAttribute("disabled", "disabled");
+
+                const inputsNo = inputs.length;
+                if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
+                    button.classList.add("active");
+                    button.removeAttribute("disabled");
+
+                    return;
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
