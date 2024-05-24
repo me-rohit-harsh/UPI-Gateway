@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.emailSender.Repository.BankRepository;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.BankService;
+import com.emailSender.Service.UpiService;
 import com.emailSender.model.Bank;
 import com.emailSender.model.User;
 
@@ -23,6 +24,8 @@ public class BankController {
 
     @Autowired
     private BankService bankDetailsService;
+    @Autowired
+    private UpiService upiService;
 
     @GetMapping("/method")
     public String showMethod(HttpSession session, Model model) {
@@ -38,6 +41,7 @@ public class BankController {
                     // System.out.println("User" + user);
                     model.addAttribute("user", user);
                     model.addAttribute("bankDetails", bankDetailsService.getLatestBankDetailsForCurrentUser(userId));
+                    model.addAttribute("upiDetails", upiService.getLatestUpiDetailsForCurrentUser(userId));
                     return "client/paymentmethod";
                 }
             }
