@@ -17,38 +17,38 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
 
-
 @Entity
 @Table
 @Data
 public class Transaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(unique = true, nullable = false)
+	private String refId;
 
-    private String refId;
-    
-    private Double amount;
+	private Double amount;
 
-    private Boolean status;
+	private Boolean status;
 
-    private String type;
+	private String type;
 
-    private String method;
+	private String method;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", updatable = false)
-    private Date createdAt;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at", updatable = false)
+	private Date createdAt;
 
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
-    private Date updatedAt;
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at", nullable = false)
+	private Date updatedAt;
 
 	public Long getId() {
 		return id;
@@ -147,6 +147,5 @@ public class Transaction {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-    
-    
+
 }

@@ -30,4 +30,12 @@ public class TransactionService {
         return transactionRepository.findByUserId(userId);
     }
 
+    public boolean saveTx(Transaction tx) {
+        Transaction savedTx = transactionRepository.save(tx);
+        if (savedTx != null) {
+            return true;
+        } 
+        return false;
+    }
+
 }

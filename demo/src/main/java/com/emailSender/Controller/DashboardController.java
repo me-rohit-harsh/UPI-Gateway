@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class DashboardController {
-  @Autowired
+	@Autowired
 	TransactionRepository transactionRepository;
 	@Autowired
 	TransactionService transactionService;
@@ -37,17 +37,24 @@ public class DashboardController {
 				// Find user by ID
 				User user = userRepository.findById(userId).orElse(null);
 				if (user != null) {
-//					System.out.println("User" + user);
+					// System.out.println("User" + user);
 					model.addAttribute("user", user);
 					// System.err.println(model.getAttribute("user"));
 					model.addAttribute("totalAmount", transactionService.calculateTotalAmount(userId));
 
 					List<Transaction> transactionList = transactionService.getTransactionsByUserId(userId);
+
+					/*
+					 * for (Transaction transaction : transactionList) {
+					 * System.out.println(transaction.getStatus()); }
+					 */
+
 					// model.addAttribute("transactions", TransactionList);
 					// System.err.println(TransactionList.size());
 					model.addAttribute("transactions", transactionList);
 					// System.out.println(model.getAttribute("transactions"));
-					return "client/dashboard"; // Make sure this corresponds to your actual Thymeleaf template for the payment page
+					return "client/dashboard"; // Make sure this corresponds to your actual Thymeleaf template for the
+												// payment page
 				}
 			}
 		}
@@ -55,6 +62,5 @@ public class DashboardController {
 		// Redirect to sign-in page if not authenticated or user not found
 		return "redirect:/signin";
 	}
-
 
 }

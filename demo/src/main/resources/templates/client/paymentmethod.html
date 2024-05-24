@@ -97,7 +97,8 @@
             max-width: 100px;
             margin-top: 10px;
         }
-        .d-none{
+
+        .d-none {
             display: none !important;
         }
     </style>
@@ -127,7 +128,8 @@
                         <a href="#" class="dashboard-nav-dropdown-item">UPI Details</a>
                     </div>
                 </div> -->
-                <a href="/method" class="dashboard-nav-item"><i class="fas fa-money-check-alt"></i> Payment Method </a>
+                <a href="/method" class="dashboard-nav-item active"><i class="fas fa-money-check-alt"></i> Payment
+                    Method </a>
                 <a href="/security" class="dashboard-nav-item"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
 
                 <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
@@ -142,7 +144,8 @@
                     <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
                     <div style="display: flex; flex-direction: column;">
                         <span th:text="${user.username}" style="font-weight: bold;"></span>
-                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}" style="font-size: 0.8em; color: gray;"></span>
+                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}"
+                            style="font-size: 0.8em; color: gray;"></span>
                     </div>
                 </a>
 
@@ -172,43 +175,77 @@
                                 </div>
                                 <div class="card-body p-3">
                                     <form id="bankForm" action="/saveBankDetails" method="post">
-                                        <p>Bank Name: <span id="bankNameDisplay" th:text="${user.name}"></span>
+                                        <p>Bank Name:
+                                            <span th:if="${bankDetails != null}" th:text="${bankDetails.bankName}"
+                                                id="bankNameDisplay"></span>
+                                            <input type="text" id="bankNameInput" name="bankName" class="form-control"
+                                                th:if="${bankDetails == null}" placeholder="Enter bank name">
                                             <input type="text" id="bankNameInput" name="bankName"
-                                                class="form-control d-none" th:value="${user.name}">
+                                                class="form-control d-none" th:if="${bankDetails != null}"
+                                                th:value="${bankDetails.bankName}">
                                         </p>
-                                        <p>Holder Name: <span id="holderNameDisplay" th:text="${user.name}"></span>
+                                        <p>Holder Name:
+                                            <span th:if="${bankDetails != null}" th:text="${bankDetails.holderName}"
+                                                id="holderNameDisplay"></span>
                                             <input type="text" id="holderNameInput" name="holderName"
-                                                class="form-control d-none" th:value="${user.name}">
+                                                class="form-control" th:if="${bankDetails == null}"
+                                                placeholder="Enter holder name">
+                                            <input type="text" id="holderNameInput" name="holderName"
+                                                class="form-control d-none" th:if="${bankDetails != null}"
+                                                th:value="${bankDetails.holderName}">
                                         </p>
-                                        <p>Account No.: <span id="accountNoDisplay" th:text="${user.name}"></span>
+                                        <p>Account No.:
+                                            <span th:if="${bankDetails != null}" th:text="${bankDetails.accountNo}"
+                                                id="accountNoDisplay"></span>
+                                            <input type="text" id="accountNoInput" name="accountNo" class="form-control"
+                                                th:if="${bankDetails == null}" placeholder="Enter account number">
                                             <input type="text" id="accountNoInput" name="accountNo"
-                                                class="form-control d-none" th:value="${user.name}">
+                                                class="form-control d-none" th:if="${bankDetails != null}"
+                                                th:value="${bankDetails.accountNo}">
                                         </p>
-                                        <p>IFSC: <span id="ifscDisplay" th:text="${user.name}"></span>
+                                        <p>IFSC:
+                                            <span th:if="${bankDetails != null}" th:text="${bankDetails.ifsc}"
+                                                id="ifscDisplay"></span>
+                                            <input type="text" id="ifscInput" name="ifsc" class="form-control"
+                                                th:if="${bankDetails == null}" placeholder="Enter IFSC code">
                                             <input type="text" id="ifscInput" name="ifsc" class="form-control d-none"
-                                                th:value="${user.name}">
+                                                th:if="${bankDetails != null}" th:value="${bankDetails.ifsc}">
                                         </p>
-                                        <p>Branch: <span id="branchDisplay" th:text="${user.name}"></span>
+                                        <p>Branch:
+                                            <span th:if="${bankDetails != null}" th:text="${bankDetails.branch}"
+                                                id="branchDisplay"></span>
+                                            <input type="text" id="branchInput" name="branch" class="form-control"
+                                                th:if="${bankDetails == null}" placeholder="Enter branch name">
                                             <input type="text" id="branchInput" name="branch"
-                                                class="form-control d-none" th:value="${user.name}">
+                                                class="form-control d-none" th:if="${bankDetails != null}"
+                                                th:value="${bankDetails.branch}">
                                         </p>
-                                <p>Account Type: <span id="accountTypeDisplay" th:text="${user.username}"></span>
-                                    <span id="accountTypeInputs" class="d-none">
-                                        <div class="form-check d-none">
-                                            <input type="radio" id="saving" name="accountType" value="Saving" class="form-check-input d-none">
-                                            <label for="saving" class="form-check-label">Saving</label>
-                                        </div>
-                                        <div class="form-check d-none">
-                                            <input type="radio" id="current" name="accountType" value="Current" class="form-check-input d-none">
-                                            <label for="current" class="form-check-label">Current</label>
-                                        </div>
-                                    </span>
-                                </p>
-                                        <a href="#" id="editBankButton" class="edit-button"><i class="fas fa-edit"></i>
+                                        <p>Account Type:
+                                            <span th:if="${bankDetails != null}" th:text="${bankDetails.acType}"
+                                                id="accountTypeDisplay"></span>
+                                            <select name="acType" id="accountTypeInput" class="form-control"
+                                                th:if="${bankDetails == null}">
+                                                <option disabled selected>Select Account Type</option>
+                                                <option value="Saving">Saving</option>
+                                                <option value="Current">Current</option>
+                                            </select>
+                                            <select name="acType" id="accountTypeInput" class="form-control d-none"
+                                                th:if="${bankDetails != null}">
+                                                <option value="Saving" th:selected="${bankDetails.acType == 'Saving'}">
+                                                    Saving</option>
+                                                <option value="Current"
+                                                    th:selected="${bankDetails.acType == 'Current'}">Current</option>
+                                            </select>
+                                        </p>
+                                        <a href="#" id="editBankButton" th:if="${bankDetails != null}"
+                                            class="edit-button"><i class="fas fa-edit"></i>
                                             Edit</a>
-                                        <button type="submit" id="saveBankButton"
-                                            class="btn btn-primary d-none">Save</button>
+                                        <button type="submit" id="saveBankButton" class="btn btn-primary"
+                                            th:if="${bankDetails == null}">Save</button>
+                                        <button type="submit" id="saveBankButton" class="btn btn-primary d-none"
+                                            th:if="${bankDetails != null}">Save</button>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -220,27 +257,62 @@
                                 </div>
                                 <div class="card-body p-3">
                                     <form id="upiForm" action="/saveUpiDetails" method="post">
-                                        <p>UPI ID: <span id="upiIdDisplay" th:text="${user.name}"></span>
-                                            <input type="text" id="upiIdInput" name="upiId" class="form-control d-none"
-                                                th:value="${user.name}">
+                                        <p>Holder Name:
+                                            <span th:if="${upiDetails != null}" th:text="${upiDetails.holderName}"
+                                                id="holderNameDisplay"></span>
+                                            <input type="text" id="holderNameInput" name="holderName"
+                                                class="form-control" th:if="${upiDetails == null}"
+                                                placeholder="Enter holder name">
+                                            <input type="text" id="holderNameInput" name="holderName"
+                                                class="form-control d-none" th:if="${upiDetails != null}"
+                                                th:value="${upiDetails.holderName}">
                                         </p>
-                                        <p>Relevant Name: <span id="upiNameDisplay" th:text="${user.name}"></span>
-                                            <input type="text" id="upiNameInput" name="upiName"
-                                                class="form-control d-none" th:value="${user.name}">
+                                        <p>UPI ID:
+                                            <span th:if="${upiDetails != null}" th:text="${upiDetails.upiID}"
+                                                id="upiIdDisplay"></span>
+                                            <input type="text" id="upiIdInput" name="upiID" class="form-control"
+                                                th:if="${upiDetails == null}" placeholder="Enter UPI ID">
+                                            <input type="text" id="upiIdInput" name="upiID" class="form-control d-none"
+                                                th:if="${upiDetails != null}" th:value="${upiDetails.upiID}">
                                         </p>
-                                        <p>QR Code:
-                                            <span id="qrCodeDisplay">
-                                                <img src="path/to/qr-code.png" alt="QR Code" class="qr-preview"
-                                                    th:src="${user.name}">
-                                            </span>
-                                            <input type="file" id="qrCodeInput" name="qrCode"
+                                        <!-- <p>QR Code:
+                                            <input type="file" id="qrInput" name="qrCodeFile"
                                                 class="form-control d-none">
                                         </p>
-                                        <a href="#" id="editUpiButton" class="edit-button"><i class="fas fa-edit"></i>
-                                            Edit</a>
-                                        <button type="submit" id="saveUpiButton"
-                                            class="btn btn-primary d-none">Save</button>
+                                        <img th:if="${upiDetails != null && qrCodeBase64 != null}"
+                                            th:src="@{'data:image/png;base64,' + ${qrCodeBase64}}" alt="QR Code"
+                                            id="qrCodeDisplay"> -->
+
+                                        <a href="#" id="editUpiButton" th:if="${upiDetails != null}" class="edit-button"
+                                            onclick="toggleEditMode('upiForm')">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <button type="submit" id="saveUpiButton" class="btn btn-primary"
+                                            th:if="${upiDetails == null}">Save</button>
+                                        <button type="submit" id="saveUpiButton" class="btn btn-primary d-none"
+                                            th:if="${upiDetails != null}">Save</button>
                                     </form>
+
+                                    <script>
+                                        function toggleEditMode(formId) {
+                                            var form = document.getElementById(formId);
+                                            var displayElements = form.querySelectorAll('[id$=Display]');
+                                            var inputElements = form.querySelectorAll('[id$=Input]');
+                                            var saveButton = form.querySelector('#saveUpiButton');
+
+                                            displayElements.forEach(function (element) {
+                                                element.classList.toggle('d-none');
+                                            });
+
+                                            inputElements.forEach(function (element) {
+                                                element.classList.toggle('d-none');
+                                            });
+
+                                            saveButton.classList.toggle('d-none');
+                                        }
+                                    </script>
+
+
                                 </div>
                             </div>
                         </div>
@@ -281,29 +353,24 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        function toggleEditForm(buttonId, displayClass, inputClass, saveButtonId, checkClass = null) {
-            const editButton = document.getElementById(buttonId);
-            const saveButton = document.getElementById(saveButtonId);
-            const displayElements = document.querySelectorAll(displayClass);
-            const inputElements = document.querySelectorAll(inputClass);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editButton = document.getElementById('editBankButton');
+            const saveButton = document.getElementById('saveBankButton');
+            const displayElements = document.querySelectorAll('#bankForm span');
+            const inputElements = document.querySelectorAll('#bankForm input, #bankForm select');
 
-            editButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                displayElements.forEach(el => el.classList.toggle('d-none'));
-                inputElements.forEach(el => el.classList.toggle('d-none'));
-                if (checkClass) {
-                    document.querySelectorAll(checkClass).forEach(el => el.classList.remove('d-none'));
-                }
-                saveButton.classList.toggle('d-none');
-            });
-        }
+            if (editButton) {
+                editButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    displayElements.forEach(el => el.classList.toggle('d-none'));
+                    inputElements.forEach(el => el.classList.toggle('d-none'));
+                    saveButton.classList.toggle('d-none');
+                });
+            }
+        });
 
-        toggleEditForm('editBankButton', '#bankForm span:not(#accountTypeInputs)', '#bankForm input', 'saveBankButton', '.form-check');
-        toggleEditForm('editUpiButton', '#upiForm span, #qrCodeDisplay', '#upiForm input', 'saveUpiButton');
-    });
-</script>
+    </script>
 </body>
 
 </html>

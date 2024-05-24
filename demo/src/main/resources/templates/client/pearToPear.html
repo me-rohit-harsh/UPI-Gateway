@@ -122,7 +122,7 @@
                 <a href="/method" class="dashboard-nav-item"><i class="fas fa-money-check-alt"></i> Payment Method </a>
                 <a href="/security" class="dashboard-nav-item"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
 
-                <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
+                <a href="/p2p" class="dashboard-nav-item active"><i class="fas fa-cogs"></i> P2P </a>
                 <div class="nav-item-divider"></div>
                 <a href="/signout" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout </a>
             </nav>
@@ -134,7 +134,8 @@
                     <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
                     <div style="display: flex; flex-direction: column;">
                         <span th:text="${user.username}" style="font-weight: bold;"></span>
-                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}" style="font-size: 0.8em; color: gray;"></span>
+                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}"
+                            style="font-size: 0.8em; color: gray;"></span>
                     </div>
                 </a>
 
@@ -155,8 +156,11 @@
 
 
                 <div class="container mt-3">
-                    <div class="card shadow p-3">
-                        This is the pear to pear page
+                    <div class="card shadow p-3 text-center">
+                        <p class="card-text text-danger font-weight-bold">We are developing something great <br>
+                            Coming Soon!
+                        </p>
+
                     </div>
                 </div>
             </div>

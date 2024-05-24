@@ -108,7 +108,7 @@
                 <a href="/credittransaction" class="dashboard-nav-item "><i class="fas fa-file-upload rotate-180"></i>
                     Credit
                     History </a>
-                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History
+                <a href="debittransaction" class="dashboard-nav-item active"><i class="fas fa-file-download"></i> Debit History
                 </a>
                 <a href="refund" class="dashboard-nav-item"><i class="fa-solid fa-list fas"></i> Refund History </a>
                 <!-- <div class='dashboard-nav-dropdown'>
@@ -134,7 +134,8 @@
                     <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
                     <div style="display: flex; flex-direction: column;">
                         <span th:text="${user.username}" style="font-weight: bold;"></span>
-                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}" style="font-size: 0.8em; color: gray;"></span>
+                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}"
+                            style="font-size: 0.8em; color: gray;"></span>
                     </div>
                 </a>
 
@@ -155,8 +156,8 @@
 
 
                 <div class="container mt-3">
-                    <div class="card shadow p-3">
-                        This is the debit history page
+                    <div class="card shadow p-3 text-danger">
+                        <p class="card-text text-danger font-weight-bold">No history to show</p>
                     </div>
                 </div>
             </div>
