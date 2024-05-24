@@ -105,6 +105,8 @@ public class EmailController {
 							"Welcome to the Jixwallet. Your payment of Rs" + moneySent
 									+ " has been successfully received.");
 				}
+				user.setBalance(moneySent);
+				userRepository.save(user);
 				redirectAttributes.addFlashAttribute("message", "Payment has been added to your wallet successfully");
 				return "redirect:/dashboard";
 			} else {

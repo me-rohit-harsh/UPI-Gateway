@@ -28,7 +28,6 @@ public class Bank {
 
 	private String holderName;
 
-	@Column(unique = true, nullable = false)
 	private String accountNo;
 
 	private String branch;
