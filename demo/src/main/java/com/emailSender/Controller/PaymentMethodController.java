@@ -1,17 +1,23 @@
 package com.emailSender.Controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.emailSender.Repository.UpiRepository;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.UpiService;
 import com.emailSender.model.UPI;
 import com.emailSender.model.User;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class PaymentMethodController {
@@ -21,18 +27,9 @@ public class PaymentMethodController {
     @Autowired
     private UpiService upiService;
 
-    @PostMapping("/saveUpiDetails")
-    public String saveUpiDetails(@ModelAttribute("upiDetails") UPI upi, HttpSession session,
-            RedirectAttributes redirectAttributes) {
-        User user = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
-        UPI newUpi = new UPI();
-        newUpi.setHolderName(upi.getHolderName());
-        newUpi.setUpiID(upi.getUpiID());
-        newUpi.setUser(user);
-        newUpi.setQrCode(upi.getQrCode());
-        upiService.saveUpiDetails(newUpi); // Save the UPI details
-        redirectAttributes.addFlashAttribute("message", "UPI details has been updated");
-        return "redirect:/method"; // Redirect to the UPI form page
-    }
+    @Autowired
+    private UpiRepository upiRepository;
+
+
 
 }
