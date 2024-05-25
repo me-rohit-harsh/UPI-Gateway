@@ -40,7 +40,7 @@ public class DashboardController {
 					// System.out.println("User" + user);
 					model.addAttribute("user", user);
 					// System.err.println(model.getAttribute("user"));
-					model.addAttribute("totalAmount", transactionService.calculateTotalAmount(userId));
+					// model.addAttribute("totalAmount", transactionService.calculateTotalAmount(userId));
 
 					List<Transaction> transactionList = transactionService.getTransactionsByUserId(userId);
 

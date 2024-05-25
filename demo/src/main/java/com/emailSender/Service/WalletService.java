@@ -11,8 +11,8 @@ public class WalletService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean processTransaction(String username, String securityCode, double amount) {
-        User user = userRepository.findByUsernameAndSecCode(username, securityCode);
+    public boolean processTransaction(User user, double amount) {
+       
         if (user != null && user.getBalance() >= amount) {
             user.setBalance((user.getBalance() - amount));
             userRepository.save(user);

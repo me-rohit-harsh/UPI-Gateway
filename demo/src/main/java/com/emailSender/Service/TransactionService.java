@@ -17,25 +17,18 @@ public class TransactionService {
         return transactionRepository.findByStatus(status);
     }
     
-    public double calculateTotalAmount(Long userId) {
-        List<Transaction> transactions = transactionRepository.findByStatusAndUserId(true, userId);
-        double totalAmount = 0;
-        for (Transaction transaction : transactions) {
-            totalAmount += transaction.getAmount();
-        }
-        return totalAmount;
-    }
+    // public double calculateTotalAmount(Long userId) {
+    //     List<Transaction> transactions = transactionRepository.findByStatusAndUserId(true, userId);
+    //     double totalAmount = 0;
+    //     for (Transaction transaction : transactions) {
+    //         totalAmount += transaction.getAmount();
+    //     }
+    //     return totalAmount;
+    // }
 
     public List<Transaction> getTransactionsByUserId(Long userId) {
         return transactionRepository.findByUserId(userId);
     }
 
-    public boolean saveTx(Transaction tx) {
-        Transaction savedTx = transactionRepository.save(tx);
-        if (savedTx != null) {
-            return true;
-        } 
-        return false;
-    }
 
 }
