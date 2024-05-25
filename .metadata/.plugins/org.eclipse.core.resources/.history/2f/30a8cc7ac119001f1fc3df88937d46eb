@@ -509,7 +509,7 @@
             // usdtDiv.style.display = 'none';
 
             switch (this.value) {
-                case 'NEFT / IMPS':
+                case 'Bank to Bank':
                     bankDetailsDiv.style.display = 'block';
                     break;
                 case 'Google Pay':
