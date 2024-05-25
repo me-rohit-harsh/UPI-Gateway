@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emailSender.Repository.EmailRepository;
+import com.emailSender.Repository.TransactionRepository;
+import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.EmailService;
 import com.emailSender.model.Email;
 

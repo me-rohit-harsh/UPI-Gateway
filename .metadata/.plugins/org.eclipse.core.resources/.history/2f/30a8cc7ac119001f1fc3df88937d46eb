@@ -144,7 +144,7 @@
                                             <strong>Your Balance:</strong>
                                         </p>
                                         <h1>
-                                            ₹ <span th:text="${user.balance}">0.00</span>
+                                            ₹ <span th:text="${totalAmount}">0.00</span>
                                         </h1>
                                         <p class="mb-0">Adding funds can help reduce the number of small transactions on
                                             your account
@@ -509,7 +509,7 @@
             // usdtDiv.style.display = 'none';
 
             switch (this.value) {
-                case 'NEFT / IMPS':
+                case 'Bank to Bank':
                     bankDetailsDiv.style.display = 'block';
                     break;
                 case 'Google Pay':

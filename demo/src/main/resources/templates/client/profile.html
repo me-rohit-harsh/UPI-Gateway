@@ -192,16 +192,7 @@
 
             </header>
             <div class='dashboard-content'>
-                <!-- <div class='container'>
-				<div class='card'>
-					<div class='card-header'>
-						<h1>Welcome back Jim</h1>
-					</div>
-					<div class='card-body'>
-						<p>Your account type is: Administrator</p>
-					</div>
-				</div>
-			</div> -->
+
 
                 <div class="container text-center mt-4">
                     <!-- Display flash message if available -->
@@ -221,12 +212,7 @@
 
 
                     <div class="card shadow p-3">
-                        <!-- <form method="post" th:action="@{/checkOtp}">
-                            <div class="otp-field mb-4">
-                                <input type="text" name="otp">
-                            </div>
-                            <button type="submit" class="btn btn-primary mb-3">Verify Now</button>
-                        </form> -->
+
                         <div class="container">
                             <div class="profile-header">
                                 <!-- <img src="https://via.placeholder.com/100" alt="User Image"> -->
@@ -297,12 +283,14 @@
                                                                         class="btn btn-primary mb-3">Verify Now</button>
                                                                 </form>
 
-                                                                <div class="text-center"><span
-                                                                        class="d-block mobile-text">Don't receive
-                                                                        the
-                                                                        code?</span><a
-                                                                        class="font-weight-bold text-danger cursor"
-                                                                        href="/showCode">Resend</a>
+                                                                <div class="text-center">
+                                                                    <span class="d-block mobile-text">Don't receive the
+                                                                        code?</span>
+                                                                    <a id="resendOtp"
+                                                                        class="font-weight-bold text-danger cursor disabled"
+                                                                        href="#">Resend</a>
+                                                                    <span id="timer"
+                                                                        class="font-weight-bold text-danger"></span>
                                                                 </div>
                                                             </div>
                                                             <!-- </div> -->
@@ -425,6 +413,7 @@
     <script>
         $(document).ready(function () {
             $('#viewCodeButton').click(function (event) {
+                // console.log(" otp send butotn ");
                 event.preventDefault();
                 // Send AJAX request to /showCode endpoint
                 $.ajax({
@@ -436,6 +425,47 @@
         });
 
     </script>
+
+    <script>$(document).ready(function () {
+            var resendOtpButton = $('#resendOtp');
+            var timerDisplay = $('#timer');
+            var timer = 20;
+            var countdown;
+
+            function startTimer() {
+                resendOtpButton.prop('disabled', true).addClass('disabled');
+                timerDisplay.text(`(${timer}s)`);
+
+                countdown = setInterval(function () {
+                    timer--;
+                    timerDisplay.text(`(${timer}s)`);
+                    if (timer <= 0) {
+                        clearInterval(countdown);
+                        resendOtpButton.prop('disabled', false).removeClass('disabled').text('Resend');
+                        timerDisplay.text('');
+                    }
+                }, 1000);
+            }
+
+            // Initialize the timer when the form pops up
+            startTimer();
+
+            resendOtpButton.click(function (event) {
+                event.preventDefault();
+                if (!resendOtpButton.prop('disabled')) {
+                    // console.log("Clicked on the resend button to tyhe method is working");
+                    $.ajax({
+                        url: '/showCode',
+                        method: 'GET',
+                    });
+                    resendOtpButton.prop('disabled', true).addClass('disabled').text('Resend');
+                    timer = 30;
+                    startTimer();
+                }
+            });
+        });
+    </script>
+
     <script>
         const inputs = document.querySelectorAll(".otp-field > input");
         const button = document.querySelector(".btn");

@@ -108,7 +108,8 @@
                 <a href="/credittransaction" class="dashboard-nav-item "><i class="fas fa-file-upload rotate-180"></i>
                     Credit
                     History </a>
-                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History </a>
+                <a href="debittransaction" class="dashboard-nav-item"><i class="fas fa-file-download"></i> Debit History
+                </a>
                 <a href="refund" class="dashboard-nav-item"><i class="fa-solid fa-list fas"></i> Refund History </a>
                 <!-- <div class='dashboard-nav-dropdown'>
                                 <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
@@ -119,8 +120,9 @@
                                 </div>
                             </div> -->
                 <a href="/method" class="dashboard-nav-item"><i class="fas fa-money-check-alt"></i> Payment Method </a>
-                <a href="/security" class="dashboard-nav-item active"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
-            
+                <a href="/security" class="dashboard-nav-item active"><i class="fas fa-solid fa-fingerprint"></i>
+                    Security </a>
+
                 <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
                 <div class="nav-item-divider"></div>
                 <a href="/signout" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout </a>
@@ -133,7 +135,8 @@
                     <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
                     <div style="display: flex; flex-direction: column;">
                         <span th:text="${user.username}" style="font-weight: bold;"></span>
-                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}" style="font-size: 0.8em; color: gray;"></span>
+                        <span th:text="${#dates.format(user.lastLogin, 'yyyy-MM-dd HH:mm:ss')}"
+                            style="font-size: 0.8em; color: gray;"></span>
                     </div>
                 </a>
 
@@ -201,29 +204,29 @@
                     </div>
 
                     <div class="card shadow p-3">
-                        <form th:action="@{changesecuritycode}" method="post">
+                        <form th:action="@{changesecuritycode}" method="post" onsubmit="return validateForm()">
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <h6 class="mb-3 text-primary">CHANGE SECURITY CODE</h6>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
-                                        <label for="secCode">Old Security Code</label> <input type="text"
-                                            class="form-control" id="secCode" placeholder="Enter Old Sec Code"
-                                            name="oldSecCode">
+                                        <label for="secCode">Old Security Code</label>
+                                        <input type="text" class="form-control" id="secCode"
+                                            placeholder="Enter Old Sec Code" name="oldSecCode">
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
-                                        <label for="newSecCode">New Security Code</label> <input type="text"
-                                            class="form-control" id="newSecCode" placeholder="Enter New Security Code"
-                                            name="newSecCode" a>
+                                        <label for="newSecCode">New Security Code</label>
+                                        <input type="text" class="form-control" id="newSecCode"
+                                            placeholder="Enter New Security Code" name="newSecCode">
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
-                                        <label for="reNewSecCode">Confirm Security Code</label> <input type="password"
-                                            class="form-control" id="reNewSecCode"
+                                        <label for="reNewSecCode">Confirm Security Code</label>
+                                        <input type="password" class="form-control" id="reNewSecCode"
                                             placeholder="Re-enter New Security Code" name="newSecCodeCopy">
                                     </div>
                                 </div>
@@ -234,7 +237,8 @@
                                         <button type="reset" id="submit" name="submit"
                                             class="btn btn-secondary">Cancel</button>
                                         <button type="submit" id="submit" name="submit"
-                                            class="custom-btn btn btn-primary">Change Security Code</button>
+                                            class="custom-btn btn btn-primary">Change Security
+                                            Code</button>
                                     </div>
                                 </div>
                             </div>
@@ -275,6 +279,26 @@
     <!-- Bootstrap budled JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
+
+    <script>
+        function validateForm() {
+            const oldSecCode = document.getElementById("secCode").value;
+            const newSecCode = document.getElementById("newSecCode").value;
+            const reNewSecCode = document.getElementById("reNewSecCode").value;
+
+            if (oldSecCode.length !== 6 || newSecCode.length !== 6 || reNewSecCode.length !== 6) {
+                alert("All security codes must be exactly 6 characters long.");
+                return false;
+            }
+
+            if (newSecCode !== reNewSecCode) {
+                alert("The new security code and confirmation code do not match.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 
 </html>
