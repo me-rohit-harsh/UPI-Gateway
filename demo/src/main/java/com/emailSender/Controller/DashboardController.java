@@ -42,7 +42,7 @@ public class DashboardController {
 					// System.err.println(model.getAttribute("user"));
 					// model.addAttribute("totalAmount", transactionService.calculateTotalAmount(userId));
 
-					List<Transaction> transactionList = transactionService.getTransactionsByUserId(userId);
+					List<Transaction> transactionList = transactionRepository.findByUserId(userId);
 
 					/*
 					 * for (Transaction transaction : transactionList) {

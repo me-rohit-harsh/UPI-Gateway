@@ -51,8 +51,8 @@ p {
 }
 
 a {
-    color: #3f84fc;
-    text-decoration: none;
+    color: #1a5994;
+    text-decoration: none !important;
     background-color: transparent;
 }
 
@@ -471,4 +471,7 @@ h1,
 .logo {
     height: 70px;
     /* Adjust the height of the logo as needed */
+}
+.modal-header{
+    padding: 0.5rem 1rem !important;
 }
