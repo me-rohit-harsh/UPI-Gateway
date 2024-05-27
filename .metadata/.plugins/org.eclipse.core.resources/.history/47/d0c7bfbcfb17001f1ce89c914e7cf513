@@ -40,7 +40,7 @@ public class ProfileController {
         }
 
         // Redirect to sign-in page if not authenticated or user not found
-        return "client/signin";
+        return "signin";
     }
 
     @PostMapping("/saveProfile")
