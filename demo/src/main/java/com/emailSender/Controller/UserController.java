@@ -31,12 +31,12 @@ public class UserController {
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
         model.addAttribute("user", new User());
-        return "signup";
+        return "register";
     }
 
     @GetMapping("/signin")
     public String showSignupForm() {
-        return "signin";
+        return "login";
     }
 
     @PostMapping("/signin")

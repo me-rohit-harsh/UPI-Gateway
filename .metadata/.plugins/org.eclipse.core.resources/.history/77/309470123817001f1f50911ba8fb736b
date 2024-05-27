@@ -34,7 +34,7 @@ public class UserController {
 
     @GetMapping("/signin")
     public String showSignupForm() {
-        return "signin";
+         return "redirect:/signin";
     }
 
     @PostMapping("/signin")

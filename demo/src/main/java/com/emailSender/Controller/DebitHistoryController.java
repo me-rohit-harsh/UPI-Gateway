@@ -46,6 +46,6 @@ public class DebitHistoryController {
 		}
 
 		// Redirect to sign-in page if not authenticated or user not found
-		return "signin";
+		 return "redirect:/signin";
 	}
 }

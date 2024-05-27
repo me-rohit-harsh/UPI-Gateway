@@ -55,7 +55,7 @@ public class BankController {
         }
 
         // Redirect to sign-in page if not authenticated or user not found
-        return "signin";
+         return "redirect:/signin";
     }
 
     @PostMapping("/saveBankDetails")

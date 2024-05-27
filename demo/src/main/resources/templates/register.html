@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Sign Up - Jixwallet</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+<!-- Font Awesome CSS -->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css' rel='stylesheet'>
+    <!-- Bootstrap CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/css/client/auth.css}">
+    <style>
+        .index-page .header {
+            --background-color: #64A1DC;
+        }
+    </style>
+</head>
+
+<body class="index-page  scrolled">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+            <a href="index.html" class="logo d-flex align-items-center me-auto">
+                <h1 class="text-light">JIXWALLET</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+
+                <a class="btn-getstarted" href="/signin" style="width: 110px; font-size: large;">Sign In</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="main mt-5" style="min-height: 90vh;">
+        <!-- Login Register section  -->
+        <section id="contact" class="contact section">
+
+            <!-- Section Title -->
+            <div class="container section-title">
+                <h3 class="text-center">New Here? Register Now</h3>
+                <p class="text-center">Join us and start your journey today. Enjoy exclusive benefits and personalized
+                    services tailored
+                    just for you.</p>
+            </div><!-- End Section Title -->
+
+            <div class="container">
+
+                <div class="row gy-4">
+                    <div class="col-12 col-lg-3">
+
+                    </div>
+
+                    <div class="col-lg-6 php-email-form">
+                        <!-- Display flash message if available -->
+                        <div th:if="${message}" class="alert alert-success" role="alert">
+                            <strong th:text="${message}"></strong>
+                        </div>
+                        <div th:if="${errorMsg}" class="alert alert-danger" role="alert">
+                            <strong th:text="${errorMsg}"></strong>
+                        </div>
+                        <!-- Updated form -->
+                        <form id="signup-form" th:action="@{/signup}" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Your Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                                <div id="usernameFeedback" class="form-text"></div>
+                            </div>
+                            <br>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Your Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <br>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Your Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <br>
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary" id="submitBtn">Register</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-3">
+                            <p style="margin-bottom: 0;">Already have an account? <a th:href="@{/signin}">Sign In</a></p>
+                        </div>
+                    </div><!-- End Contact Form -->
+
+                    <div class="col-12 col-lg-3">
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /Contact Section -->
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="container copyright text-center mt-4">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Jixwallet</strong> <span>All Rights
+                    Reserved</span></p>
+            <div class="credits">
+                Designed by <a href="/">Jixwallet Team </a>
+            </div>
+        </div>
+    </footer>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Custom JS -->
+<script>
+    $(document).ready(function () {
+        // Function to check username availability
+        function checkUsernameAvailability() {
+            const username = $('#username').val();
+
+            if (username.length < 3 || username.length > 12) {
+                $('#usernameFeedback').text('Username must be 3-12 characters long').css('color', 'red');
+                $('#submitBtn').prop('disabled', true); // Disable submit button
+                return;
+            }
+
+            fetch('/api/check-username', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.available) {
+                        $('#usernameFeedback').html('<i class="fa-solid fa-circle-check"></i> Username is available').css('color', 'green');
+                        $('#submitBtn').prop('disabled', false); // Enable submit button
+                    } else {
+                        $('#usernameFeedback').html('<i class="fa-regular fa-circle-xmark"></i> Username is already taken').css('color', 'red');
+                        $('#submitBtn').prop('disabled', true); // Disable submit button
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking username availability:', error);
+                    $('#usernameFeedback').text('Error checking username availability').css('color', 'red');
+                    $('#submitBtn').prop('disabled', true); // Disable submit button
+                });
+        }
+
+        // Trigger checkUsernameAvailability function on input event
+        $('#username').on('input', checkUsernameAvailability);
+    });
+</script>
+
+</body>
+
+</html>
