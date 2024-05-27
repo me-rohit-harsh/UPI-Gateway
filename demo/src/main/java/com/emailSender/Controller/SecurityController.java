@@ -41,7 +41,7 @@ public class SecurityController {
             }
         }
 
-        return "signin";
+         return "redirect:/signin";
     }
 
     @PostMapping("changePassword")

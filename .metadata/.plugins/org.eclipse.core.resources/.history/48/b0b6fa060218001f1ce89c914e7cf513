@@ -35,6 +35,6 @@ public class PaymentMethodController {
         }
 
         // Redirect to sign-in page if not authenticated or user not found
-        return "signin";
+         return "redirect:/signin";
     }
 }
