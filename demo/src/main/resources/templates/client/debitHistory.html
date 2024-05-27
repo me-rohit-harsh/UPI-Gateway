@@ -45,54 +45,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/client/style.css}">
 
-    <style>
-        .profile-header {
-            text-align: center;
-            padding: 20px 0;
-        }
 
-        .profile-header img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .profile-header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-header p {
-            color: #6c757d;
-        }
-
-        .card {
-            border: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            background-color: rgb(237, 243, 247);
-            font-weight: bold;
-        }
-
-        .card-body {
-            background-color: white;
-        }
-
-        .edit-button {
-            text-decoration: none;
-            color: #007bff;
-            font-size: 0.9rem;
-            float: right;
-        }
-
-        .edit-button:hover {
-            color: #0056b3;
-        }
-    </style>
 </head>
 
 <body>
@@ -108,7 +61,8 @@
                 <a href="/credittransaction" class="dashboard-nav-item "><i class="fas fa-file-upload rotate-180"></i>
                     Credit
                     History </a>
-                <a href="debittransaction" class="dashboard-nav-item active"><i class="fas fa-file-download"></i> Debit History
+                <a href="debittransaction" class="dashboard-nav-item active"><i class="fas fa-file-download"></i> Debit
+                    History
                 </a>
                 <a href="refund" class="dashboard-nav-item"><i class="fa-solid fa-list fas"></i> Refund History </a>
                 <!-- <div class='dashboard-nav-dropdown'>
@@ -155,11 +109,56 @@
 
 
 
+
                 <div class="container mt-3">
-                    <div class="card shadow p-3 text-danger">
-                        <p class="card-text text-danger font-weight-bold">No history to show</p>
+                    <div class="card shadow p-3">
+                        <h2>Debit Transaction History</h2>
+                        <hr>
+                        <table id="example" class="display nowrap" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <!-- <th>Email</th> -->
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Reference ID</th>
+                                    <th>Type</th>
+                                    <th>Method</th>
+                                    <th>Updated At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="transaction : ${transactions}">
+                                    <td th:text="${transaction.id}"></td>
+                                    <!-- <td th:text="${transaction.email}"></td> -->
+                                    <td th:text="${transaction.amount}"></td>
+                                    <td><span th:if="${transaction.status}"
+                                            style="color: rgb(32, 184, 32);">Successful</span> <span
+                                            th:unless="${transaction.status}" style="color: red;">Failed</span>
+                                    </td>
+                                    <td th:text="${transaction.refId}"></td>
+                                    <td th:text="${transaction.type}"></td>
+                                    <td th:text="${transaction.method}"></td>
+                                    <td th:text="${transaction.updatedAt}"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <!-- <th>Email</th> -->
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Reference ID</th>
+                                    <th>Type</th>
+                                    <th>Method</th>
+                                    <th>Updated At</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

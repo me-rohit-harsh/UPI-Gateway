@@ -31,6 +31,9 @@ public class WalletController {
 
     @PostMapping("/process")
     public ResponseEntity<String> processTransaction(@RequestBody User request) {
+        if (request.getBalance() <= 0) {
+            return ResponseEntity.status(400).body("This transaction is not allowed");
+        }
         User user = userRepository.findByUsernameAndSecCode(request.getUsername(), request.getSecCode());
         boolean result = walletService.processTransaction(user, request.getBalance());
         if (result) {
@@ -38,8 +41,6 @@ public class WalletController {
             return ResponseEntity.ok("Transaction successful");
         } else {
             saveTransaction(request.getBalance(), user, false);
-            emailService.sendSimpleEmail(user.getEmail(), "Payment Rejection - Jixwallet",
-                    "Welcome to Jixwallet. Your payment of Rs" + request.getBalance() + " has failed.");
             return ResponseEntity.status(400).body("Transaction failed");
         }
     }
@@ -54,17 +55,34 @@ public class WalletController {
         tx.setType("Debit");
         tx.setStatus(status);
         transactionRepository.save(tx);
-        String emailBody = String.format(
-                "We are pleased to inform you that your recent payment has been successfully processed.\n\n" +
-                        "Amount: " + amount + "\n" +
-                        "Date and Time:" + tx.getCreatedAt().toString() + "\n" +
-                        "Payment Method: " + tx.getMethod())
-                + "\n" +
-                "Thank you for using our services!\n\n" +
-                "Best regards,\n" +
-                "Jixwallet";
+        String subject, emailBody;
+        if (tx.getStatus()) {
 
-        emailService.sendSimpleEmail(user.getEmail(), "Payment Confirmation - Your Payment was Successful", emailBody);
+            subject = "Payment Confirmation - Your Payment was Successful";
+            emailBody = String.format(
+                    "We are pleased to inform you that your recent payment has been successfully processed.\n\n" +
+                            "Amount: " + amount + "\n" +
+                            "Date and Time:" + tx.getCreatedAt().toString() + "\n" +
+                            "Payment Method: " + tx.getMethod())
+                    + "\n" +
+                    "Thank you for using our services!\n\n" +
+                    "Best regards,\n" +
+                    "Jixwallet";
+        } else {
+            subject = "Payment Rejection - Your Payment was failed";
+            emailBody = String.format(
+                    "We regret to inform you that your recent payment has failed.\n\n" +
+                            "Amount: " + amount + "\n" +
+                            "Date and Time: " + tx.getCreatedAt().toString() + "\n" +
+                            "Payment Method: " + tx.getMethod() + "\n\n" +
+                            "Please review your payment details and try again.\n\n" +
+                            "If you need further assistance, please contact our support team.\n\n" +
+                            "Thank you for your understanding.\n\n" +
+                            "Best regards,\n" +
+                            "Jixwallet");
+        }
+
+        emailService.sendSimpleEmail(user.getEmail(), subject, emailBody);
 
     }
 }

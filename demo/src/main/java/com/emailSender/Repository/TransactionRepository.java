@@ -17,6 +17,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findByStatus(boolean status);
     // You can define additional query methods here if needed
     List<Transaction> findByUserId(Long userId);
+    List<Transaction> findByUserIdAndType(Long userId,String type);
 
 
     List<Transaction> findByStatusAndUserId(boolean b, Long userId);

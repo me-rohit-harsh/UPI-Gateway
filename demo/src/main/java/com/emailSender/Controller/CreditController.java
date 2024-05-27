@@ -39,7 +39,7 @@ public class CreditController {
 					// System.err.println(model.getAttribute("user"));
 					// model.addAttribute("totalAmount", transactionService.calculateTotalAmount(userId));
 
-					List<Transaction> transactionList = transactionService.getTransactionsByUserId(userId);
+					List<Transaction> transactionList = transactionService.getTransactionsByUserIdAndType(userId,"Credit");
 					// model.addAttribute("transactions", TransactionList);
 					// System.err.println(TransactionList.size());
 					model.addAttribute("transactions", transactionList);

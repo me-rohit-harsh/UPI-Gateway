@@ -26,8 +26,8 @@ public class TransactionService {
     //     return totalAmount;
     // }
 
-    public List<Transaction> getTransactionsByUserId(Long userId) {
-        return transactionRepository.findByUserId(userId);
+    public List<Transaction> getTransactionsByUserIdAndType(Long userId,String type) {
+        return transactionRepository.findByUserIdAndType(userId,type);
     }
 
 
