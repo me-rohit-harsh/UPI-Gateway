@@ -145,6 +145,8 @@
                     <!-- Display flash message if available -->
                     <div th:if="${message}" class="alert alert-success" role="alert">
                         <strong th:text="${message}"></strong>
+                        <!-- <strong th:text="${beneficiaryId}"></strong>
+                        <strong th:text="${beneficiaryName}"></strong> -->
 
                     </div>
                     <div th:if="${errorMsg}" class="alert alert-danger" role="alert">
@@ -152,14 +154,101 @@
                     </div>
 
                 </div>
+                <div class="container mt-3">
+                    <div class="card shadow p-3 text-center">
+                        <h2>Exciting New Feature!</h2>
+                        <p>We're thrilled to announce that you can now transfer your wallet funds to other JixWallet
+                            users with ease.
+                            Experience seamless and secure transactions with just a few clicks. </p>
+                    </div>
+                </div>
 
 
 
                 <div class="container mt-3">
-                    <div class="card shadow p-3 text-center">
-                        <p class="card-text text-danger font-weight-bold">We are developing something great <br>
-                            Coming Soon!
+                    <div class="card shadow ">
+                        <p class="card-text font-weight-bold card-header"><strong>Start sending money to
+                                your friends and
+                                family today!</strong>
                         </p>
+                        <div class="container p-4 ">
+
+
+
+                            <!-- /Breadcrumb -->
+                            <div class="row">
+                                <form action="/findbeneficiary" method="post">
+                                    <div class="form-row row ">
+                                        <div class="col-12 col-lg-6 mb-3">
+                                            <label for="beneficiary-user-id">Beneficiary Username:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">@</span>
+                                                </div>
+                                                <input type="text" id="beneficiary-user-id" class="form-control"
+                                                    name="userId" required th:value="${beneficiaryId}"
+                                                    th:disabled="${beneficiaryId != null}"
+                                                    placeholder="Enter the username ">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-success" id="verify-button"
+                                                        th:disabled="${beneficiaryName != null}">
+                                                        <span th:if="${beneficiaryName == null}">Verify</span>
+                                                        <span th:if="${beneficiaryName != null}">Verified</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 mb-3">
+                                            <label for="beneficiary-name">Beneficiary Email</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">#</span>
+                                                </div>
+                                                <input type="text" id="beneficiary-name" class="form-control"
+                                                    disabled="disabled" name="beneficiaryName"
+                                                    th:value="${beneficiaryName}" th:disabled="disabled"
+                                                    placeholder="Automatic email retrieval upon verification">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-method">Withdrawal Method:</label> <select
+                                        th:disabled="${beneficiaryName == null}"
+                                        class="form-control browser-default custom-select" id="withdrawal-method"
+                                        required>
+                                        <option value="" disabled selected>Select Withdrawal
+                                            Method</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Online">Fast Cash</option>
+                                    </select>
+                                </div>
+                                <form th:action="@{/transferMoney}" method="post">
+                                    <input type="hidden" required th:value="${beneficiaryId}"
+                                        th:readonly="${beneficiaryId != null}" name="username">
+                                    <div class="mb-3 form-outline">
+                                        <label for="withdrawal-amount">Withdrawal Amount:</label> <input type="text"
+                                            class="form-control" id="withdrawal-amount" placeholder="Enter amount"
+                                            name="balance" required pattern="[0-9]+"
+                                            title="Please enter only numeric values"
+                                            th:disabled="${beneficiaryName == null}">
+                                    </div>
+                                    <div id="fast-cash-buttons">
+                                        <!-- Fast Cash buttons will be dynamically added here -->
+                                    </div>
+                                    <hr>
+                                    <div class="mb-3 form-outline">
+                                        <button type="button" class="btn btn-secondary"
+                                            onclick="window.location.reload()">Cancel</button>
+
+                                        <button type="submit" id="withdraw-button" class="btn btn-primary"
+                                            th:disabled="${beneficiaryName == null}">Transfer</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
 
                     </div>
                 </div>
@@ -167,7 +256,38 @@
         </div>
     </div>
 
+    <script>
+        /*Fast cash js */
+        $(document).ready(function () {
+            // Function to add Fast Cash buttons
+            function addFastCashButtons() {
+                const fastCashButtons = [50, 100, 250, 500];
+                const buttonsContainer = $("#fast-cash-buttons");
 
+                buttonsContainer.empty(); // Clear any existing buttons
+
+                fastCashButtons.forEach(amount => {
+                    const button = $('<button type="submit" class="btn btn-primary"></button>');
+                    button.text(`${amount}`);
+                    button.click(function () {
+                        // When a Fast Cash button is clicked, set the input field value
+                        $("#withdrawal-amount").val(amount);
+                    });
+                    buttonsContainer.append(button);
+                });
+            }
+
+            // Listen for changes in the dropdown
+            $("#withdrawal-method").change(function () {
+                if ($(this).val() === "Online") {
+                    // If "Fast Cash" is selected, add the Fast Cash buttons
+                    addFastCashButtons();
+                } else {
+                    // If another option is selected, remove the Fast Cash buttons
+                    $("#fast-cash-buttons").empty();
+                }
+            });
+        });</script>
 
 
 
