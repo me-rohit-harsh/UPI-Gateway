@@ -22,8 +22,6 @@
             color: red;
             display: none;
         }
-
-        
     </style>
 </head>
 
@@ -187,8 +185,7 @@
             const newSecCode = document.getElementById('newSecCode').value;
             const reNewSecCode = document.getElementById('reNewSecCode').value;
             const dangerMsg = document.getElementById('dangerMsg');
-
-            if (newSecCode.length !== 6 || reNewSecCode.length !== 6 || isNaN(newSecCode) || isNaN(reNewSecCode)) {
+            if (newSecCode.length !== 6 || reNewSecCode.length !== 6) {
                 dangerMsg.style.display = 'block';
                 return false;
             }

@@ -45,105 +45,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/client/style.css}">
 
-    <style>
-        .profile-header {
-            text-align: center;
-            padding: 20px 0;
-        }
 
-        .profile-header img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .profile-header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-header p {
-            color: #6c757d;
-        }
-
-        .card {
-            border: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            background-color: rgb(237, 243, 247);
-            font-weight: bold;
-        }
-
-        .card-body {
-            background-color: white;
-        }
-
-        .edit-button {
-            text-decoration: none;
-            color: #007bff;
-            font-size: 0.9rem;
-            float: right;
-        }
-
-        .edit-button:hover {
-            color: #0056b3;
-        }
-
-        #security-code {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .otp-field {
-            flex-direction: row;
-            column-gap: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .otp-field input {
-            height: 45px;
-            width: 42px;
-            border-radius: 6px;
-            outline: none;
-            font-size: 1.125rem;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        .otp-field input:focus {
-            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        .otp-field input::-webkit-inner-spin-button,
-        .otp-field input::-webkit-outer-spin-button {
-            display: none;
-        }
-
-        .resend {
-            font-size: 12px;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            color: black;
-            font-size: 12px;
-            text-align: right;
-            font-family: monospace;
-        }
-
-        .footer a {
-            color: black;
-            text-decoration: none;
-        }
-    </style>
 </head>
 
 <body>
@@ -235,24 +137,7 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="d-flex justify-content-center align-items-center">
-                                                <!-- <div class="card py-5 px-3">
-                                                    <h5 class="m-0">User verification</h5><span
-                                                        class="mobile-text">Enter the code we just send on your
-                                                        registred email : <b class="text-danger"
-                                                            th:text="${#strings.substring(user.email, 0, 4) + '...' + #strings.substring(user.email, #strings.length(user.email) - 9)}"></b>
-                                                    </span>
-                                                    <div class="d-flex flex-row mt-5"><input type="text"
-                                                            class="form-control" autofocus=""><input type="text"
-                                                            class="form-control"><input type="text"
-                                                            class="form-control"><input type="text"
-                                                            class="form-control">
-                                                    </div>
-                                                    <div class="text-center mt-5"><span
-                                                            class="d-block mobile-text">Don't receive the
-                                                            code?</span><span
-                                                            class="font-weight-bold text-danger cursor">Resend</span>
-                                                    </div>
-                                                </div> -->
+                                               
                                                 <section class="container-fluid bg-body-tertiary d-block">
                                                     <div class="row justify-content-center">
                                                         <div class="col-12 col-md-6 col-lg-4" style="min-width: 400px;">

@@ -160,10 +160,140 @@
                         <p>We're thrilled to announce that you can now transfer your wallet funds to other JixWallet
                             users with ease.
                             Experience seamless and secure transactions with just a few clicks. </p>
+                        <!-- <p><b>Security Code: </b> <span id="security-code">******</span>
+                            <a href="#" id="viewCodeButton"><i class="fas fa-solid fa-eye"> View
+                                    Code</i></a>
+                        </p> -->
                     </div>
                 </div>
 
+                <div class="modal" id="otpModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="d-flex justify-content-center align-items-center">
 
+                                <section class="container-fluid bg-body-tertiary d-block">
+                                    <div class="row justify-content-center">
+                                        <div class="col-12 col-md-6 col-lg-4" style="min-width: 400px;">
+                                            <!-- <div class="card bg-white mb-5 mt-5 border-0"
+                                                                    style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);"> -->
+                                            <div class="card-body p-5 text-center">
+
+                                                <h5 class="mb-2">User verification</h5><span
+                                                    class="mobile-text mb-3">Enter the code we
+                                                    just send
+                                                    on your
+                                                    registred email : <b class="text-danger"
+                                                        th:text="${#strings.substring(user.email, 0, 4) + '...' + #strings.substring(user.email, #strings.length(user.email) - 9)}"></b>
+                                                </span>
+                                                <br><br>
+                                                <form method="post" th:action="@{/permitTx}">
+                                                    <input type="hidden" required th:value="${beneficiaryId}"
+                                                        th:readonly="${beneficiaryId != null}" name="username">
+                                                    <input type="hidden" id="amount-hidden" name="balance">
+                                                    <div class="otp-field mb-4">
+                                                        <input type="number" id="digit1" maxlength="1" required
+                                                            name="d1">
+                                                        <input type="number" id="digit2" maxlength="1" disabled
+                                                            name="d2">
+                                                        <input type="number" id="digit3" maxlength="1" disabled
+                                                            name="d3">
+                                                        <input type="number" id="digit4" maxlength="1" disabled
+                                                            name="d4">
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-primary mb-3">Verify
+                                                        Now</button>
+                                                </form>
+
+                                                <div class="text-center">
+                                                    <span class="d-block mobile-text">Don't receive the
+                                                        code?</span>
+                                                    <a id="resendOtp"
+                                                        class="font-weight-bold text-danger cursor disabled"
+                                                        href="#">Resend</a>
+                                                    <span id="timer" class="font-weight-bold text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <!-- </div> -->
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    const inputs = document.querySelectorAll(".otp-field > input");
+                    const button = document.querySelector(".btn");
+
+                    window.addEventListener("load", () => inputs[0].focus());
+                    button.setAttribute("disabled", "disabled");
+
+                    inputs[0].addEventListener("paste", function (event) {
+                        event.preventDefault();
+
+                        const pastedValue = (event.clipboardData || window.clipboardData).getData(
+                            "text"
+                        );
+                        const otpLength = inputs.length;
+
+                        for (let i = 0; i < otpLength; i++) {
+                            if (i < pastedValue.length) {
+                                inputs[i].value = pastedValue[i];
+                                inputs[i].removeAttribute("disabled");
+                                inputs[i].focus;
+                            } else {
+                                inputs[i].value = ""; // Clear any remaining inputs
+                                inputs[i].focus;
+                            }
+                        }
+                    });
+
+                    inputs.forEach((input, index1) => {
+                        input.addEventListener("keyup", (e) => {
+                            const currentInput = input;
+                            const nextInput = input.nextElementSibling;
+                            const prevInput = input.previousElementSibling;
+
+                            if (currentInput.value.length > 1) {
+                                currentInput.value = "";
+                                return;
+                            }
+
+                            if (
+                                nextInput &&
+                                nextInput.hasAttribute("disabled") &&
+                                currentInput.value !== ""
+                            ) {
+                                nextInput.removeAttribute("disabled");
+                                nextInput.focus();
+                            }
+
+                            if (e.key === "Backspace") {
+                                inputs.forEach((input, index2) => {
+                                    if (index1 <= index2 && prevInput) {
+                                        input.setAttribute("disabled", true);
+                                        input.value = "";
+                                        prevInput.focus();
+                                    }
+                                });
+                            }
+
+                            button.classList.remove("active");
+                            button.setAttribute("disabled", "disabled");
+
+                            const inputsNo = inputs.length;
+                            if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
+                                button.classList.add("active");
+                                button.removeAttribute("disabled");
+
+                                return;
+                            }
+                        });
+                    });
+                </script>
 
                 <div class="container mt-3">
                     <div class="card shadow ">
@@ -214,21 +344,21 @@
                                 </form>
 
                                 <div class="mb-3 form-outline">
-                                    <label for="withdrawal-method">Withdrawal Method:</label> <select
+                                    <label for="withdrawal-method">Transafer Method:</label> <select
                                         th:disabled="${beneficiaryName == null}"
                                         class="form-control browser-default custom-select" id="withdrawal-method"
                                         required>
-                                        <option value="" disabled selected>Select Withdrawal
+                                        <option value="" disabled selected>Select Transfer
                                             Method</option>
                                         <option value="Cash">Cash</option>
                                         <option value="Online">Fast Cash</option>
                                     </select>
                                 </div>
-                                <form th:action="@{/transferMoney}" method="post">
+                                <form onsubmit="handleFormSubmit(event)">
                                     <input type="hidden" required th:value="${beneficiaryId}"
                                         th:readonly="${beneficiaryId != null}" name="username">
                                     <div class="mb-3 form-outline">
-                                        <label for="withdrawal-amount">Withdrawal Amount:</label> <input type="text"
+                                        <label for="withdrawal-amount">Transfer Amount:</label> <input type="text"
                                             class="form-control" id="withdrawal-amount" placeholder="Enter amount"
                                             name="balance" required pattern="[0-9]+"
                                             title="Please enter only numeric values"
@@ -255,7 +385,29 @@
             </div>
         </div>
     </div>
+    <script>
 
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            console.log("clicked");
+            // Set the hidden amount input value to the entered amount
+            const amount = document.getElementById('withdrawal-amount').value;
+            document.getElementById('amount-hidden').value = amount;
+
+
+            // Send AJAX request to /showCode endpoint
+            $.ajax({
+                url: '/showCode',
+                method: 'GET'
+            });
+            // Trigger the OTP modal
+            $('#otpModal').modal('show');
+        }
+
+
+
+    </script>
     <script>
         /*Fast cash js */
         $(document).ready(function () {
@@ -317,6 +469,50 @@
     <!-- Bootstrap budled JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
+    <!-- Custom JavaScript -->
+
+
+    <script>$(document).ready(function () {
+            var resendOtpButton = $('#resendOtp');
+            var timerDisplay = $('#timer');
+            var timer = 20;
+            var countdown;
+
+            function startTimer() {
+                resendOtpButton.prop('disabled', true).addClass('disabled');
+                timerDisplay.text(`(${timer}s)`);
+
+                countdown = setInterval(function () {
+                    timer--;
+                    timerDisplay.text(`(${timer}s)`);
+                    if (timer <= 0) {
+                        clearInterval(countdown);
+                        resendOtpButton.prop('disabled', false).removeClass('disabled').text('Resend');
+                        timerDisplay.text('');
+                    }
+                }, 1000);
+            }
+
+            // Initialize the timer when the form pops up
+            startTimer();
+
+            resendOtpButton.click(function (event) {
+                event.preventDefault();
+                if (!resendOtpButton.prop('disabled')) {
+                    // console.log("Clicked on the resend button to tyhe method is working");
+                    $.ajax({
+                        url: '/showCode',
+                        method: 'GET',
+                    });
+                    resendOtpButton.prop('disabled', true).addClass('disabled').text('Resend');
+                    timer = 30;
+                    startTimer();
+                }
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>
