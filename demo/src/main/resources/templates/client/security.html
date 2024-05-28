@@ -12,86 +12,18 @@
     <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <!-- DataTables -->
-    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
-    <!-- DataTables SearchBuilder -->
-    <script src="https://cdn.datatables.net/searchbuilder/1.7.0/js/dataTables.searchBuilder.js"></script>
-    <script src="https://cdn.datatables.net/searchbuilder/1.7.0/js/searchBuilder.dataTables.js"></script>
-    <!-- DataTables DateTime -->
-    <script src="https://cdn.datatables.net/datetime/1.5.2/js/dataTables.dateTime.min.js"></script>
 
-    <!-- Bootstrap bundled JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#example').DataTable();
-        });
-        new DataTable('#example', {
-            layout: {
-                top1: 'searchBuilder'
-            }
-        });
-    </script>
-    <!-- DataTables CSS -->
-    <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" rel="stylesheet">
-    <!-- DataTables SearchBuilder CSS -->
-    <link href="https://cdn.datatables.net/searchbuilder/1.7.0/css/searchBuilder.dataTables.css" rel="stylesheet">
-    <!-- DataTables DateTime CSS -->
-    <link href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css" rel="stylesheet">
 
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/client/style.css}">
 
     <style>
-        .profile-header {
-            text-align: center;
-            padding: 20px 0;
+        .danger-msg {
+            color: red;
+            display: none;
         }
 
-        .profile-header img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .profile-header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-header p {
-            color: #6c757d;
-        }
-
-        .card {
-            border: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            background-color: rgb(237, 243, 247);
-            font-weight: bold;
-        }
-
-        .card-body {
-            background-color: white;
-        }
-
-        .edit-button {
-            text-decoration: none;
-            color: #007bff;
-            font-size: 0.9rem;
-            float: right;
-        }
-
-        .edit-button:hover {
-            color: #0056b3;
-        }
+        
     </style>
 </head>
 
@@ -231,10 +163,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="danger-msg" id="dangerMsg">Security code must be exactly 6 digits long.</div>
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
                                     <div class="text-right">
-                                        <button type="reset" id="submit" name="submit"
+                                        <button type="reset" id="reset" name="reset"
                                             class="btn btn-secondary">Cancel</button>
                                         <button type="submit" id="submit" name="submit"
                                             class="custom-btn btn btn-primary">Change Security
@@ -249,7 +182,20 @@
         </div>
     </div>
 
+    <script>
+        function validateForm() {
+            const newSecCode = document.getElementById('newSecCode').value;
+            const reNewSecCode = document.getElementById('reNewSecCode').value;
+            const dangerMsg = document.getElementById('dangerMsg');
 
+            if (newSecCode.length !== 6 || reNewSecCode.length !== 6 || isNaN(newSecCode) || isNaN(reNewSecCode)) {
+                dangerMsg.style.display = 'block';
+                return false;
+            }
+            dangerMsg.style.display = 'none';
+            return true;
+        }
+    </script>
 
 
 
@@ -280,25 +226,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
 
-    <script>
-        function validateForm() {
-            const oldSecCode = document.getElementById("secCode").value;
-            const newSecCode = document.getElementById("newSecCode").value;
-            const reNewSecCode = document.getElementById("reNewSecCode").value;
-
-            if (oldSecCode.length !== 6 || newSecCode.length !== 6 || reNewSecCode.length !== 6) {
-                alert("All security codes must be exactly 6 characters long.");
-                return false;
-            }
-
-            if (newSecCode !== reNewSecCode) {
-                alert("The new security code and confirmation code do not match.");
-                return false;
-            }
-
-            return true;
-        }
-    </script>
 </body>
 
 </html>

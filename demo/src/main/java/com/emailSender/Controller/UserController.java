@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emailSender.Repository.UserRepository;
+import com.emailSender.Service.EmailService;
 import com.emailSender.model.User;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +26,10 @@ import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
+
+    @Autowired
+    private EmailService emailServices;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -44,25 +49,26 @@ public class UserController {
             Model model, RedirectAttributes redirectAttributes, HttpSession session) {
         // Check if the loginId is an email or username
         User user = userRepository.findByUsernameOrEmail(loginId, loginId);
-//        System.out.println(user);
-        if (user == null || !user.getPassword().equals(password)) {   
+        // System.out.println(user);
+        if (user == null || !user.getPassword().equals(password)) {
             redirectAttributes.addFlashAttribute("errorMsg", "Invalid username/email or password");
             return "redirect:/signin";
         }
         session.setAttribute("auth", true);
         session.setAttribute("userId", user.getId());
         session.setAttribute("user", user);
-        session.setAttribute("userEmail",user.getEmail());
+        session.setAttribute("userEmail", user.getEmail());
         redirectAttributes.addFlashAttribute("message", "Access Approved");
         System.out.println("Session ID: " + session.getId());
-//        System.out.println("Auth: " + session.getAttribute("auth"));
+        // System.out.println("Auth: " + session.getAttribute("auth"));
         System.out.println("User ID: " + session.getAttribute("userId"));
-//        System.out.println("Session User: " + session.getAttribute("user"));
-//        System.out.println("user"+ user);
+        // System.out.println("Session User: " + session.getAttribute("user"));
+        // System.out.println("user"+ user);
         user.setLastLogin(new Date());
         userRepository.save(user);
         return "redirect:/dashboard";
     }
+
     @PostMapping("/signup")
     public String signup(@ModelAttribute("user") @Valid User user, BindingResult result,
             RedirectAttributes redirectAttributes) {
@@ -91,10 +97,25 @@ public class UserController {
 
         user.setBalance(0.0); // Set initial balance to 0
         UUID uuid = UUID.randomUUID();
-		String secretCode = uuid.toString().replaceAll("[^a-zA-Z0-9]", "").substring(0, 6).toUpperCase();
-		user.setSecCode(secretCode);
+        String secretCode = uuid.toString().replaceAll("[^a-zA-Z0-9]", "").substring(0, 6).toUpperCase();
+        user.setSecCode(secretCode);
         userRepository.save(user);
-        redirectAttributes.addFlashAttribute("message", "Account created successfully!"+user.getSecCode()+"");
+        String emailBody = String.format(
+                "Dear %s,\n\n" +
+                        "Welcome to JixWallet! We are thrilled to have you on board.\n\n" +
+                        "Your account has been successfully created. Here are your account details:\n\n" +
+                        "Username: %s\n" +
+                        "Secret Code: %s\n\n" +
+                        "Please keep this information safe and do not share it with anyone.\n\n" +
+                        "If you have any questions or need further assistance, feel free to contact our support team.\n\n"
+                        +
+                        "Thank you for choosing JixWallet.\n\n" +
+                        "Best Regards,\n" +
+                        "The JixWallet Team",
+                user.getUsername(), user.getUsername(), user.getSecCode());
+
+        emailServices.sendSimpleEmail(user.getEmail(), "Account Registration Success - Jixwallet", emailBody);
+        redirectAttributes.addFlashAttribute("message", "Account created successfully!");
         return "redirect:/signin";
     }
 
@@ -107,6 +128,7 @@ public class UserController {
         // Redirect to the login page or home page
         return "redirect:/signin";
     }
+
     @PostMapping("/api/check-username")
     @ResponseBody
     public Map<String, Boolean> checkUsernameAvailability(@RequestBody Map<String, String> requestBody) {
