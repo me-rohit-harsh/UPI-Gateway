@@ -41,7 +41,7 @@ public class SecurityController {
             }
         }
 
-         return "redirect:/signin";
+        return "redirect:/signin";
     }
 
     @PostMapping("changePassword")
@@ -66,15 +66,19 @@ public class SecurityController {
             RedirectAttributes redirectAttributes) {
         User user = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
 
-        if (request.getParameter("oldSecCode").equals(user.getSecCode())
-                && request.getParameter("newSecCode").equals(request.getParameter("newSecCodeCopy"))) {
-            user.setSecCode(request.getParameter("newSecCode"));
-            userRepository.save(user);
-            redirectAttributes.addFlashAttribute("message", "Your Security code has been changed successfully!");
+        if (request.getParameter("oldSecCode").equals(user.getSecCode())) {
+            if (request.getParameter("newSecCode").equals(request.getParameter("newSecCodeCopy"))
+                    && request.getParameter("newSecCode").length() == 6) {
+                user.setSecCode(request.getParameter("newSecCode"));
+                userRepository.save(user);
+                redirectAttributes.addFlashAttribute("message", "Your Security code has been changed successfully!");
+                return "redirect:/security";
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("errorMsg", "You have entred incorrent Security Code");
             return "redirect:/security";
         }
-        redirectAttributes.addFlashAttribute("errorMsg", "Something went wrong");
-
+        redirectAttributes.addFlashAttribute("errorMsg", "Oops Somethingh went wrong!");
         return "redirect:/security";
 
     }
