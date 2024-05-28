@@ -54,19 +54,25 @@ public class OtpController {
 			redirectAttributes.addFlashAttribute("errorMsg", "User not found!");
 			return "redirect:/profile";
 		}
-
-		int userOTP = user.getOtp();
-	
-		if (otp.equals(String.valueOf(userOTP))) {
-			user.setOtp(null);
-			userRepository.save(user);
+		if (authOTP(otp, user)) {
 			redirectAttributes.addFlashAttribute("message", "OTP Verification Success!");
 
 			redirectAttributes.addFlashAttribute("securityCode", user.getSecCode());
-			return "redirect:/profile";
 		} else {
+
 			redirectAttributes.addFlashAttribute("errorMsg", "You have entered incorrect OTP!");
-			return "redirect:/profile";
+		}
+		return "redirect:/profile";
+
+	}
+
+	private Boolean authOTP(String otp, User user) {
+		if (otp.equals(String.valueOf(user.getOtp()))) {
+			user.setOtp(null);
+			userRepository.save(user);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
