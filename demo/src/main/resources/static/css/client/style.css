@@ -580,3 +580,6 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
 .edit-button:hover {
     color: #0056b3;
 }
+#fast-cash-buttons button{
+    margin-right: 10px !important; 
+}
