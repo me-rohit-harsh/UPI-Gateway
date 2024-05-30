@@ -115,7 +115,8 @@ public class UserController {
                 user.getUsername(), user.getUsername(), user.getSecCode());
 
         emailServices.sendSimpleEmail(user.getEmail(), "Account Registration Success - Jixwallet", emailBody);
-        redirectAttributes.addFlashAttribute("message", "Account created successfully!");
+        redirectAttributes.addFlashAttribute("message",
+                "Registration & Security Code details has been sent to your email.");
         return "redirect:/signin";
     }
 

@@ -18,7 +18,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/client/style.css}">
     <style>
- 
+
     </style>
 </head>
 
@@ -108,8 +108,8 @@
                                     </div>
                                     <div
                                         class="col-md-4 col-12 d-flex align-items-center justify-content-center justify-content-md-end">
-                                        <a class="btn-secondary btn mt-2 lnkbtn text-light" id="addFundButton" data-toggle="modal"
-                                            data-target="#raiseTicketModal">Deposit
+                                        <a class="btn-secondary btn mt-2 lnkbtn text-light" id="addFundButton"
+                                            data-toggle="modal" data-target="#raiseTicketModal">Deposit
                                             Now<i class="m-2 fa-solid fas ml-2 fa-angle-right"></i>
                                         </a>
                                     </div>
@@ -164,12 +164,11 @@
                                                 class="form-control" required disabled>
                                                 <option value="" selected disabled>Select Payment
                                                     Method</option>
-                                                <option value="NEFT / IMPS">NEFT / IMPS</option>
-                                                <option value="Paytm">Paytm</option>
-                                                <option value="PhonePe">PhonePe</option>
-
-                                                <option value="Google Pay">Google pay</option>
+                                                <option value="IMPS/NEFT">IMPS/NEFT</option>
+                                                <option value="UPI">UPI</option>
                                                 <option value="QR Code">QR Code</option>
+                                                <!-- <option value="Paytm">Paytm</option>
+                                                <option value="Google Pay">Google pay</option> -->
                                                 <!-- <option value="USDT">USDT (Cryptocurrency)</option> -->
                                             </select>
                                         </div>
@@ -178,45 +177,66 @@
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
                                                 <h5>Banking Details</h5>
                                                 <p>
-                                                    <strong>Bank Name:</strong> ABC Kumar
+                                                    <strong>Bank Name:</strong> Avinash Aryan
                                                 </p>
                                                 <p>
-                                                    <strong>Account Number:</strong> 74572305784209
+                                                    <strong>Account Number:</strong> 091252000000996
                                                 </p>
                                                 <p>
-                                                    <strong>IFSC Code:</strong> ABC00006667
+                                                    <strong>IFSC Code:</strong> YESB0001409
                                                 </p>
                                             </div>
 
-                                            <div id="paytmDetails"
-                                                style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-                                                <h5>Paytm Details</h5>
-                                                <p>
-                                                    <strong>Bank Name:</strong> ABC Kumar
-                                                </p>
-                                                <p>
-                                                    <strong>Paytm UPI ID:</strong> rohitkumar@paytm
-                                                </p>
 
-
-                                                <a id="paytmLink" class="btn btn-success">Pay with Paytm</a>
-
-
-                                            </div>
 
                                             <div id="phonepayDetails"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-                                                <h5>PhonePe Details</h5>
+                                                <h5>UPI Details</h5>
                                                 <p>
-                                                    <strong>Bank Name:</strong> ABC Kumar
+                                                    <strong>Bank Name:</strong> Avinash Aryan
                                                 </p>
                                                 <p>
-                                                    <strong>PhonePe UPI ID:</strong> rohitkumar@ybl
+                                                    <strong>UPI UPI ID:</strong> ambitionyes@ibl
                                                 </p>
-                                                <a id="phonepeLink" class="btn btn-primary">Pay with PhonePe</a>
+                                                <a id="UPILink" class="btn btn-primary">Pay with UPI</a>
 
                                             </div>
 
+
+                                            <div id="qrCodeDetails" style="display: none; text-align: center;">
+                                                <h5 class="mb-0">UPI QR Code</h5>
+
+                                                <div class="text-center" id="qrCodeContainer">
+
+
+
+
+                                                </div>
+                                                <p>
+                                                    UPI ID: <strong>ambitionyes@ibl</strong>
+                                                </p>
+                                                <p>
+                                                    Amount to be paid: <strong id="totalAmount"></strong>/-
+                                                </p>
+
+
+                                            </div>
+                                            <!-- <div id="paytmDetails"
+                                                                                            style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+                                                                                            <h5>Paytm Details</h5>
+                                                                                            <p>
+                                                                                                <strong>Bank Name:</strong> ABC Kumar
+                                                                                            </p>
+                                                                                            <p>
+                                                                                                <strong>Paytm UPI ID:</strong> rohitkumar@paytm
+                                                                                            </p>
+                                            
+                                            
+                                                                                            <a id="paytmLink" class="btn btn-success">Pay with Paytm</a>
+                                            
+                                            
+                                                                                        </div> -->
+                                            <!-- 
                                             <div id="googlepayDetails"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
                                                 <h5>Google Pay Details</h5>
@@ -230,26 +250,7 @@
                                                 <a id="googlepayLink" class="btn btn-success">Pay with Gpay</a>
 
 
-                                            </div>
-
-                                            <div id="qrCodeDetails" style="display: none; text-align: center;">
-                                                <h5 class="mb-0">UPI QR Code</h5>
-                                                <!--  <img th:if="${session.qrImage eq null}" src="https://media.istockphoto.com/id/828088276/vector/qr-code-illustration.jpg?s=612x612&w=0&k=20&c=FnA7agr57XpFi081ZT5sEmxhLytMBlK4vzdQxt8A70M="
-                				                                            alt="QR Code"
-                				                                            style="max-width: 100%; max-height: 200px; margin: auto; display: block;"> -->
-                                                <div class="text-center" id="qrCodeContainer">
-
-
-
-
-                                                </div>
-                                                <p>
-                                                    Amount to be paid: <strong id="totalAmount"></strong>/-
-                                                </p>
-
-
-                                            </div>
-
+                                            </div> -->
                                             <!-- <div id="usdtDetails" style="display: none; text-align: center;">
                 				                                        <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
                 				                                            value="OX4234234543REFSGDFFD" class="form-control text-center">
@@ -346,7 +347,7 @@
                                             <!-- Input field for the selected payment method -->
                                             <label for="exampleInputEmail1">Payment ID </label> <input type="text"
                                                 id="paymentInput" name="refId" class="form-control"
-                                                placeholder="Enter Txn Id/UTR/UPI Ref No." required>
+                                                placeholder="Enter UTR/Txn Id/UPI Ref No." required>
                                         </div>
 
                                         <!-- Attachment button -->
@@ -467,46 +468,48 @@
         document.getElementById('paymentMethod').addEventListener('change', function () {
             var totalAmount = document.getElementById("amount").value;
             var bankDetailsDiv = document.getElementById('bankDetails');
-            var paytmDiv = document.getElementById('paytmDetails');
             var phonepayDiv = document.getElementById('phonepayDetails');
-            var googlepayDiv = document.getElementById('googlepayDetails');
             var qrCodeDiv = document.getElementById('qrCodeDetails');
+            // var paytmDiv = document.getElementById('paytmDetails');
+            // var googlepayDiv = document.getElementById('googlepayDetails');
             // var usdtDiv = document.getElementById('usdtDetails');
 
             bankDetailsDiv.style.display = 'none';
-            paytmDiv.style.display = 'none';
             phonepayDiv.style.display = 'none';
-            googlepayDiv.style.display = 'none';
             qrCodeDiv.style.display = 'none';
+            // paytmDiv.style.display = 'none';
+            // googlepayDiv.style.display = 'none';
             // usdtDiv.style.display = 'none';
 
             switch (this.value) {
-                case 'NEFT / IMPS':
+                case 'IMPS/NEFT':
                     bankDetailsDiv.style.display = 'block';
                     break;
-                case 'Google Pay':
-                    googlepayDiv.style.display = 'block';
-                    var gpayLink = document.getElementById("googlepayLink");
-                    var gPayurl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                    gpayLink.setAttribute("href", gPayurl);
-                    break;
-                case 'Paytm':
-                    paytmDiv.style.display = 'block';
-                    var paytmLink = document.getElementById("paytmLink");
-                    var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                    paytmLink.setAttribute("href", paytmUrl);
-                    break;
-                case 'PhonePe':
+                case 'UPI':
                     phonepayDiv.style.display = 'block';
-                    var phonepeLink = document.getElementById("phonepeLink");
-                    var phonepeUrl = "phonepe://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                    phonepeLink.setAttribute("href", phonepeUrl);
+                    var UPILink = document.getElementById("UPILink");
+                    var UPIUrl = "phonepe://pay?pa=ambitionyes@ibl&cu=INR&am=" + totalAmount;
+                    UPILink.setAttribute("href", UPIUrl);
                     break;
                 case 'QR Code':
                     qrCodeDiv.style.display = 'block';
-                    generateQRCode();
                     // Call generateQRCode function when QR Code option is selected
+                    generateQRCode();
                     break;
+                /*  case 'Google Pay':
+                      googlepayDiv.style.display = 'block';
+                      var gpayLink = document.getElementById("googlepayLink");
+                      var gPayurl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
+                      gpayLink.setAttribute("href", gPayurl);
+                      break;
+                  case 'Paytm':
+                      paytmDiv.style.display = 'block';
+                      var paytmLink = document.getElementById("paytmLink");
+                      var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
+                      paytmLink.setAttribute("href", paytmUrl);
+                      break;
+                      */
+
                 // case 'USDT':
                 //     usdtDiv.style.display = 'block';
                 //     break;
@@ -517,9 +520,9 @@
         function generateQRCode() {
             var amount = document.getElementById("amount").value;
             document.getElementById("totalAmount").innerText = amount;
-            var paytmLink = document.getElementById("paytmLink");
-            var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&am=" + amount;
-            paytmLink.setAttribute("href", paytmUrl);
+            var upiLink = document.getElementById("UPILink");
+            var paytmUrl = "phonepe://pay?pa=ambitionyes@ibl&am=" + amount;
+            upiLink.setAttribute("href", paytmUrl);
             fetch('/generateQRCode', {
                 method: 'POST',
                 headers: {
