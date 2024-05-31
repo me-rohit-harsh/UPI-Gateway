@@ -3,6 +3,7 @@ package com.emailSender.Controller;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,10 +106,11 @@ public class UserController {
             return "redirect:/signup";
         }
 
-        user.setBalance(0.0); // Set initial balance to 0
-        UUID uuid = UUID.randomUUID();
-        String secretCode = uuid.toString().replaceAll("[^a-zA-Z0-9]", "").substring(0, 6).toUpperCase();
-        user.setSecCode(secretCode);
+        user.setBalance(0.0);
+        user.setSecCode(generateSecretCode());
+        System.out.println("******************");
+        System.out.println(user.getSecCode());
+        System.out.println("******************");
         userRepository.save(user);
         String emailBody = String.format(
                 "Dear %s,\n\n" +
@@ -133,6 +135,22 @@ public class UserController {
             return "redirect:/dashboard";
         }
         return "redirect:/signin";
+    }
+
+    public static String generateSecretCode() {
+        Random random = new Random();
+
+        // Generate a random uppercase alphabet for the first character
+        char firstChar = (char) (random.nextInt(26) + 'A');
+
+        // Generate random digits for the rest of the characters
+        StringBuilder restOfCode = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            restOfCode.append(random.nextInt(10));
+        }
+
+        // Combine the first character and the rest of the code
+        return firstChar + restOfCode.toString();
     }
 
     @GetMapping("/signout")
