@@ -348,16 +348,15 @@
                                         th:disabled="${beneficiaryName == null}"
                                         class="form-control browser-default custom-select" id="withdrawal-method"
                                         required>
-                                        <option value="" disabled selected>Select Transfer
-                                            Method</option>
-                                        <option value="Cash">Cash</option>
-                                        <option value="Online">Fast Cash</option>
+
+                                        <option value="Simple Transaction" selected>Simple Transaction</option>
+                                        <option value="Fast Transaction">Fast Transaction</option>
                                     </select>
                                 </div>
                                 <form onsubmit="handleFormSubmit(event)">
                                     <input type="hidden" required th:value="${beneficiaryId}"
                                         th:readonly="${beneficiaryId != null}" name="username">
-                                    <div class="mb-3 form-outline">
+                                    <div class="mb-3 form-outline " id="moneyField">
                                         <label for="withdrawal-amount">Transfer Amount:</label> <input type="text"
                                             class="form-control" id="withdrawal-amount" placeholder="Enter amount"
                                             name="balance" required pattern="[0-9]+"
@@ -413,7 +412,7 @@
         $(document).ready(function () {
             // Function to add Fast Cash buttons
             function addFastCashButtons() {
-                const fastCashButtons = [50, 100, 250, 500];
+                const fastCashButtons = [50, 100, 250, 500, 750, 1000, 2000, 5000];
                 const buttonsContainer = $("#fast-cash-buttons");
 
                 buttonsContainer.empty(); // Clear any existing buttons
@@ -431,10 +430,12 @@
 
             // Listen for changes in the dropdown
             $("#withdrawal-method").change(function () {
-                if ($(this).val() === "Online") {
+                if ($(this).val() === "Fast Transaction") {
                     // If "Fast Cash" is selected, add the Fast Cash buttons
+                    $("#moneyField").hide();
                     addFastCashButtons();
                 } else {
+                    $("#moneyField").show();
                     // If another option is selected, remove the Fast Cash buttons
                     $("#fast-cash-buttons").empty();
                 }
