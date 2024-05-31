@@ -167,15 +167,15 @@
                                                 <option value="IMPS/NEFT">IMPS/NEFT</option>
                                                 <option value="UPI">UPI</option>
                                                 <option value="QR Code">QR Code</option>
-                                                <option value="bep">USDT (BEP20)</option>
-                                                <option value="trc">USDT (TRC20)</option>
-                                                <option value="binance">USDT (Binance ID)</option>
+                                                <option value="USDT (BEP20)">USDT (BEP20)</option>
+                                                <option value="USDT (TRC20)">USDT (TRC20)</option>
+                                                <option value="USDT (BNB)">USDT (Binance ID)</option>
                                             </select>
                                         </div>
                                         <div class="form-group my-3">
                                             <div id="bankDetails"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-                                                <h5>Banking Details</h5>
+                                                <h5>Bank Details</h5>
                                                 <p>
                                                     <strong>Bank Name:</strong> Avinash Aryan
                                                 </p>
@@ -204,7 +204,7 @@
 
 
                                             <div id="qrCodeDetails" style="display: none; text-align: center;">
-                                                <h5 class="mb-0">Amount to be paid: <strong id="totalAmount"></strong>/-
+                                                <h5 class="mb-0">Amount: <strong id="totalAmount"></strong>/-
                                                 </h5>
 
                                                 <div class="text-center" id="qrCodeContainer">
@@ -216,52 +216,63 @@
 
 
                                             </div>
-                                            <div id="bep"
+                                            <div id="usdtBep"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-                                                <h5>USDT (BEP 20)</h5>
+                                                <!-- <h5>USDT (BEP 20)</h5> -->
                                                 <div class="text-center">
-
-                                                    <img src="" alt="QR Code">
-
+                                                <img class="qrCode" th:src="@{/images/bep.jpeg}" alt="BEP QR Code">
                                                 </div>
-
-                                                <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
-                                                    value="0xc3057a93793f52631edbd72d1c0955c114fa1f39"
-                                                    class="  form-control text-center">
-
-
-
+                                                <div class="input-group">
+                                                    <input type="text" id="bepInput" readonly
+                                                        value="TXYRRuGw89bXjVRM97wsGiNDea6uxgoLMM"
+                                                        class="form-control text-center">
+                                                    <button onclick="copyToClipboard('bepInput')"
+                                                        class="btn btn-outline-secondary" type="button">
+                                                        <i class="fa-regular fa-copy"></i>
+                                                    </button>
+                                                </div>
                                             </div>
 
-                                            <div id="trc"
+                                            <div id="usdtTrc"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-                                                <h5>USDT (TRC 20)</h5>
+                                                <!-- <h5>USDT (TRC 20)</h5> -->
                                                 <div class="text-center">
-
-                                                    <img src="" alt="QR Code">
-
+                                                    <img class="qrCode" th:src="@{/images/tron.jpeg}" alt="TRC QR Code">
                                                 </div>
-                                                <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
-                                                    value="TXYRRuGw89bXjVRM97wsGiNDea6uxgoLMM"
-                                                    class="  form-control text-center">
-
-
+                                                <div class="input-group">
+                                                    <input type="text" id="trcInput" readonly
+                                                        value="0xc3057a93793f52631edbd72d1c0955c114fa1f39"
+                                                        class="form-control text-center">
+                                                    <button onclick="copyToClipboard('trcInput')"
+                                                        class="btn btn-outline-secondary" type="button">
+                                                        <i class="fa-regular fa-copy"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div id="bnb" style="display: none; text-align: center;">
-                                                <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
-                                                    value="898464539" class=" form-control text-center ">
+
+                                            <div id="usdtBnb" style="display: none;  margin-top: 10px;">
+                                                <!-- <h5>BNB</h5> -->
+                                                <div class="input-group">
+                                                    <input type="text" id="bnbInput" readonly value="898464539"
+                                                        class="form-control text-center">
+                                                    <button onclick="copyToClipboard('bnbInput')"
+                                                        class="btn btn-outline-secondary" type="button">
+                                                        <i class="fa-regular fa-copy"></i>
+                                                    </button>
+                                                </div>
                                             </div>
 
-                                            <script>
-                                                function copyToClipboard() {
-                                                    var usdtInput = document.getElementById("usdtInput");
-                                                    usdtInput.select();
-                                                    document.execCommand("copy");
-                                                    alert("Copied to clipboard: " + usdtInput.value);
-                                                }
-                                            </script>
                                         </div>
 
+                                        <script>
+                                            function copyToClipboard(inputId) {
+                                                var inputElement = document.getElementById(inputId);
+                                                inputElement.select();
+                                                inputElement.setSelectionRange(0, 99999); // For mobile devices
+                                                document.execCommand("copy");
+                                                alert("Copied to clipboard: " + inputElement.value);
+                                            }
+                                        </script>
 
                                         <script>
                                             document
@@ -365,7 +376,8 @@
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">
                                             <span>Add Fund</span>
                                         </button>
-                                            <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong> Please do not close or exit from this window!</p>
+                                        <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong> Please
+                                            do not close or exit from this window!</p>
 
                                     </div>
                                 </div>
@@ -468,9 +480,9 @@
             var bankDetailsDiv = document.getElementById('bankDetails');
             var phonepayDiv = document.getElementById('phonepayDetails');
             var qrCodeDiv = document.getElementById('qrCodeDetails');
-            var paytmDiv = document.getElementById('bep');
-            var googlepayDiv = document.getElementById('trc');
-            var usdtDiv = document.getElementById('bnb');
+            var paytmDiv = document.getElementById('usdtBep');
+            var googlepayDiv = document.getElementById('usdtTrc');
+            var usdtDiv = document.getElementById('usdtBnb');
 
             bankDetailsDiv.style.display = 'none';
             phonepayDiv.style.display = 'none';
@@ -494,13 +506,13 @@
                     // Call generateQRCode function when QR Code option is selected
                     generateQRCode();
                     break;
-                case 'bep':
+                case 'USDT (BEP20)':
                     googlepayDiv.style.display = 'block';
                     break;
-                case 'trc':
+                case 'USDT (TRC20)':
                     paytmDiv.style.display = 'block';
                     break;
-                case 'binance':
+                case 'USDT (BNB)':
                     usdtDiv.style.display = 'block';
                     break;
                 // Add cases for other payment methods as needed
