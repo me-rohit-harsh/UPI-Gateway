@@ -48,7 +48,7 @@ public class EmailService {
         boolean utrFound = false; // Flag to track if the UTR is found
         try {
             // Connect to the IMAP server
-            store.connect("alerts@jixwallet.com", "uejwrmbebaiflxem");
+            store.connect("paymentgatewayproject@gmail.com", "jbhsozifcuegjmpf");
 
             // Open the Inbox and Trash folders
             Folder inbox = store.getFolder("INBOX");
@@ -62,7 +62,7 @@ public class EmailService {
            	System.out.println(message.getFrom()[0]);
            	System.out.println(message.getSubject());
                 if (message.getSubject().equals("Credit Alert")
-                        && message.getFrom()[0].toString().equals("alerts@yesbank.in")) {
+                        && message.getFrom()[0].toString().equals("alerts@jixwallet.com")) {
                     // Assume submittedUtr is the UTR you want to match against
 
                     // Retrieve and print the email body

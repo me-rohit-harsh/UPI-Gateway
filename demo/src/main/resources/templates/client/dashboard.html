@@ -167,9 +167,9 @@
                                                 <option value="IMPS/NEFT">IMPS/NEFT</option>
                                                 <option value="UPI">UPI</option>
                                                 <option value="QR Code">QR Code</option>
-                                                <!-- <option value="Paytm">Paytm</option>
-                                                <option value="Google Pay">Google pay</option> -->
-                                                <!-- <option value="USDT">USDT (Cryptocurrency)</option> -->
+                                                <option value="bep">USDT (BEP20)</option>
+                                                <option value="trc">USDT (TRC20)</option>
+                                                <option value="binance">USDT (Binance ID)</option>
                                             </select>
                                         </div>
                                         <div class="form-group my-3">
@@ -204,66 +204,62 @@
 
 
                                             <div id="qrCodeDetails" style="display: none; text-align: center;">
-                                                <h5 class="mb-0">UPI QR Code</h5>
+                                                <h5 class="mb-0">Amount to be paid: <strong id="totalAmount"></strong>/-
+                                                </h5>
 
                                                 <div class="text-center" id="qrCodeContainer">
 
-
+                                                    <!-- Dynamic QR code will be inserted here  -->
 
 
                                                 </div>
-                                                <p>
-                                                    UPI ID: <strong>ambitionyes@ibl</strong>
-                                                </p>
-                                                <p>
-                                                    Amount to be paid: <strong id="totalAmount"></strong>/-
-                                                </p>
 
 
                                             </div>
-                                            <!-- <div id="paytmDetails"
-                                                                                            style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-                                                                                            <h5>Paytm Details</h5>
-                                                                                            <p>
-                                                                                                <strong>Bank Name:</strong> ABC Kumar
-                                                                                            </p>
-                                                                                            <p>
-                                                                                                <strong>Paytm UPI ID:</strong> rohitkumar@paytm
-                                                                                            </p>
-                                            
-                                            
-                                                                                            <a id="paytmLink" class="btn btn-success">Pay with Paytm</a>
-                                            
-                                            
-                                                                                        </div> -->
-                                            <!-- 
-                                            <div id="googlepayDetails"
+                                            <div id="bep"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-                                                <h5>Google Pay Details</h5>
-                                                <p>
-                                                    <strong>Bank Name:</strong> ABC Kumar
-                                                </p>
-                                                <p>
-                                                    <strong>GooglePay UPI ID:</strong> rohitkumar@apl
-                                                </p>
+                                                <h5>USDT (BEP 20)</h5>
+                                                <div class="text-center">
 
-                                                <a id="googlepayLink" class="btn btn-success">Pay with Gpay</a>
+                                                    <img src="" alt="QR Code">
+
+                                                </div>
+
+                                                <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
+                                                    value="0xc3057a93793f52631edbd72d1c0955c114fa1f39"
+                                                    class="  form-control text-center">
 
 
-                                            </div> -->
-                                            <!-- <div id="usdtDetails" style="display: none; text-align: center;">
-                				                                        <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
-                				                                            value="OX4234234543REFSGDFFD" class="form-control text-center">
-                				                                    </div>
-                				
-                				                                    <script>
-                				                                        function copyToClipboard() {
-                				                                            var usdtInput = document.getElementById("usdtInput");
-                				                                            usdtInput.select();
-                				                                            document.execCommand("copy");
-                				                                            alert("Copied to clipboard: " + usdtInput.value);
-                				                                        }
-                				                                    </script> -->
+
+                                            </div>
+
+                                            <div id="trc"
+                                                style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+                                                <h5>USDT (TRC 20)</h5>
+                                                <div class="text-center">
+
+                                                    <img src="" alt="QR Code">
+
+                                                </div>
+                                                <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
+                                                    value="TXYRRuGw89bXjVRM97wsGiNDea6uxgoLMM"
+                                                    class="  form-control text-center">
+
+
+                                            </div>
+                                            <div id="bnb" style="display: none; text-align: center;">
+                                                <input onclick="copyToClipboard()" type="text" id="usdtInput" readonly
+                                                    value="898464539" class=" form-control text-center ">
+                                            </div>
+
+                                            <script>
+                                                function copyToClipboard() {
+                                                    var usdtInput = document.getElementById("usdtInput");
+                                                    usdtInput.select();
+                                                    document.execCommand("copy");
+                                                    alert("Copied to clipboard: " + usdtInput.value);
+                                                }
+                                            </script>
                                         </div>
 
 
@@ -369,6 +365,8 @@
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">
                                             <span>Add Fund</span>
                                         </button>
+                                            <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong> Please do not close or exit from this window!</p>
+
                                     </div>
                                 </div>
 
@@ -470,16 +468,16 @@
             var bankDetailsDiv = document.getElementById('bankDetails');
             var phonepayDiv = document.getElementById('phonepayDetails');
             var qrCodeDiv = document.getElementById('qrCodeDetails');
-            // var paytmDiv = document.getElementById('paytmDetails');
-            // var googlepayDiv = document.getElementById('googlepayDetails');
-            // var usdtDiv = document.getElementById('usdtDetails');
+            var paytmDiv = document.getElementById('bep');
+            var googlepayDiv = document.getElementById('trc');
+            var usdtDiv = document.getElementById('bnb');
 
             bankDetailsDiv.style.display = 'none';
             phonepayDiv.style.display = 'none';
             qrCodeDiv.style.display = 'none';
-            // paytmDiv.style.display = 'none';
-            // googlepayDiv.style.display = 'none';
-            // usdtDiv.style.display = 'none';
+            paytmDiv.style.display = 'none';
+            googlepayDiv.style.display = 'none';
+            usdtDiv.style.display = 'none';
 
             switch (this.value) {
                 case 'IMPS/NEFT':
@@ -496,23 +494,15 @@
                     // Call generateQRCode function when QR Code option is selected
                     generateQRCode();
                     break;
-                /*  case 'Google Pay':
-                      googlepayDiv.style.display = 'block';
-                      var gpayLink = document.getElementById("googlepayLink");
-                      var gPayurl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                      gpayLink.setAttribute("href", gPayurl);
-                      break;
-                  case 'Paytm':
-                      paytmDiv.style.display = 'block';
-                      var paytmLink = document.getElementById("paytmLink");
-                      var paytmUrl = "upi://pay?pa=rohitkumarah369@ibl&cu=INR&am=" + totalAmount;
-                      paytmLink.setAttribute("href", paytmUrl);
-                      break;
-                      */
-
-                // case 'USDT':
-                //     usdtDiv.style.display = 'block';
-                //     break;
+                case 'bep':
+                    googlepayDiv.style.display = 'block';
+                    break;
+                case 'trc':
+                    paytmDiv.style.display = 'block';
+                    break;
+                case 'binance':
+                    usdtDiv.style.display = 'block';
+                    break;
                 // Add cases for other payment methods as needed
             }
         });

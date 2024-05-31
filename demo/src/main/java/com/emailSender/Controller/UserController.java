@@ -44,21 +44,20 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/signin")
-    public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
-            Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+    public Boolean userAuth(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
+            RedirectAttributes redirectAttributes, HttpSession session) {
         // Check if the loginId is an email or username
         User user = userRepository.findByUsernameOrEmail(loginId, loginId);
         // System.out.println(user);
         if (user == null || !user.getPassword().equals(password)) {
             redirectAttributes.addFlashAttribute("errorMsg", "Invalid username/email or password");
-            return "redirect:/signin";
+            return false;
         }
         session.setAttribute("auth", true);
         session.setAttribute("userId", user.getId());
         session.setAttribute("user", user);
         session.setAttribute("userEmail", user.getEmail());
-        redirectAttributes.addFlashAttribute("message", "Access Approved");
+
         System.out.println("Session ID: " + session.getId());
         // System.out.println("Auth: " + session.getAttribute("auth"));
         System.out.println("User ID: " + session.getAttribute("userId"));
@@ -66,12 +65,23 @@ public class UserController {
         // System.out.println("user"+ user);
         user.setLastLogin(new Date());
         userRepository.save(user);
-        return "redirect:/dashboard";
+        return true;
+    }
+
+    @PostMapping("/signin")
+    public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
+            Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+        if (userAuth(loginId, password, redirectAttributes, session)) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Accesss Approved!");
+            return "redirect:/dashboard";
+        }
+        return "redirect:/signin";
     }
 
     @PostMapping("/signup")
     public String signup(@ModelAttribute("user") @Valid User user, BindingResult result,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, HttpSession session) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMsg", "Something Went Wrong!");
             return "redirect:/signup";
@@ -116,7 +126,12 @@ public class UserController {
 
         emailServices.sendSimpleEmail(user.getEmail(), "Account Registration Success - Jixwallet", emailBody);
         redirectAttributes.addFlashAttribute("message",
-                "Registration & Security Code details has been sent to your email.");
+                "Check your email for registration confirmation and security code.");
+        if (userAuth(user.getUsername(), user.getPassword(), redirectAttributes, session)) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Check your email for registration confirmation and security code.");
+            return "redirect:/dashboard";
+        }
         return "redirect:/signin";
     }
 
