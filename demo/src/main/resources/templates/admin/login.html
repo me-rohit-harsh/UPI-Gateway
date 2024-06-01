@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Sign In - Jixwallet</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css' rel='stylesheet'>
+    <!-- Bootstrap CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <!-- Alert animation  -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.2.1/font-awesome-animation.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/css/alert.css}">
+    <link rel="stylesheet" th:href="@{/css/client/auth.css}">
+    <style>
+        .index-page .header {
+            --background-color: #64A1DC;
+        }
+    </style>
+</head>
+
+<body class="index-page  scrolled">
+    <!-- Display flash message if available -->
+    <div class="alert-container">
+
+        <div th:if="${errorMsg}"
+            class="alert fade alert-simple alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon far fa-times-circle faa-pulse animated"></i>
+            <strong class="font__weight-semibold">Oh no!</strong> <span th:text="${errorMsg}"></span>
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div>
+
+        <div th:if="${message}"
+            class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+            <i class="start-icon far fa-check-circle faa-tada animated"></i>
+            <strong class="font__weight-semibold">Success! </strong> <span th:text="${message}"></span>
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div>
+    </div>
+    <main class="main mt-5" style="max-height: 100vh;">
+        <!-- Login Register section  -->
+        <section id="contact" class="contact section">
+
+
+
+            <div class="container">
+
+                <div class="row gy-4">
+                    <div class="col-12 col-lg-3">
+
+                    </div>
+
+                    <div class="col-lg-6 php-email-form">
+                        <h3>Admin portal login</h3>
+                        <hr>
+                        <form id="loginForm" action="/admin/adminlogin" method="post">
+                            <div class="mb-3">
+                                <label for="login-email" class="form-label">Your Username / Email</label>
+                                <input type="text" name="loginId" id="login-email" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="login-password" class="form-label">Your Password</label>
+                                <input type="password" name="password" id="login-password" class="form-control"
+                                    required>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+
+                    </div><!-- End Contact Form -->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Contact Section -->
+    </main>
+
+
+
+    <script th:src="@{/js/alert.js}"></script>
+</body>
+
+</html>

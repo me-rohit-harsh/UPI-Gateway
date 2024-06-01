@@ -17,14 +17,15 @@ public class TransactionService {
         return transactionRepository.findByStatus(status);
     }
     
-    // public double calculateTotalAmount(Long userId) {
-    //     List<Transaction> transactions = transactionRepository.findByStatusAndUserId(true, userId);
-    //     double totalAmount = 0;
-    //     for (Transaction transaction : transactions) {
-    //         totalAmount += transaction.getAmount();
-    //     }
-    //     return totalAmount;
-    // }
+    public double calculateTotalAmount() {
+        List<Transaction> transactions = transactionRepository.findByStatusAndType(true,"Credit");
+        double totalAmount = 0;
+        for (Transaction transaction : transactions) {
+            totalAmount += transaction.getAmount();
+        }
+        return totalAmount;
+    }
+   
 
     public List<Transaction> getTransactionsByUserIdAndType(Long userId,String type) {
         return transactionRepository.findByUserIdAndType(userId,type);

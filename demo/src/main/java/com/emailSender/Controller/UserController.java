@@ -108,9 +108,7 @@ public class UserController {
 
         user.setBalance(0.0);
         user.setSecCode(generateSecretCode());
-        System.out.println("******************");
-        System.out.println(user.getSecCode());
-        System.out.println("******************");
+        user.setRole("Customer");
         userRepository.save(user);
         String emailBody = String.format(
                 "Dear %s,\n\n" +

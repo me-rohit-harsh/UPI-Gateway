@@ -37,6 +37,8 @@ public class User {
 
 	private String name;
 
+	private String role;
+
 	@Column(unique = true, nullable = false)
 	private String email;
 	@NotEmpty
@@ -204,20 +206,31 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-	
+	public String getRole() {
+		return role;
+	}
 
-	public User(Long id, @NotEmpty @Size(min = 3, max = 12) String username, String name, String email,
-			@NotEmpty String password, String address, Double balance, Set<Transaction> transactions, Set<Bank> banks,
-			Date createdAt, Date updatedAt) {
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public User(Long id, @NotEmpty @Size(min = 3, max = 12) String username, String name, String role, String email,
+			@NotEmpty String password, String address, Double balance, String secCode, Integer otp, Date lastLogin,
+			Set<Transaction> transactions, Set<UPI> upi, Set<Bank> banks, Date createdAt, Date updatedAt) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.name = name;
+		this.role = role;
 		this.email = email;
 		this.password = password;
 		this.address = address;
 		this.balance = balance;
+		this.secCode = secCode;
+		this.otp = otp;
+		this.lastLogin = lastLogin;
 		this.transactions = transactions;
+		this.upi = upi;
 		this.banks = banks;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
