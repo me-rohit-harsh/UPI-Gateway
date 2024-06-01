@@ -18,7 +18,13 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/client/style.css}">
     <style>
+        #warning-text {
+            display: none;
+        }
 
+        /* #fund-submit-button {
+            display: block;
+        } */
     </style>
 </head>
 
@@ -118,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-                <form method="post" th:action="@{/save-utr}">
+                <form method="post" th:action="@{/save-utr}" id="add-funds-form">
                     <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog"
                         aria-labelledby="raiseTicketModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -220,7 +226,7 @@
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
                                                 <!-- <h5>USDT (BEP 20)</h5> -->
                                                 <div class="text-center">
-                                                <img class="qrCode" th:src="@{/images/bep.jpeg}" alt="BEP QR Code">
+                                                    <img class="qrCode" th:src="@{/images/bep.jpeg}" alt="BEP QR Code">
                                                 </div>
                                                 <div class="input-group">
                                                     <input type="text" id="bepInput" readonly
@@ -373,10 +379,12 @@
                                                 readonly disabled>
                                         </div>
                                         <!-- Submit button -->
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                            id="fund-submit-button">
                                             <span>Add Fund</span>
                                         </button>
-                                        <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong> Please
+                                        <p class="text-warning mt-3" id="warning-text"> <strong
+                                                class="text-danger">Note*</strong> Please
                                             do not close or exit from this window!</p>
 
                                     </div>
@@ -388,7 +396,12 @@
 
 
                 </form>
-
+                <script>
+                    document.getElementById('add-funds-form').addEventListener('submit', function (event) {
+                        document.getElementById('fund-submit-button').style.display = 'none';
+                        document.getElementById('warning-text').style.display = 'block';
+                    });
+                </script>
                 <div class='container mt-3'>
                     <div class='card p-3 shadow'>
                         <h2>All Transaction History</h2>

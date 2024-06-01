@@ -42,14 +42,23 @@ public class TransactionController {
             }
 
             String submittedUtr = transaction.getRefId();
+            System.out.println("*****************");
+            System.out.println(transaction.getMethod());
+            System.out.println("*****************");
             // Double moneySent = transaction.getAmount();
             // String method = transaction.getMethod();
 
             if (isUtrAlreadyProcessed(submittedUtr, user, redirectAttributes)) {
                 return "redirect:/dashboard";
             }
+            if (transaction.getMethod().equals("USDT (TRC20)") || transaction.getMethod().equals("USDT (BEP20)")
+                    || transaction.getMethod().equals("USDT (BNB)")) {
+                return processUsdtTransaction(transaction, user, redirectAttributes);
+            }
 
-            return processTransaction(transaction, user, redirectAttributes);
+            else {
+                return processTransaction(transaction, user, redirectAttributes);
+            }
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMsg", "Payment has failed due to an internal error.");
@@ -70,6 +79,20 @@ public class TransactionController {
             return true;
         }
         return false;
+    }
+
+    private String processUsdtTransaction(Transaction transaction, User user, RedirectAttributes redirectAttributes) {
+        Transaction tx = new Transaction();
+        tx.setAmount(transaction.getAmount());
+        tx.setMethod(transaction.getMethod());
+        tx.setRefId(transaction.getRefId());
+        tx.setUser(user);
+        tx.setType("Credit");
+        tx.setStatus(false);
+        transactionRepository.save(tx);
+        redirectAttributes.addFlashAttribute("message",
+                "Your payment is being processed. It may take up to 24 hours to complete. Thank you for your patience.");
+        return "redirect:/dashboard";
     }
 
     private String processTransaction(Transaction transaction, User user, RedirectAttributes redirectAttributes)
