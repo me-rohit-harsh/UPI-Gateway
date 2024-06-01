@@ -1,0 +1,544 @@
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:200,200i,300,300i,400,400i,600,600i,700,700i,900");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 16px;
+    color: #7e7b7b;
+    font-family: "Titillium Web", sans-serif;
+}
+
+header,
+main,
+.privacy-section {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+header {
+    background-image: url('https://img.freepik.com/free-vector/blue-gradient-blank-background-vector-business_53876-174933.jpg');
+}
+
+main {
+    background-image: url('https://img.freepik.com/free-photo/technology-abstract-background-with-particle-lines_53876-104054.jpg');
+
+}
+
+.nav-item {
+    margin-right: 1rem !important;
+}
+
+.privacy-section {
+    background-image: url('https://img.freepik.com/free-vector/v915_53876-174949.jpg');
+
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1820px;
+    padding: 0 10px;
+}
+
+.btn {
+    font-family: "Titillium Web";
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(to right, #636b92, #582c7e);
+    padding: 17px 25px 20px;
+    border-radius: 30px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+.card {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 3px 10px #582c7e;
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+.btn:hover {
+    box-shadow: 0 3px 10px #582c7e;
+    color: #fff !important;
+    transition-duration: 0.5s;
+     transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:focus {
+    box-shadow: none;
+    opacity: 0.8;
+}
+
+.btn--secondary {
+    background: linear-gradient(to right, #36bae1, #5e7bea);
+}
+
+.btn--secondary:hover {
+    box-shadow: 0 3px 10px #5e7bea;
+}
+
+.btn i {
+    margin-right: 5px;
+}
+
+.btn--icon {
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    display: inline-flex;
+}
+
+.btn--icon i {
+    margin: 0;
+    font-size: 22px;
+    margin: auto;
+}
+
+.btn--nav {
+    padding: 7px 25px 12px;
+    background: linear-gradient(to bottom right, #6275cb, #582c7e);
+}
+
+.btn--white {
+    background: white;
+    color: #676766;
+    border: 1px solid #b9b9b9;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.logo {
+    color: #858688;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.logo span {
+    color: #5b4295;
+}
+
+.main-nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    color: #454545;
+}
+
+.main-nav-list__link {
+    padding: 5px 15px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.main-nav-list__link:hover {
+    color: #5b4295;
+    border-bottom: 2px solid currentColor;
+}
+
+.main-nav-list__link:focus {
+    opacity: 0.8;
+}
+
+.main-nav-user {
+    font-weight: 700;
+}
+
+.main-nav-user i {
+    color: #582c7e;
+    margin-right: 5px;
+}
+
+.main-nav-user {
+    display: flex;
+    align-items: center;
+}
+
+.main-nav-user__link {
+    padding: 5px 15px;
+    transition: all 0.3s ease;
+}
+
+.main-nav-user__link:hover {
+    opacity: 0.8;
+}
+
+.main-nav-user__link:hover i {
+    color: #5e7bea;
+}
+
+.main-nav-user__link:focus {
+    opacity: 0.8;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    grid-column: span 2;
+    justify-content: end;
+}
+
+@media (max-width: 950px) {
+    nav {
+        grid-column: span 1;
+        justify-content: start;
+    }
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 950px) {
+    .header {
+        padding: 1rem;
+        grid-gap: 5px;
+        /* justify-items: center; */
+        grid-template-columns: 1fr;
+    }
+}
+
+.hero {
+    min-height: 576px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero__text-box {
+    text-align: center;
+}
+
+.hero__heading {
+    font-size: 3rem;
+    color: #ffffff;
+    font-weight: 700px;
+    margin-bottom: 80px;
+}
+
+.hero__heading--sub {
+    display: block;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.hero__heading--sub span {
+    color: #fc6b6d;
+}
+
+.hero__btn-box a:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.hero__btn-box a:first-child {
+    padding: 17px 70px 20px;
+}
+
+.social-links-list {
+    position: fixed;
+    top: 30vh;
+    right: 1rem;
+    font-size: 22px;
+    line-height: 1;
+    color: #454545;
+    display: grid;
+    grid-gap: 15px;
+    z-index: 10;
+}
+
+.social-links-list__link {
+    transition: all 0.3s ease;
+}
+
+.social-links-list__link:hover {
+    color: #5e7bea;
+}
+
+.social-links-list__link:focus {
+    color: #36bae1;
+}
+
+@media (max-width: 950px) {
+    .social-links-list {
+        bottom: 1rem;
+        top: auto;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 768px) {
+    .authBtn {
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar {
+        --bs-navbar-padding-y: 0rem !important;
+    }
+}
+
+.pricing,
+.features {
+    padding: 5rem 0;
+}
+
+.security_card {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 100px !important;
+    background: linear-gradient(to right, #636b92, #582c7e);
+    /* margin: 0 5rem !important; */
+    /* Removes the default border to lean into a more modern design */
+    /* width: 80% !important; */
+}
+
+.card-body {
+    padding: 2rem;
+   
+}
+.card-title1 {
+    color: #5C479B;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    margin-top: 2rem !important;
+    font-size: 1.5rem;
+}
+.card-title {
+     color: #DBD8DD;
+    /* A fresh, bright blue color for the title */
+    font-family: 'Arial', sans-serif;
+    /* Cleaner, more modern font */
+    font-weight: bold;
+    /* Increases weight for better visibility */
+    margin-bottom: 0.5rem;
+    /* Proper spacing between title and text */
+    text-transform: uppercase;
+    /* Styling choice to make the title stand out */
+    font-size: 1.5rem;
+    /* Larger font size for emphasis */
+}
+
+.card-text {
+     color: #DBD8DD;
+    /* Dark gray for regular text, ensuring readability */
+    font-family: 'Arial', sans-serif;
+    font-size: 1.1rem;
+    /* Slightly larger font size for better legibility */
+    line-height: 1.6;
+    /* Improved line spacing for reading comfort */
+}
+ .lead-text li::before {
+     content: "";
+     background-image: url("check-mark.png");
+     /* URL of the tick image */
+     background-size: contain;
+     /* Ensure the image fits within the space */
+     display: inline-block;
+     /* Make the tick appear inline with the text */
+     width: 20px;
+     /* Set the width of the tick image */
+     height: 20px;
+     /* Set the height of the tick image */
+     margin-right: 5px;
+     /* Add some space between the tick and the text */
+ }
+.icon1{
+    width: 50px !important;
+}
+/* Ensures the image does not exceed the height of the card */
+.img-fluid {
+    /* max-height: 300px !important; */
+    /* Adjust this value based on your design needs */
+    object-fit: cover;
+    /* Ensures the image covers the area without distorting */
+    width: auto;
+    /* Maintains the width automatically according to the height */
+}
+
+.card {
+    margin-bottom: 1rem !important;
+}
+
+.features-list {
+    font-size: 14px;
+    color: #959393;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 363px));
+    grid-gap: 2rem;
+    justify-content: center;
+}
+
+.features-list__item-header {
+    margin-bottom: 20px;
+}
+
+.features-list__item-header h3 {
+    font-size: 30px;
+    color: #555555;
+    font-weight: 400;
+}
+
+.features-list__item-header p {
+    font-size: 18px;
+}
+
+.features-list__item-content {
+    line-height: 1.5;
+}
+
+.social-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.social-breadcrumb__link {
+    text-decoration: underline;
+}
+
+.social-breadcrumb__link:hover {
+    text-decoration: none;
+}
+
+.social-breadcrumb__item:not(:last-child) {
+    padding-right: 13px;
+}
+
+.social-breadcrumb__item:not(:last-child)::after {
+    padding-left: 10px;
+    content: "/";
+}
+
+.emails-list {
+    font-size: 14px;
+    max-width: 230px;
+    padding-left: 15px;
+    border-left: 1px solid #b7b7b7;
+}
+
+.emails-list__item:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.emails-list__item:last-child {
+    margin-top: 30px;
+    line-height: 1.5;
+}
+
+.emails-list__link {
+    font-weight: 700;
+}
+
+.emails-list__link:hover {
+    text-decoration: underline;
+}
+
+.copy {
+    font-size: 12px;
+}
+
+.main-footer {
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+.main-footer-wrap {
+    margin: 30px 0 70px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.secondary-heading {
+    font-weight: 400;
+    font-size: 36px;
+}
+
+.third-heading {
+    font-weight: 400;
+    font-size: 30px;
+}
+
+.privacy-section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem;
+}
+
+.privacy-section__text-block {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+/* faq css starts  */
+#support .card {
+    margin: 1rem 0;
+}
+
+#support span {
+    font-size: xx-large;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.faq-section .mb-0>a {
+    display: block;
+    position: relative;
+}
+
+.faq-section .mb-0>a:after {
+    content: "\f067";
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    right: 0;
+    font-weight: 600;
+}
+
+.faq-section .mb-0>a[aria-expanded="true"]:after {
+    content: "\f068";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+}
+
+/* faq css ends */

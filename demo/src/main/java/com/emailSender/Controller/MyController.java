@@ -12,12 +12,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 
+
+
 @Controller
 public class MyController {
 
     @GetMapping("/")
     public String showHome() {
-        return "home";
+        return "public/index";
+    }
+    @GetMapping("/bussiness")
+    public String showBussiness() {
+        return "public/bussiness";
     }
 
     @PostMapping("/post")
