@@ -678,7 +678,9 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
     text-align: right;
     font-family: monospace;
 }
-
+.btn-ligh{
+    margin-bottom: 1rem !important;
+}
 .footer a {
     color: black;
     text-decoration: none;

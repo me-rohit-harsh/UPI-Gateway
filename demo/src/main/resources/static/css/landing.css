@@ -368,7 +368,7 @@ nav {
 
 .lead-text li::before {
     content: "";
-    background-image: url("check-mark.png");
+    background-image: url("/images/landing/check-mark.png");
     /* URL of the tick image */
     background-size: contain;
     /* Ensure the image fits within the space */
