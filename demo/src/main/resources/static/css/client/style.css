@@ -534,6 +534,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
         justify-content: center !important;
     }
 }
+
 .profile-header {
     text-align: center;
     padding: 20px 0;
@@ -580,6 +581,117 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
 .edit-button:hover {
     color: #0056b3;
 }
-#fast-cash-buttons button{
-    margin-right: 10px !important; 
+
+#fast-cash-buttons button {
+    margin-right: 10px !important;
+}
+
+.profile-header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.profile-header p {
+    color: #6c757d;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: rgb(237, 243, 247);
+    font-weight: bold;
+}
+
+.card-body {
+    background-color: white;
+}
+
+.edit-button {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 0.9rem;
+    float: right;
+}
+
+.edit-button:hover {
+    color: #0056b3;
+}
+
+#security-code {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.otp-field {
+    flex-direction: row;
+    column-gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.otp-field input {
+    height: 45px;
+    width: 42px;
+    border-radius: 6px;
+    outline: none;
+    font-size: 1.125rem;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.otp-field input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.otp-field input::-webkit-inner-spin-button,
+.otp-field input::-webkit-outer-spin-button {
+    display: none;
+}
+
+.resend {
+    font-size: 12px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: black;
+    font-size: 12px;
+    text-align: right;
+    font-family: monospace;
+}
+
+.footer a {
+    color: black;
+    text-decoration: none;
+}
+
+/* Hide the pay with upi button which redirect users to the phonepay app  */
+@media (min-width: 768px) {
+    #UPILink {
+        display: none;
+    }
+}
+
+.qrCode {
+    width: 250px !important;
+    height: 250px !important;
 }

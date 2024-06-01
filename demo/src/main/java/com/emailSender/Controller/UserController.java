@@ -3,6 +3,7 @@ package com.emailSender.Controller;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,21 +45,20 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/signin")
-    public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
-            Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+    public Boolean userAuth(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
+            RedirectAttributes redirectAttributes, HttpSession session) {
         // Check if the loginId is an email or username
         User user = userRepository.findByUsernameOrEmail(loginId, loginId);
         // System.out.println(user);
         if (user == null || !user.getPassword().equals(password)) {
             redirectAttributes.addFlashAttribute("errorMsg", "Invalid username/email or password");
-            return "redirect:/signin";
+            return false;
         }
         session.setAttribute("auth", true);
         session.setAttribute("userId", user.getId());
         session.setAttribute("user", user);
         session.setAttribute("userEmail", user.getEmail());
-        redirectAttributes.addFlashAttribute("message", "Access Approved");
+
         System.out.println("Session ID: " + session.getId());
         // System.out.println("Auth: " + session.getAttribute("auth"));
         System.out.println("User ID: " + session.getAttribute("userId"));
@@ -66,12 +66,23 @@ public class UserController {
         // System.out.println("user"+ user);
         user.setLastLogin(new Date());
         userRepository.save(user);
-        return "redirect:/dashboard";
+        return true;
+    }
+
+    @PostMapping("/signin")
+    public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
+            Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+        if (userAuth(loginId, password, redirectAttributes, session)) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Accesss Approved!");
+            return "redirect:/dashboard";
+        }
+        return "redirect:/signin";
     }
 
     @PostMapping("/signup")
     public String signup(@ModelAttribute("user") @Valid User user, BindingResult result,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, HttpSession session) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMsg", "Something Went Wrong!");
             return "redirect:/signup";
@@ -95,10 +106,9 @@ public class UserController {
             return "redirect:/signup";
         }
 
-        user.setBalance(0.0); // Set initial balance to 0
-        UUID uuid = UUID.randomUUID();
-        String secretCode = uuid.toString().replaceAll("[^a-zA-Z0-9]", "").substring(0, 6).toUpperCase();
-        user.setSecCode(secretCode);
+        user.setBalance(0.0);
+        user.setSecCode(generateSecretCode());
+        user.setRole("Customer");
         userRepository.save(user);
         String emailBody = String.format(
                 "Dear %s,\n\n" +
@@ -115,8 +125,30 @@ public class UserController {
                 user.getUsername(), user.getUsername(), user.getSecCode());
 
         emailServices.sendSimpleEmail(user.getEmail(), "Account Registration Success - Jixwallet", emailBody);
-        redirectAttributes.addFlashAttribute("message", "Account created successfully!");
+        redirectAttributes.addFlashAttribute("message",
+                "Check your email for registration confirmation and security code.");
+        if (userAuth(user.getUsername(), user.getPassword(), redirectAttributes, session)) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Check your email for registration confirmation and security code.");
+            return "redirect:/dashboard";
+        }
         return "redirect:/signin";
+    }
+
+    public static String generateSecretCode() {
+        Random random = new Random();
+
+        // Generate a random uppercase alphabet for the first character
+        char firstChar = (char) (random.nextInt(26) + 'A');
+
+        // Generate random digits for the rest of the characters
+        StringBuilder restOfCode = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            restOfCode.append(random.nextInt(10));
+        }
+
+        // Combine the first character and the rest of the code
+        return firstChar + restOfCode.toString();
     }
 
     @GetMapping("/signout")

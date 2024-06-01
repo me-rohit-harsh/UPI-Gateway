@@ -41,12 +41,9 @@ public class TransferController {
 		return "redirect:/p2p";
 	}
 
-	@PostMapping("/transferMoney")
-	public String transferMoney(@RequestParam("balance") double balance, @RequestParam("username") String username,
-			RedirectAttributes redirectAttributes, HttpSession session) {
+	public String transferMoney(Double balance, String username, User user,
+			RedirectAttributes redirectAttributes) {
 		User beneficiaryUser = userRepository.findByUsername(username);
-		User user = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
-
 		if (beneficiaryUser != null && user != null) {
 			if (user.getBalance() >= balance) {
 				// Deduct balance from the user

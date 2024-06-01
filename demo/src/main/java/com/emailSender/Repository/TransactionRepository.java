@@ -13,7 +13,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Transaction findByRefId(String upiRefNo);
 
-  
+    List<Transaction> findByStatusAndType(boolean status, String type);
+
     List<Transaction> findByStatus(boolean status);
     // You can define additional query methods here if needed
     List<Transaction> findByUserId(Long userId);

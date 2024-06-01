@@ -14,11 +14,15 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-<!-- Font Awesome CSS -->
-<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css' rel='stylesheet'>
+    <!-- Font Awesome CSS -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css' rel='stylesheet'>
     <!-- Bootstrap CSS -->
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <!-- Alert animation  -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.2.1/font-awesome-animation.min.css">
     <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/css/alert.css}">
     <link rel="stylesheet" th:href="@{/css/client/auth.css}">
     <style>
         .index-page .header {
@@ -32,7 +36,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto">
+            <a href="/" class="logo d-flex align-items-center me-auto">
                 <h1 class="text-light">JIXWALLET</h1>
             </a>
 
@@ -40,10 +44,49 @@
 
                 <a class="btn-getstarted" href="/signup" style="width: 120px; font-size: large;">Register</a>
             </nav>
-
+            
         </div>
     </header>
-
+    <!-- Display flash message if available -->
+    <div class="alert-container">
+        <!--       <div th:if="${message}" class="alert fade alert-simple alert-primary alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon fa fa-thumbs-up faa-bounce animated"></i> 
+            <strong class="font__weight-semibold">Success!</strong> <span th:text="${message}"></span>
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div> -->
+        <!-- <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon fa fa-info-circle faa-shake animated"></i>
+            <strong class="font__weight-semibold">Heads up!</strong> This alert needs your attention, but it's not super
+            important.
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div>
+        <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>
+            <strong class="font__weight-semibold">Warning!</strong> Better check yourself, you're not looking too good.
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div>-->
+        <div th:if="${errorMsg}" class="alert fade alert-simple alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon far fa-times-circle faa-pulse animated"></i>
+            <strong class="font__weight-semibold">Oh no!</strong> <span th:text="${errorMsg}"></span>
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div> 
+  
+        <div th:if="${message}"
+            class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+            <i class="start-icon far fa-check-circle faa-tada animated"></i>
+            <strong class="font__weight-semibold">Success! </strong> <span th:text="${message}"></span>
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div>
+    </div>
     <main class="main mt-5" style="min-height: 90vh;">
         <!-- Login Register section  -->
         <section id="contact" class="contact section">
@@ -64,12 +107,15 @@
 
                     <div class="col-lg-6 php-email-form">
                         <!-- Display flash message if available -->
-                        <div th:if="${message}" class="alert alert-success" role="alert">
-                            <strong th:text="${message}"></strong>
+                        <!-- <div th:if="${message}" class="alert alert-success" role="alert">
+                            <strong><strong>Registration & Security Code details has been sent to your email. Please
+                                    check &
+                                    continue using our services. <br>
+                                    Thank You.</strong></strong>
                         </div>
                         <div th:if="${errorMsg}" class="alert alert-danger" role="alert">
                             <strong th:text="${errorMsg}"></strong>
-                        </div>
+                        </div> -->
                         <!-- Updated form -->
                         <form id="loginForm" th:action="@{/signin}" method="post">
                             <div class="mb-3">
@@ -78,7 +124,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="login-password" class="form-label">Your Password</label>
-                                <input type="password" name="password" id="login-password" class="form-control" required>
+                                <input type="password" name="password" id="login-password" class="form-control"
+                                    required>
                             </div>
                             <div class="col-md-12 text-center">
                                 <button type="submit" class="btn btn-primary">Login</button>
@@ -109,8 +156,7 @@
         </div>
     </footer>
 
-
-
+    <script th:src="@{/js/alert.js}"></script>
 </body>
 
 </html>
