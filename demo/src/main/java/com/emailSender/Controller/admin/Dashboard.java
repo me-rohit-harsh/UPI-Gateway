@@ -44,7 +44,8 @@ public class Dashboard {
                 // Find user by ID
                 User user = userRepository.findById(userId).orElse(null);
                 if (user != null) {
-
+                   
+                    model.addAttribute("sumOfUsdt", transactionService.getSumOfUsdtTransactions());
                     model.addAttribute("user", user);
                     model.addAttribute("totalAmount", transactionService.calculateTotalAmount());
                     model.addAttribute("avaBalnce", userService.getTotalBalance());

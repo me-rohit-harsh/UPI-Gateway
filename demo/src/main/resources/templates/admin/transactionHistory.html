@@ -86,7 +86,7 @@
                                         <th>Reference ID</th>
                                         <th>Type</th>
                                         <th>Method</th>
-                                        <th>Updated At</th>
+                                        <th>Created At</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -100,7 +100,8 @@
                                         <td th:text="${transaction.refId}"></td>
                                         <td th:text="${transaction.type}"></td>
                                         <td th:text="${transaction.method}"></td>
-                                        <td th:text="${transaction.updatedAt}"></td>
+                                       <td
+											th:text="${#dates.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
