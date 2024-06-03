@@ -50,7 +50,7 @@ public class Dashboard {
                     model.addAttribute("totalAmount", transactionService.calculateTotalAmount());
                     model.addAttribute("avaBalnce", userService.getTotalBalance());
                     redirectAttributes.addFlashAttribute("message", "Access Appreoved");
-                    return "/admin/dashboard";
+                    return "admin/dashboard";
 
                 }
             }

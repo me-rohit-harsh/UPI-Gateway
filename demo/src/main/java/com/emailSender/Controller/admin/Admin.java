@@ -53,7 +53,7 @@ public class Admin {
             user.setLastLogin(new Date());
             userRepository.save(user);
 
-            return "redirect:/admin/dashboard";
+            return "redirect:admin/dashboard";
         } else {
             redirectAttributes.addFlashAttribute("errorMsg", "You are not authorized to access!");
             return "redirect:/signin";

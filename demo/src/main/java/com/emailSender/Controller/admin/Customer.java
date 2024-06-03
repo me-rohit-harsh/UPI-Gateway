@@ -48,7 +48,7 @@ public String showDashboard(@RequestParam(value = "value", required = false) Str
 
             model.addAttribute("user", user);
             model.addAttribute("users", users);
-            return "/admin/customerList";
+            return "admin/customerList";
         }
         redirectAttributes.addFlashAttribute("errorMsg", "Please Sign In to access the requested URL!");
         return "redirect:/admin/signin";
