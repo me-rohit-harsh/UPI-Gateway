@@ -124,9 +124,9 @@
                         </div>
                     </div>
                 </div>
-                <form method="post" th:action="@{/save-utr}" id="add-funds-form">
-                    <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog"
-                      data-bs-backdrop="static"  aria-labelledby="raiseTicketModalLabel" aria-hidden="true" style="padding-right: 0 !important;">
+                <form method="post" th:action="@{/save-utr}" id="add-funds-form" enctype="multipart/form-data">
+                    <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
+                        aria-labelledby="raiseTicketModalLabel" aria-hidden="true" style="padding-right: 0 !important;">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header d-flex justify-content-between align-items-center">
@@ -271,7 +271,7 @@
                                                 <h5 class="mb-4">USDT to be paid: <strong id="BNB"></strong></h5>
                                                 <!-- <h5>BNB</h5> -->
                                                 <p>
-                                                    <strong>Nick Name:</strong> Ambition Host
+                                                    <strong>Nick Name:</strong> AmbitionHost
                                                 </p>
                                                 <div class="input-group">
                                                     <input type="text" id="bnbInput" readonly value="898464539"
@@ -375,11 +375,15 @@
 
 
 
-                                        <div class="form-group my-2">
-                                            <!-- Input field for the selected payment method -->
-                                            <label for="exampleInputEmail1">Payment ID </label> <input type="text"
-                                                id="paymentInput" name="refId" class="form-control"
+                                        <div class="form-group my-2" id="refIdDiv">
+                                            <label for="exampleInputEmail1" id="paymentLabel">Payment ID </label> <input
+                                                type="text" id="paymentInput" name="refId" class="form-control"
                                                 placeholder="Enter UTR/Txn Id/UPI Ref No." required>
+                                        </div>
+                                        <div class="form-group my-2" id="screenshotDiv">
+                                            <label for="screenshotInput" id="screenshotLabel">Payment Screenshot
+                                            </label> <input type="file" id="paymentSs" name="paymentSS"
+                                                class="form-control" placeholder="">
                                         </div>
 
                                         <!-- Attachment button -->
@@ -505,7 +509,15 @@
             $('#raiseTicketModal').modal('hide');
         }
     </script>
-
+    <script>function generateRandomTxID() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let txID = '';
+            for (let i = 0; i < 10; i++) {
+                txID += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return txID;
+        }
+    </script>
     <script>
         document.getElementById('paymentMethod').addEventListener('change', function () {
             var totalAmount = document.getElementById("amount").value;
@@ -523,32 +535,59 @@
             googlepayDiv.style.display = 'none';
             usdtDiv.style.display = 'none';
             document.getElementById("BEP20").innerText = usdtAmount;
+            const refId = document.getElementById("refIdDiv");
+            const screenshot = document.getElementById("screenshotDiv");
+            const txID = document.getElementById("paymentInput");
+            const ssFieild = document.getElementById('paymentSs');
             switch (this.value) {
                 case 'IMPS/NEFT':
                     bankDetailsDiv.style.display = 'block';
+                    screenshot.style.display = 'none';
+                    ssFieild.required = false;
+                    refId.style.display = "block";
+                    txID.value = "";
+
                     break;
                 case 'UPI':
                     phonepayDiv.style.display = 'block';
                     var UPILink = document.getElementById("UPILink");
                     var UPIUrl = "phonepe://pay?pa=ambitionyes@ibl&cu=INR&am=" + totalAmount;
                     UPILink.setAttribute("href", UPIUrl);
+                    screenshot.style.display = 'none';
+                    ssFieild.required = false;
+                    refId.style.display = "block";
+                    txID.value = "";
+
                     break;
                 case 'QR Code':
                     // Call generateQRCode function when QR Code option is selected
                     generateQRCode();
                     qrCodeDiv.style.display = 'block';
+                    screenshot.style.display = 'none';
+                    refId.style.display = "block";
+                    ssFieild.required = false;
+                    txID.value = "";
                     break;
                 case 'USDT (BEP20)':
                     document.getElementById("BEP20").innerText = usdtAmount;
                     googlepayDiv.style.display = 'block';
+                    refId.style.display = "none";
+                    ssFieild.required = true;
+                    txID.value = generateRandomTxID();
                     break;
                 case 'USDT (TRC20)':
                     document.getElementById("TRC20").innerText = usdtAmount;
                     paytmDiv.style.display = 'block';
+                    refId.style.display = "none";
+                    ssFieild.required = true;
+                    txID.value = generateRandomTxID();
                     break;
                 case 'USDT (BNB)':
                     document.getElementById("BNB").innerText = usdtAmount;
                     usdtDiv.style.display = 'block';
+                    ssFieild.required = true;
+                    refId.style.display = "none";
+                    txID.value = generateRandomTxID();
                     break;
                 // Add cases for other payment methods as needed
             }

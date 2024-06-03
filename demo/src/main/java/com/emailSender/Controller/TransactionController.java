@@ -1,14 +1,21 @@
 package com.emailSender.Controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emailSender.Repository.TransactionRepository;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.EmailService;
+import com.emailSender.Service.ImageStorageService;
 import com.emailSender.model.Transaction;
 import com.emailSender.model.User;
 
@@ -22,11 +29,13 @@ public class TransactionController {
     private EmailService emailService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ImageStorageService imageStorageService;
 
     @PostMapping("/save-utr")
     public String saveTxGetResponse(@ModelAttribute Transaction transaction, HttpSession session,
+            @RequestParam(name = "paymentSS", required = false) MultipartFile screenshot,
             RedirectAttributes redirectAttributes) {
-
         try {
             Long userId = (Long) session.getAttribute("userId");
             if (userId == null) {
@@ -42,18 +51,13 @@ public class TransactionController {
             }
 
             String submittedUtr = transaction.getRefId();
-            System.out.println("*****************");
-            System.out.println(transaction.getMethod());
-            System.out.println("*****************");
-            // Double moneySent = transaction.getAmount();
-            // String method = transaction.getMethod();
-
             if (isUtrAlreadyProcessed(submittedUtr, user, redirectAttributes)) {
                 return "redirect:/dashboard";
             }
             if (transaction.getMethod().equals("USDT (TRC20)") || transaction.getMethod().equals("USDT (BEP20)")
                     || transaction.getMethod().equals("USDT (BNB)")) {
-                return processUsdtTransaction(transaction, user, redirectAttributes);
+              
+                return processUsdtTransaction(transaction, user, redirectAttributes,screenshot);
             }
 
             else {
@@ -81,7 +85,21 @@ public class TransactionController {
         return false;
     }
 
-    private String processUsdtTransaction(Transaction transaction, User user, RedirectAttributes redirectAttributes) {
+    private String uploadImage(MultipartFile file) {
+
+        String fileName = "";
+        try {
+            fileName = imageStorageService.storeFile(file);
+            System.out.println("Image uploaded successfully. File name: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Image uploaded failed. File name: " + fileName);
+            e.printStackTrace();
+        }
+        return fileName;
+
+    }
+
+    private String processUsdtTransaction(Transaction transaction, User user, RedirectAttributes redirectAttributes, MultipartFile screenshot) {
         Transaction tx = new Transaction();
         tx.setAmount(transaction.getAmount());
         tx.setMethod(transaction.getMethod());
@@ -89,6 +107,8 @@ public class TransactionController {
         tx.setUser(user);
         tx.setType("Credit");
         tx.setStatus(false);
+        tx.setScreenshot(uploadImage(screenshot));
+
         transactionRepository.save(tx);
         redirectAttributes.addFlashAttribute("message",
                 "Your payment is being processed. It may take up to 24 hours to complete. Thank you for your patience.");
