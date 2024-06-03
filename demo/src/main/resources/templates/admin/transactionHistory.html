@@ -25,7 +25,7 @@
     <div class='dashboard'>
         <div class="dashboard-nav">
             <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-                <!-- <a href="#" class="brand-logo"><i class="fas fa-user"></i> <span>username</span></a> -->
+                <!-- <a href="/profile" class="brand-logo"><i class="fas fa-user"></i> <span>username</span></a> -->
                 <!-- <a href="/"><img src="logo2.png" alt="Logo" class="logo"></a> -->
             </header>
             <nav class="dashboard-nav-list">
@@ -86,7 +86,7 @@
                                         <th>Reference ID</th>
                                         <th>Type</th>
                                         <th>Method</th>
-                                        <th>Updated At</th>
+                                        <th>Created At</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -100,7 +100,8 @@
                                         <td th:text="${transaction.refId}"></td>
                                         <td th:text="${transaction.type}"></td>
                                         <td th:text="${transaction.method}"></td>
-                                        <td th:text="${transaction.updatedAt}"></td>
+                                       <td
+											th:text="${#dates.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -131,7 +132,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js'></script>
-    <script src="app.js"></script>
+    
 
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>

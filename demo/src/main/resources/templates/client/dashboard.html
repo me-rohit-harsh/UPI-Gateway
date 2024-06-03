@@ -18,7 +18,13 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/client/style.css}">
     <style>
+        #warning-text {
+            display: none;
+        }
 
+        /* #fund-submit-button {
+            display: block;
+        } */
     </style>
 </head>
 
@@ -27,7 +33,7 @@
     <div class='dashboard'>
         <div class="dashboard-nav">
             <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-                <!-- <a href="#" class="brand-logo"><i class="fas fa-user"></i> <span>username</span></a> -->
+                <!-- <a href="/profile" class="brand-logo"><i class="fas fa-user"></i> <span>username</span></a> -->
                 <!-- <a href="/"><img src="logo2.png" alt="Logo" class="logo"></a> -->
             </header>
             <nav class="dashboard-nav-list">
@@ -60,7 +66,7 @@
         <div class='dashboard-app'>
             <header class="dashboard-toolbar">
                 <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-                <a href="#" class="brand-logo" style="margin-right: 15px; display: flex; align-items: center;">
+                <a href="/profile" class="brand-logo" style="margin-right: 15px; display: flex; align-items: center;">
                     <i class="fas fa-user" style="font-size: 1.5em; margin-right: 10px;"></i>
                     <div style="display: flex; flex-direction: column;">
                         <span th:text="${user.username}" style="font-weight: bold;"></span>
@@ -118,9 +124,9 @@
                         </div>
                     </div>
                 </div>
-                <form method="post" th:action="@{/save-utr}">
-                    <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog"
-                        aria-labelledby="raiseTicketModalLabel" aria-hidden="true">
+                <form method="post" th:action="@{/save-utr}" id="add-funds-form" enctype="multipart/form-data">
+                    <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
+                        aria-labelledby="raiseTicketModalLabel" aria-hidden="true" style="padding-right: 0 !important;">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header d-flex justify-content-between align-items-center">
@@ -219,8 +225,9 @@
                                             <div id="usdtBep"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
                                                 <!-- <h5>USDT (BEP 20)</h5> -->
+                                                <h5 class="mb-0">USDT to be paid: <strong id="BEP20"> </strong></h5>
                                                 <div class="text-center">
-                                                <img class="qrCode" th:src="@{/images/bep.jpeg}" alt="BEP QR Code">
+                                                    <img class="qrCode" th:src="@{/images/bep.jpeg}" alt="BEP QR Code">
                                                 </div>
                                                 <div class="input-group">
                                                     <input type="text" id="bepInput" readonly
@@ -231,11 +238,16 @@
                                                         <i class="fa-regular fa-copy"></i>
                                                     </button>
                                                 </div>
+                                                <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong>
+                                                    Transaction fees must be paid by the users.
+                                                    <br>Zero transaction fees for Binance users.
+                                                </p>
                                             </div>
 
                                             <div id="usdtTrc"
                                                 style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
                                                 <!-- <h5>USDT (TRC 20)</h5> -->
+                                                <h5 class="mb-0">USDT to be paid: <strong id="TRC20"></strong> </h5>
                                                 <div class="text-center">
                                                     <img class="qrCode" th:src="@{/images/tron.jpeg}" alt="TRC QR Code">
                                                 </div>
@@ -248,10 +260,19 @@
                                                         <i class="fa-regular fa-copy"></i>
                                                     </button>
                                                 </div>
+                                                <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong>
+                                                    Transaction fees must be paid by the users.
+                                                    <br>Zero transaction fees for Binance users.
+                                                </p>
                                             </div>
 
-                                            <div id="usdtBnb" style="display: none;  margin-top: 10px;">
+                                            <div id="usdtBnb"
+                                                style="display: none;  margin-top: 10px; border: 1px solid #ccc;padding: 10px;">
+                                                <h5 class="mb-4">USDT to be paid: <strong id="BNB"></strong></h5>
                                                 <!-- <h5>BNB</h5> -->
+                                                <p>
+                                                    <strong>Nick Name:</strong> AmbitionHost
+                                                </p>
                                                 <div class="input-group">
                                                     <input type="text" id="bnbInput" readonly value="898464539"
                                                         class="form-control text-center">
@@ -260,6 +281,10 @@
                                                         <i class="fa-regular fa-copy"></i>
                                                     </button>
                                                 </div>
+                                                <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong>
+                                                    Transaction fees must be paid by the users.
+                                                    <br>Zero transaction fees for Binance users.
+                                                </p>
                                             </div>
 
                                         </div>
@@ -333,15 +358,15 @@
                         </div>
                     </div>
                     <div class="modal fade" id="secondModal" tabindex="-1" role="dialog"
-                        aria-labelledby="secondModalLabel" aria-hidden="true">
+                        aria-labelledby="secondModalLabel" aria-hidden="true" data-bs-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " role="document">
                             <div class="modal-content">
                                 <div class="modal-header d-flex justify-content-between align-items-center">
                                     <h5 class="modal-title" id="raiseTicketModalLabel">Submit
                                         Payment Details</h5>
-                                    <a type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                                    <!-- <a type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
                                             aria-hidden="true"
-                                            style="font-size: 30px !important; padding: 0 10px;">&times;</span>
+                                            style="font-size: 30px !important; padding: 0 10px;">&times;</span> -->
                                     </a>
                                 </div>
                                 <div class="modal-body">
@@ -350,11 +375,15 @@
 
 
 
-                                        <div class="form-group my-2">
-                                            <!-- Input field for the selected payment method -->
-                                            <label for="exampleInputEmail1">Payment ID </label> <input type="text"
-                                                id="paymentInput" name="refId" class="form-control"
+                                        <div class="form-group my-2" id="refIdDiv">
+                                            <label for="exampleInputEmail1" id="paymentLabel">Payment ID </label> <input
+                                                type="text" id="paymentInput" name="refId" class="form-control"
                                                 placeholder="Enter UTR/Txn Id/UPI Ref No." required>
+                                        </div>
+                                        <div class="form-group my-2" id="screenshotDiv">
+                                            <label for="screenshotInput" id="screenshotLabel">Payment Screenshot
+                                            </label> <input type="file" id="paymentSs" name="paymentSS"
+                                                class="form-control" placeholder="">
                                         </div>
 
                                         <!-- Attachment button -->
@@ -373,10 +402,12 @@
                                                 readonly disabled>
                                         </div>
                                         <!-- Submit button -->
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                            id="fund-submit-button">
                                             <span>Add Fund</span>
                                         </button>
-                                        <p class="text-warning mt-3"> <strong class="text-danger">Note*</strong> Please
+                                        <p class="text-warning mt-3" id="warning-text"> <strong
+                                                class="text-danger">Note*</strong> Please
                                             do not close or exit from this window!</p>
 
                                     </div>
@@ -388,7 +419,12 @@
 
 
                 </form>
-
+                <script>
+                    document.getElementById('add-funds-form').addEventListener('submit', function (event) {
+                        document.getElementById('fund-submit-button').style.display = 'none';
+                        document.getElementById('warning-text').style.display = 'block';
+                    });
+                </script>
                 <div class='container mt-3'>
                     <div class='card p-3 shadow'>
                         <h2>All Transaction History</h2>
@@ -473,7 +509,15 @@
             $('#raiseTicketModal').modal('hide');
         }
     </script>
-
+    <script>function generateRandomTxID() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let txID = '';
+            for (let i = 0; i < 10; i++) {
+                txID += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return txID;
+        }
+    </script>
     <script>
         document.getElementById('paymentMethod').addEventListener('change', function () {
             var totalAmount = document.getElementById("amount").value;
@@ -483,37 +527,67 @@
             var paytmDiv = document.getElementById('usdtBep');
             var googlepayDiv = document.getElementById('usdtTrc');
             var usdtDiv = document.getElementById('usdtBnb');
-
+            var usdtAmount = (totalAmount / 87).toFixed(3);
             bankDetailsDiv.style.display = 'none';
             phonepayDiv.style.display = 'none';
             qrCodeDiv.style.display = 'none';
             paytmDiv.style.display = 'none';
             googlepayDiv.style.display = 'none';
             usdtDiv.style.display = 'none';
-
+            document.getElementById("BEP20").innerText = usdtAmount;
+            const refId = document.getElementById("refIdDiv");
+            const screenshot = document.getElementById("screenshotDiv");
+            const txID = document.getElementById("paymentInput");
+            const ssFieild = document.getElementById('paymentSs');
             switch (this.value) {
                 case 'IMPS/NEFT':
                     bankDetailsDiv.style.display = 'block';
+                    screenshot.style.display = 'none';
+                    ssFieild.required = false;
+                    refId.style.display = "block";
+                    txID.value = "";
+
                     break;
                 case 'UPI':
                     phonepayDiv.style.display = 'block';
                     var UPILink = document.getElementById("UPILink");
                     var UPIUrl = "phonepe://pay?pa=ambitionyes@ibl&cu=INR&am=" + totalAmount;
                     UPILink.setAttribute("href", UPIUrl);
+                    screenshot.style.display = 'none';
+                    ssFieild.required = false;
+                    refId.style.display = "block";
+                    txID.value = "";
+
                     break;
                 case 'QR Code':
-                    qrCodeDiv.style.display = 'block';
                     // Call generateQRCode function when QR Code option is selected
                     generateQRCode();
+                    qrCodeDiv.style.display = 'block';
+                    screenshot.style.display = 'none';
+                    refId.style.display = "block";
+                    ssFieild.required = false;
+                    txID.value = "";
                     break;
                 case 'USDT (BEP20)':
+                    document.getElementById("BEP20").innerText = usdtAmount;
                     googlepayDiv.style.display = 'block';
+                    refId.style.display = "none";
+                    ssFieild.required = true;
+                    txID.value = generateRandomTxID();
                     break;
                 case 'USDT (TRC20)':
+                    document.getElementById("TRC20").innerText = usdtAmount;
                     paytmDiv.style.display = 'block';
+                    refId.style.display = "none";
+                    ssFieild.required = true;
+                    txID.value = generateRandomTxID();
                     break;
                 case 'USDT (BNB)':
+                    document.getElementById("BNB").innerText = usdtAmount;
                     usdtDiv.style.display = 'block';
+                    ssFieild.required = true;
+                    refId.style.display = "none";
+                    txID.value = generateRandomTxID();
                     break;
                 // Add cases for other payment methods as needed
             }

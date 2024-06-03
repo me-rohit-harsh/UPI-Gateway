@@ -1,0 +1,47 @@
+package com.emailSender.Service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import org.springframework.util.StringUtils;
+import java.nio.file.Path;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class ImageStorageService {
+    @Value("${upload.dir}")
+    private String uploadDir;
+
+    public String storeFile(MultipartFile file) throws IOException {
+        String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+        // String fileNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSSS");
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        String newFileName = formattedDateTime + fileExtension;
+        // String newFileName = fileNameWithoutExtension + "_" + formattedDateTime + fileExtension;
+
+        Path uploadPath = Paths.get(uploadDir);
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = file.getInputStream()) {
+            Path filePath = uploadPath.resolve(newFileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            return newFileName;
+        } catch (IOException e) {
+            throw new IOException("Failed to store file " + originalFileName + ". Please try again!", e);
+        }
+    }
+}

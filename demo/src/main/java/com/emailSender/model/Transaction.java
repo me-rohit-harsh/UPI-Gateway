@@ -24,9 +24,13 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(unique = true, nullable = false)
 	private String refId;
+
+	
+	@Column(nullable = true)
+	private String screenshot;
 
 	private Double amount;
 
@@ -44,6 +48,7 @@ public class Transaction {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at", updatable = false)
 	private Date createdAt;
+
 
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -64,6 +69,14 @@ public class Transaction {
 
 	public void setRefId(String refId) {
 		this.refId = refId;
+	}
+
+	public String getScreenshot() {
+		return screenshot;
+	}
+
+	public void setScreenshot(String screenshot) {
+		this.screenshot = screenshot;
 	}
 
 	public Double getAmount() {
