@@ -126,7 +126,7 @@
                 </div>
                 <form method="post" th:action="@{/save-utr}" id="add-funds-form">
                     <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog"
-                        aria-labelledby="raiseTicketModalLabel" aria-hidden="true" style="padding-right: 0 !important;">
+                      data-bs-backdrop="static"  aria-labelledby="raiseTicketModalLabel" aria-hidden="true" style="padding-right: 0 !important;">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header d-flex justify-content-between align-items-center">
@@ -268,8 +268,11 @@
 
                                             <div id="usdtBnb"
                                                 style="display: none;  margin-top: 10px; border: 1px solid #ccc;padding: 10px;">
-                                                <h5 class="mb-2">USDT to be paid: <strong id="BNB"></strong></h5>
+                                                <h5 class="mb-4">USDT to be paid: <strong id="BNB"></strong></h5>
                                                 <!-- <h5>BNB</h5> -->
+                                                <p>
+                                                    <strong>Nick Name:</strong> Ambition Host
+                                                </p>
                                                 <div class="input-group">
                                                     <input type="text" id="bnbInput" readonly value="898464539"
                                                         class="form-control text-center">
@@ -355,7 +358,7 @@
                         </div>
                     </div>
                     <div class="modal fade" id="secondModal" tabindex="-1" role="dialog"
-                        aria-labelledby="secondModalLabel" aria-hidden="true">
+                        aria-labelledby="secondModalLabel" aria-hidden="true" data-bs-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " role="document">
                             <div class="modal-content">
                                 <div class="modal-header d-flex justify-content-between align-items-center">
