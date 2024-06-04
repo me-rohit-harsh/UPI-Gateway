@@ -17,7 +17,21 @@
     <!-- Custome css  -->
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/client/style.css}">
-    <style></style>
+    <style>  .screenshot-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .screenshot-container img {
+            max-width: 150px;
+            max-height: 150px;
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-container:hover img {
+            transform: scale(1.5);
+            z-index: 1;
+        }</style>
 </head>
 
 <body>
@@ -79,6 +93,8 @@
                                         <th>Amount</th>
                                         <th>Status</th>
                                         <th>Reference ID</th>
+                                        <th>Screenshot</th>
+
 
                                         <th>Method</th>
                                         <th>Updated At</th>
@@ -95,12 +111,22 @@
                                                 th:unless="${transaction.status}" style="color: red;">Failed</span>
                                         </td>
                                         <td th:text="${transaction.refId}"></td>
+                                    <td>
+                                        <div th:if="${transaction.screenshot != null}">
+                                            <a th:href="@{${transaction.screenshot}}" target="_blank" class="screenshot-container">
+                                                <img th:src="@{${transaction.screenshot}}" alt="Screenshot">
+                                            </a>
+                                        </div>
+                                        <div th:if="${transaction.screenshot == null}">
+                                            <span>No Screenshot</span>
+                                        </div>
+                                    </td>
                                         <td th:text="${transaction.method}"></td>
                                         <td th:text="${#dates.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}">
                                         </td>
                                         <td>
                                             <form th:action="@{/admin/transaction/update-status}" method="post"
-                                              th:if="${transaction.status}"  style="display: inline;">
+                                                th:if="${transaction.status}" style="display: inline;">
                                                 <input type="hidden" name="transactionId" th:value="${transaction.id}">
                                                 <input type="hidden" name="status" value="false">
                                                 <button type="submit" class="btn btn-danger">Decline</button>
@@ -120,6 +146,7 @@
                                         <th>Amount</th>
                                         <th>Status</th>
                                         <th>Reference ID</th>
+                                        <th>Screenshot</th>
 
                                         <th>Method</th>
                                         <th>Updated At</th>

@@ -95,7 +95,7 @@ public class TransactionController {
             System.out.println("Image uploaded failed. File name: " + fileName);
             e.printStackTrace();
         }
-        return fileName;
+        return "/images/usdt/" +fileName;
 
     }
 

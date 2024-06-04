@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.emailSender.Service.ImageStorageService;
 
-
 @Controller
 public class ImageController {
     @Autowired
