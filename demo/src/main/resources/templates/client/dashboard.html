@@ -534,7 +534,12 @@
             paytmDiv.style.display = 'none';
             googlepayDiv.style.display = 'none';
             usdtDiv.style.display = 'none';
+
+            // Displaying the calucualtionof USDT to be paid
             document.getElementById("BEP20").innerText = usdtAmount;
+            document.getElementById("TRC20").innerText = usdtAmount;
+            document.getElementById("BNB").innerText = usdtAmount;
+
             const refId = document.getElementById("refIdDiv");
             const screenshot = document.getElementById("screenshotDiv");
             const txID = document.getElementById("paymentInput");
@@ -546,7 +551,6 @@
                     ssFieild.required = false;
                     refId.style.display = "block";
                     txID.value = "";
-
                     break;
                 case 'UPI':
                     phonepayDiv.style.display = 'block';
@@ -557,7 +561,6 @@
                     ssFieild.required = false;
                     refId.style.display = "block";
                     txID.value = "";
-
                     break;
                 case 'QR Code':
                     // Call generateQRCode function when QR Code option is selected
@@ -569,23 +572,23 @@
                     txID.value = "";
                     break;
                 case 'USDT (BEP20)':
-                    document.getElementById("BEP20").innerText = usdtAmount;
                     googlepayDiv.style.display = 'block';
                     refId.style.display = "none";
+                    screenshot.style.display = 'block';
                     ssFieild.required = true;
                     txID.value = generateRandomTxID();
                     break;
                 case 'USDT (TRC20)':
-                    document.getElementById("TRC20").innerText = usdtAmount;
                     paytmDiv.style.display = 'block';
                     refId.style.display = "none";
+                    screenshot.style.display = 'block';
                     ssFieild.required = true;
                     txID.value = generateRandomTxID();
                     break;
                 case 'USDT (BNB)':
-                    document.getElementById("BNB").innerText = usdtAmount;
                     usdtDiv.style.display = 'block';
                     ssFieild.required = true;
+                    screenshot.style.display = 'block';
                     refId.style.display = "none";
                     txID.value = generateRandomTxID();
                     break;

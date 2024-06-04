@@ -85,7 +85,7 @@ public class TransactionController {
         return false;
     }
 
-    private String uploadImage(MultipartFile file) {
+    public String uploadImage(MultipartFile file) {
 
         String fileName = "";
         try {
@@ -95,7 +95,7 @@ public class TransactionController {
             System.out.println("Image uploaded failed. File name: " + fileName);
             e.printStackTrace();
         }
-        return fileName;
+        return "/images/usdt/" +fileName;
 
     }
 

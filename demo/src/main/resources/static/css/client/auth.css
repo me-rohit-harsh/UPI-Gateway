@@ -1972,8 +1972,7 @@ section,
 .contact .php-email-form textarea::placeholder {
     color: rgba(var(--default-color-rgb), 0.3);
 }
-
-.contact .php-email-form button[type=submit] {
+ button[type=submit] {
     color: var(--contrast-color);
     background: var(--accent-color);
     border: 0;

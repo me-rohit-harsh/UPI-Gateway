@@ -9,15 +9,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.util.StringUtils;
 import java.nio.file.Path;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ImageStorageService {
-    @Value("${upload.dir}")
-    private String uploadDir;
+    // @Value("${upload.dir}")
+    // private String uploadDir;
+    private final String uploadDir;
 
+    public ImageStorageService() throws IOException {
+        // Initialize uploadDir in the constructor and handle IOException
+        this.uploadDir = new ClassPathResource("static/images/").getFile().getAbsolutePath();
+    }
     public String storeFile(MultipartFile file) throws IOException {
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         // String fileNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
@@ -30,7 +35,7 @@ public class ImageStorageService {
         String newFileName = formattedDateTime + fileExtension;
         // String newFileName = fileNameWithoutExtension + "_" + formattedDateTime + fileExtension;
 
-        Path uploadPath = Paths.get(uploadDir);
+        Path uploadPath = Paths.get(uploadDir, "usdt");
 
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);

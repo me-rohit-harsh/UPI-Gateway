@@ -1,6 +1,5 @@
 package com.emailSender.Controller;
 
-import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emailSender.Repository.UserRepository;
@@ -44,18 +44,14 @@ public class BankController {
                     model.addAttribute("user", user);
                     model.addAttribute("bankDetails", bankDetailsService.getLatestBankDetailsForCurrentUser(userId));
                     model.addAttribute("upiDetails", upiService.getLatestUpiDetailsForCurrentUser(userId));
-                    UPI latestUpi = upiService.getLatestUpiDetailsForCurrentUser(userId);
-                    if (latestUpi != null && latestUpi.getQrCode() != null) {
-                        String qrCodeBase64 = Base64.getEncoder().encodeToString(latestUpi.getQrCode());
-                        model.addAttribute("qrCodeBase64", qrCodeBase64);
-                    }
                     return "client/paymentmethod";
+
                 }
             }
         }
 
         // Redirect to sign-in page if not authenticated or user not found
-         return "redirect:/signin";
+        return "redirect:/signin";
     }
 
     @PostMapping("/saveBankDetails")
@@ -75,10 +71,13 @@ public class BankController {
         return "redirect:/method";
     }
 
+    @Autowired
+    TransactionController transactionController;
+
     @PostMapping("/saveUpiDetails")
     public String saveUpiDetails(@ModelAttribute("upiDetails") UPI upiDetails,
             HttpSession session,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,MultipartFile qrCodeFile) {
         User user = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
 
         if (user != null && user.getId() != null) {
@@ -86,6 +85,7 @@ public class BankController {
             UPI newUpi = new UPI();
             newUpi.setHolderName(upiDetails.getHolderName());
             newUpi.setUpiID(upiDetails.getUpiID());
+            newUpi.setQrCode(transactionController.uploadImage(qrCodeFile));
             newUpi.setUser(user);
             upiService.saveUpiDetails(newUpi);
             redirectAttributes.addFlashAttribute("message", "UPI details have been updated");
