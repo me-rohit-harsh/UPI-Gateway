@@ -299,7 +299,7 @@
                                             <input type="file" id="qrInput" name="qrCodeFile"
                                                 class="form-control d-none" th:if="${upiDetails != null}" required>
                                             <!-- <img th:if="${upiDetails != null}" th:src="@{upiDetails.qrCode}" alt="QR Code"> -->
-                                            <a th:href="@{${upiDetails.qrCode}}" target="_blank"
+                                            <a th:if="${upiDetails != null}" th:href="@{${upiDetails.qrCode}}" target="_blank"
                                                 class="screenshot-container">
                                                 <img th:src="@{${upiDetails.qrCode}}" alt="QR Code" id="qrCodeDisplay">
                                             </a>

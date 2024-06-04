@@ -105,7 +105,7 @@ public class UserController {
 
             return "redirect:/signup";
         }
-
+ 
         user.setBalance(0.0);
         user.setSecCode(generateSecretCode());
         user.setRole("Customer");
