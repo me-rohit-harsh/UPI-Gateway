@@ -85,7 +85,7 @@ public class TransactionController {
         return false;
     }
 
-    private String uploadImage(MultipartFile file) {
+    public String uploadImage(MultipartFile file) {
 
         String fileName = "";
         try {

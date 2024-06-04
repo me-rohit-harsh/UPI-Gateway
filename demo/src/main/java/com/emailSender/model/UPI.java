@@ -29,9 +29,7 @@ public class UPI {
 
     private String upiID;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] qrCode;
+    private String qrCode;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -71,11 +69,11 @@ public class UPI {
 		this.upiID = upiID;
 	}
 
-	public byte[] getQrCode() {
+	public String getQrCode() {
 		return qrCode;
 	}
 
-	public void setQrCode(byte[] qrCode) {
+	public void setQrCode(String qrCode) {
 		this.qrCode = qrCode;
 	}
 
