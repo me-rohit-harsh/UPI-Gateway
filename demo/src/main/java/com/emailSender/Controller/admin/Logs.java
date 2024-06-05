@@ -28,9 +28,11 @@ public class Logs {
                 // Find user by ID
                 User user = userRepository.findById(userId).orElse(null);
 
-                model.addAttribute("user", user);
+               if(user.getRole().equals("Admin")){
+                   model.addAttribute("user", user);
 
-                return "admin/logs";
+                   return "admin/logs";
+               }
 
             }
             redirectAttributes.addFlashAttribute("errorMsg", "Please Sign In to access the requested url!");

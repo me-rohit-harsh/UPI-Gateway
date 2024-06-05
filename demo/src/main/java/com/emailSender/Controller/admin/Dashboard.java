@@ -8,11 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.emailSender.Controller.UserController;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.TransactionService;
 import com.emailSender.Service.UserService;
-import com.emailSender.model.Transaction;
 import com.emailSender.model.User;
 
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +41,7 @@ public class Dashboard {
             if (userId != null) {
                 // Find user by ID
                 User user = userRepository.findById(userId).orElse(null);
-                if (user != null) {
+                if (user != null&&user.getRole().equals("Admin")) {
                    
                     model.addAttribute("sumOfUsdt", transactionService.getSumOfUsdtTransactions());
                     model.addAttribute("user", user);

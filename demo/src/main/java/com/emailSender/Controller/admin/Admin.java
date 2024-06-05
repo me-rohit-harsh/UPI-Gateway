@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.emailSender.Controller.UserController;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.model.User;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -67,6 +70,30 @@ public class Admin {
         // Add a flash attribute to notify the user they have been logged out
         redirectAttributes.addFlashAttribute("message", "You have been logged out successfully.");
         // Redirect to the login page or home page
-        return "redirect:/signin";
+        return "redirect:/admin/signin";
+    }
+
+    @Autowired
+    private UserController userController;
+
+    @GetMapping("/aauth/login-as-user/{userId}")
+    public String loginAsUser(@PathVariable Long userId, HttpServletRequest request,
+            RedirectAttributes redirectAttributes, HttpSession session) {
+        Boolean isAuthenticated = (Boolean) session.getAttribute("auth");
+        if (isAuthenticated != null && isAuthenticated) {
+            // Get authenticated user ID
+            Long adminId = (Long) session.getAttribute("userId");
+            if (adminId != null) {
+                // Find user by ID
+                User admin = userRepository.findById(adminId).orElse(null);
+                if (admin != null && admin.getRole().equals("Admin")) {
+                    User user = userRepository.findById(userId).orElse(null);
+                    userController.userAuth(user.getUsername(), user.getPassword(), redirectAttributes, session);
+                    redirectAttributes.addFlashAttribute("message", "Logged in as user");
+                    return "redirect:/dashboard"; // Redirect to user dashboard or any desired page
+                }
+            }
+        }
+        return "redirect:/admin/signin"; // Redirect to user dashboard or any desired page
     }
 }

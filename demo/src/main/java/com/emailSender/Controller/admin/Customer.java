@@ -31,6 +31,7 @@ public String showDashboard(@RequestParam(value = "value", required = false) Str
         Long userId = (Long) session.getAttribute("userId");
         if (userId != null) {
             User user = userRepository.findById(userId).orElse(null);
+        if(user.getRole().equals("Admin")){
             List<User> users;
 
             if (value != null && !value.isEmpty()) {
@@ -49,6 +50,7 @@ public String showDashboard(@RequestParam(value = "value", required = false) Str
             model.addAttribute("user", user);
             model.addAttribute("users", users);
             return "admin/customerList";
+        }
         }
         redirectAttributes.addFlashAttribute("errorMsg", "Please Sign In to access the requested URL!");
         return "redirect:/admin/signin";

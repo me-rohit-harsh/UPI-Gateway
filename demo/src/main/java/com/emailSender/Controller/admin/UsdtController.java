@@ -40,13 +40,15 @@ public class UsdtController {
             if (userId != null) {
                 // Find user by ID
                 User user = userRepository.findById(userId).orElse(null);
-                // Get transactions with specified methods
-                List<String> methods = Arrays.asList("USDT (BEP20)", "USDT (TRC20)", "USDT (BNB)");
-                List<Transaction> transactions = transactionRepository.findByMethodIn(methods);
+                if (user.getRole().equals("Admin")) {
+                    // Get transactions with specified methods
+                    List<String> methods = Arrays.asList("USDT (BEP20)", "USDT (TRC20)", "USDT (BNB)");
+                    List<Transaction> transactions = transactionRepository.findByMethodIn(methods);
 
-                model.addAttribute("user", user);
-                model.addAttribute("transactions", transactions);
-                return "admin/usdt";
+                    model.addAttribute("user", user);
+                    model.addAttribute("transactions", transactions);
+                    return "admin/usdt";
+                }
 
             }
             redirectAttributes.addFlashAttribute("errorMsg", "Please Sign In to access the requested url!");
@@ -60,36 +62,40 @@ public class UsdtController {
     public String updateTransactionStatus(@RequestParam Long transactionId, @RequestParam Boolean status,
             RedirectAttributes redirectAttributes, HttpSession session) {
         Transaction transaction = transactionRepository.findById(transactionId).orElse(null);
-        if (transaction != null) {
-            User user = transaction.getUser();
-            Double preBalance = user.getBalance();
-            String body;
-            String subject;
+        User admin = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
+        if (admin.getRole().equals("Admin")) {
+            if (transaction != null) {
+                User user = transaction.getUser();
+                Double preBalance = user.getBalance();
+                String body;
+                String subject;
 
-            if (status) {
-                transaction.setStatus("Successful");
-                user.setBalance(preBalance + transaction.getAmount());
-                subject = "Transaction Approved";
-                body = String.format(
-                        "Dear %s,\n\nYour transaction with reference ID %s has been approved.\n\nAmount: %s\nNew Balance: %s\n\nThank you for using our service.",
-                        user.getUsername(), transaction.getRefId(), transaction.getAmount(), user.getBalance());
+                if (status) {
+                    transaction.setStatus("Successful");
+                    user.setBalance(preBalance + transaction.getAmount());
+                    subject = "Transaction Approved";
+                    body = String.format(
+                            "Dear %s,\n\nYour transaction with reference ID %s has been approved.\n\nAmount: %s\nNew Balance: %s\n\nThank you for using our service.",
+                            user.getUsername(), transaction.getRefId(), transaction.getAmount(), user.getBalance());
+                } else {
+                    transaction.setStatus("Failed");
+                    subject = "Transaction Declined";
+                    body = String.format(
+                            "Dear %s,\n\nYour transaction with reference ID %s has been declined.\n\nAmount: %s\nNew Balance: %s\n\nIf you have any questions, please contact our support.",
+                            user.getUsername(), transaction.getRefId(), transaction.getAmount(), user.getBalance());
+                }
+                transactionRepository.save(transaction);
+                userRepository.save(user);
+
+                redirectAttributes.addFlashAttribute("message", "Transaction status updated successfully.");
+
+                emailService.sendSimpleEmail(user.getEmail(), subject, body);
             } else {
-                transaction.setStatus("Failed");
-                subject = "Transaction Declined";
-                body = String.format(
-                        "Dear %s,\n\nYour transaction with reference ID %s has been declined.\n\nAmount: %s\nNew Balance: %s\n\nIf you have any questions, please contact our support.",
-                        user.getUsername(), transaction.getRefId(), transaction.getAmount(), user.getBalance());
+                redirectAttributes.addFlashAttribute("errorMsg", "Transaction not found.");
             }
-            transactionRepository.save(transaction);
-            userRepository.save(user);
 
-            redirectAttributes.addFlashAttribute("message", "Transaction status updated successfully.");
-
-            emailService.sendSimpleEmail(user.getEmail(), subject, body);
-        } else {
-            redirectAttributes.addFlashAttribute("errorMsg", "Transaction not found.");
+            return "redirect:/admin/usdt";
         }
-
-        return "redirect:/admin/usdt";
+        return "redirect:/admin/signin";
     }
 }
