@@ -490,6 +490,75 @@
                         document.getElementById('warning-text').style.display = 'block';
                     });
                 </script>
+                <script>
+                    document.getElementById('paymentSs').addEventListener('change', function (event) {
+                        var fileInput = event.target;
+                        var file = fileInput.files[0];
+                        var maxSizeInBytes = 2 * 1024 * 1024; // 10 MB (adjust as needed)
+
+                        // Check if a file is selected
+                        if (file) {
+                            // Get the file extension
+                            var extension = file.name.split('.').pop().toLowerCase();
+
+                            // Define common image file extensions
+                            var imageExtensions = ['jpg', 'jpeg', 'png'];
+
+                            // Check if the file extension is in the list of image extensions
+                            if (!imageExtensions.includes(extension)) {
+                                // Clear the file input
+                                fileInput.value = '';
+
+                                // Remove existing error message if exists
+                                var existingErrorMsg = document.getElementById('error-msg');
+                                if (existingErrorMsg) {
+                                    existingErrorMsg.remove();
+                                }
+
+                                // Display warning message
+                                var warningText = document.createElement('p');
+                                warningText.textContent = 'Only image files (JPEG, PNG, JPG) are allowed.';
+                                warningText.classList.add('text-danger');
+                                warningText.id = 'error-msg';
+
+                                // Add warning text after the file input element
+                                var screenshotDiv = document.getElementById('screenshotDiv');
+                                screenshotDiv.appendChild(warningText);
+                                return;
+                            }
+
+                            // Check if the selected image size exceeds the maximum allowed size
+                            if (file.size > maxSizeInBytes) {
+                                // Clear the file input
+                                fileInput.value = '';
+
+                                // Remove existing error message if exists
+                                var existingErrorMsg = document.getElementById('error-msg');
+                                if (existingErrorMsg) {
+                                    existingErrorMsg.remove();
+                                }
+
+                                // Display warning message
+                                var warningText = document.createElement('p');
+                                warningText.textContent = 'Selected image exceeds the maximum allowed size of 10MB.';
+                                warningText.classList.add('text-danger');
+                                warningText.id = 'error-msg';
+
+                                // Add warning text after the file input element
+                                var screenshotDiv = document.getElementById('screenshotDiv');
+                                screenshotDiv.appendChild(warningText);
+                            } else {
+                                // Remove existing error message if exists
+                                var existingErrorMsg = document.getElementById('error-msg');
+                                if (existingErrorMsg) {
+                                    existingErrorMsg.remove();
+                                }
+                            }
+                        }
+                    });
+                </script>
+
+
                 <div class='container mt-3'>
                     <div class='card p-3 shadow'>
                         <h2>All Transaction History</h2>
