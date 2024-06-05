@@ -15,17 +15,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ImageStorageService {
-    // @Value("${upload.dir}")
-    // private String uploadDir;
     private final String uploadDir;
 
     public ImageStorageService() throws IOException {
         // Initialize uploadDir in the constructor and handle IOException
-        this.uploadDir = new ClassPathResource("static/images/").getFile().getAbsolutePath();
+        this.uploadDir = new ClassPathResource("/static/images/").getFile().getAbsolutePath();
     }
     public String storeFile(MultipartFile file) throws IOException {
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
-        // String fileNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+        // String fileNameWithoutExtension = originalFileName.substring(0,
+        // originalFileName.lastIndexOf('.'));
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
 
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -33,8 +32,11 @@ public class ImageStorageService {
         String formattedDateTime = currentDateTime.format(formatter);
 
         String newFileName = formattedDateTime + fileExtension;
-        // String newFileName = fileNameWithoutExtension + "_" + formattedDateTime + fileExtension;
-
+        // String newFileName = fileNameWithoutExtension + "_" + formattedDateTime +
+        // fileExtension;
+        System.out.println("*****************");
+        System.out.println(uploadDir);
+        System.out.println("*****************");
         Path uploadPath = Paths.get(uploadDir, "usdt");
 
         if (!Files.exists(uploadPath)) {
@@ -44,7 +46,12 @@ public class ImageStorageService {
         try (InputStream inputStream = file.getInputStream()) {
             Path filePath = uploadPath.resolve(newFileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            return newFileName;
+          System.out.println("*********************");
+          System.out.println(filePath); 
+          System.out.println("*********************");
+          
+          
+          return newFileName;
         } catch (IOException e) {
             throw new IOException("Failed to store file " + originalFileName + ". Please try again!", e);
         }
