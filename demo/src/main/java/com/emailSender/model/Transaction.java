@@ -34,7 +34,8 @@ public class Transaction {
 
 	private Double amount;
 
-	private Boolean status;
+	@Column(columnDefinition = "TINYTEXT")
+	private String status;
 
 	private String type;
 
@@ -87,11 +88,11 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-	public Boolean getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -142,7 +143,8 @@ public class Transaction {
 				+ updatedAt + "]";
 	}
 
-	public Transaction(Long id, String refId, Double amount, Boolean status, String type, String method, User user,
+	public Transaction(Long id, String refId, Double amount, 
+			String status, String type, String method, User user,
 			Date createdAt, Date updatedAt) {
 		super();
 		this.id = id;

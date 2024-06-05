@@ -101,10 +101,12 @@
                                     <tr th:each="transaction : ${transactions}">
                                         <td th:text="${transaction.id}"></td>
                                         <td th:text="${transaction.amount}"></td>
-                                        <td><span th:if="${transaction.status}"
-                                                style="color: rgb(32, 184, 32);">Successful</span> <span
-                                                th:unless="${transaction.status}" style="color: red;">Failed</span>
-                                        </td>
+                                        <td>
+    <span th:if="${transaction.status == 'Successful'}" class="text-success">Successful</span>
+    <span th:if="${transaction.status == 'Pending'}" class="text-warning">Pending</span>
+    <span th:if="${transaction.status == 'Failed'}" class="text-danger">Failed</span>
+</td>
+
                                         <td th:text="${transaction.refId}"></td>
                                         <td th:text="${transaction.type}"></td>
                                         <td th:text="${transaction.method}"></td>

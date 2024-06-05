@@ -61,19 +61,20 @@ public class UsdtController {
             RedirectAttributes redirectAttributes, HttpSession session) {
         Transaction transaction = transactionRepository.findById(transactionId).orElse(null);
         if (transaction != null) {
-            transaction.setStatus(status);
             User user = transaction.getUser();
             Double preBalance = user.getBalance();
             String body;
             String subject;
-            if (transaction.getStatus()) {
+
+            if (status) {
+                transaction.setStatus("Successful");
                 user.setBalance(preBalance + transaction.getAmount());
                 subject = "Transaction Approved";
                 body = String.format(
                         "Dear %s,\n\nYour transaction with reference ID %s has been approved.\n\nAmount: %s\nNew Balance: %s\n\nThank you for using our service.",
                         user.getUsername(), transaction.getRefId(), transaction.getAmount(), user.getBalance());
             } else {
-                user.setBalance(preBalance - transaction.getAmount());
+                transaction.setStatus("Failed");
                 subject = "Transaction Declined";
                 body = String.format(
                         "Dear %s,\n\nYour transaction with reference ID %s has been declined.\n\nAmount: %s\nNew Balance: %s\n\nIf you have any questions, please contact our support.",

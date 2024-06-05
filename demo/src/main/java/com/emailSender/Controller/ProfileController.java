@@ -1,6 +1,5 @@
 package com.emailSender.Controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,25 +32,28 @@ public class ProfileController {
                 if (user != null) {
                     // System.out.println("User" + user);
                     model.addAttribute("user", user);
-              
-                    return "client/profile"; 
+
+                    return "client/profile";
                 }
             }
         }
 
         // Redirect to sign-in page if not authenticated or user not found
-         return "redirect:/signin";
+        return "redirect:/signin";
     }
 
     @PostMapping("/saveProfile")
     public String updateProfile(@RequestParam("name") String name,
-            @RequestParam("address") String address, HttpSession session, RedirectAttributes redirectAttributes) {
+            @RequestParam("address") String address, @RequestParam("state") String state,
+            @RequestParam("pincode") Integer pincode, HttpSession session, RedirectAttributes redirectAttributes) {
         // Step 1: Retrieve the user object from the session
         User user = userRepository.findById((Long) session.getAttribute("userId")).orElse(null);
         if (user != null) {
 
             user.setAddress(address);
             user.setName(name);
+            user.setState(state);
+            user.setPincode(pincode);
             userRepository.save(user);
             redirectAttributes.addFlashAttribute("message", "Your Profile have been updated successfully!");
             return "redirect:/profile";

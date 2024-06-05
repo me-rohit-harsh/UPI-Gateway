@@ -53,11 +53,11 @@ public class WalletController {
         tx.setRefId(UUID.randomUUID().toString().replace("-", "").substring(0, 8));
         tx.setUser(user);
         tx.setType("Debit");
-        tx.setStatus(status);
-        transactionRepository.save(tx);
+       
+      
         String subject, emailBody;
-        if (tx.getStatus()) {
-
+        if (status) {
+            tx.setStatus("Successful");
             subject = "Payment Confirmation - Your Payment was Successful";
             emailBody = String.format(
                     "We are pleased to inform you that your recent payment has been successfully processed.\n\n" +
@@ -69,6 +69,7 @@ public class WalletController {
                     "Best regards,\n" +
                     "Jixwallet";
         } else {
+            tx.setStatus("Failed");
             subject = "Payment Rejection - Your Payment was failed";
             emailBody = String.format(
                     "We regret to inform you that your recent payment has failed.\n\n" +
@@ -81,7 +82,7 @@ public class WalletController {
                             "Best regards,\n" +
                             "Jixwallet");
         }
-
+        transactionRepository.save(tx);
         emailService.sendSimpleEmail(user.getEmail(), subject, emailBody);
 
     }

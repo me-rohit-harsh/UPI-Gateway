@@ -13,12 +13,13 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public List<Transaction> getTransactionsByStatus(boolean status) {
+    public List<Transaction> getTransactionsByStatus(String status) {
         return transactionRepository.findByStatus(status);
     }
 
+    
     public double calculateTotalAmount() {
-        List<Transaction> transactions = transactionRepository.findByStatusAndType(true, "Credit");
+        List<Transaction> transactions = transactionRepository.findByStatusAndType("Successful", "Credit");
         double totalAmount = 0;
         for (Transaction transaction : transactions) {
             totalAmount += transaction.getAmount();

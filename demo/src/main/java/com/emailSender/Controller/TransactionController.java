@@ -5,6 +5,9 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,8 @@ import com.emailSender.Service.ImageStorageService;
 import com.emailSender.model.Transaction;
 import com.emailSender.model.User;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -56,8 +61,8 @@ public class TransactionController {
             }
             if (transaction.getMethod().equals("USDT (TRC20)") || transaction.getMethod().equals("USDT (BEP20)")
                     || transaction.getMethod().equals("USDT (BNB)")) {
-              
-                return processUsdtTransaction(transaction, user, redirectAttributes,screenshot);
+
+                return processUsdtTransaction(transaction, user, redirectAttributes, screenshot);
             }
 
             else {
@@ -95,23 +100,74 @@ public class TransactionController {
             System.out.println("Image uploaded failed. File name: " + fileName);
             e.printStackTrace();
         }
-        return "/images/usdt/" +fileName;
+        return "/images/usdt/" + fileName;
 
     }
 
-    private String processUsdtTransaction(Transaction transaction, User user, RedirectAttributes redirectAttributes, MultipartFile screenshot) {
+    @Autowired
+    private JavaMailSender emailSender;
+
+    @Async
+    public void sendEmailWithAttachment(String to, String subject, String text, MultipartFile attachment)
+            throws MessagingException, IOException {
+
+        MimeMessage message = emailSender.createMimeMessage();
+
+        // Use the true flag to indicate a multipart message
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(text);
+
+        // Add the attachment
+        helper.addAttachment(attachment.getOriginalFilename(), attachment);
+
+        emailSender.send(message);
+        System.out.println("Email Sent with attachment: " + attachment.getOriginalFilename());
+    }
+
+    private String processUsdtTransaction(Transaction transaction, User user, RedirectAttributes redirectAttributes,
+            MultipartFile screenshot) {
         Transaction tx = new Transaction();
         tx.setAmount(transaction.getAmount());
         tx.setMethod(transaction.getMethod());
         tx.setRefId(transaction.getRefId());
         tx.setUser(user);
         tx.setType("Credit");
-        tx.setStatus(false);
+        tx.setStatus("Pending");
         tx.setScreenshot(uploadImage(screenshot));
 
+
+
+        
+        try {
+            // Calculate the USDT value
+            double usdtAmount = transaction.getAmount() / 87.0; // Assuming the rate is 87
+            String usdtAmountFormatted = String.format("%.3f", usdtAmount);
+
+            sendEmailWithAttachment("laxmaniitb@gmail.com", "USDT Transaction Alert",
+                    "Transaction Details:\n\n" +
+                            "User name: " + user.getUsername() + "\n" +
+                            // "Transaction ID: " + transaction.getId() + "\n" +
+                            "USDT Amount: " + usdtAmountFormatted + "\n" +
+                            "Amount: " + transaction.getAmount() + "\n" +
+                            "Method: " + transaction.getMethod() + "\n" +
+                            "Ref ID: " + transaction.getRefId() + "\n" +
+                            // "Date & Time: " + transaction.getCreatedAt() + "\n" +
+                            "Type: Credit\n" +
+                            "Status: Pending\n" +
+                            "Screenshot: Attached",
+                    screenshot);
+        } catch (MessagingException | IOException e) {
+            redirectAttributes.addFlashAttribute("errorMsg",
+                    "Your payment has encountred some issue due to some internal proeblm please try again");
+            e.printStackTrace();
+            return "redirect:/dashboard";
+        }
         transactionRepository.save(tx);
         redirectAttributes.addFlashAttribute("message",
                 "Your payment is being processed. It may take up to 24 hours to complete. Thank you for your patience.");
+
         return "redirect:/dashboard";
     }
 
@@ -125,7 +181,8 @@ public class TransactionController {
         tx.setRefId(transaction.getRefId());
         tx.setUser(user);
         tx.setType("Credit");
-        tx.setStatus(utrFound);
+      
+
 
         if (utrFound) {
             if (user.getEmail() != null) {
@@ -135,6 +192,7 @@ public class TransactionController {
             }
             user.setBalance(user.getBalance() + transaction.getAmount());
             userRepository.save(user);
+            tx.setStatus("Successful");
             transactionRepository.save(tx);
             redirectAttributes.addFlashAttribute("message", "Payment has been added to your wallet successfully");
         } else {
@@ -142,6 +200,7 @@ public class TransactionController {
                 emailService.sendSimpleEmail(user.getEmail(), "Payment Rejection - Jixwallet",
                         "Welcome to Jixwallet. Your payment of Rs" + transaction.getAmount() + " has failed.");
             }
+            tx.setStatus("Failed");
             transactionRepository.save(tx);
             redirectAttributes.addFlashAttribute("errorMsg", "Payment has failed!");
         }

@@ -217,6 +217,14 @@
                                                     <input type="text" id="addressInput" name="address"
                                                         class="form-control d-none" th:value="${user.address}">
                                                 </p>
+                                                <p>State: <span id="stateDisplay" th:text="${user.state}"></span>
+                                                    <input type="text" id="stateInput" name="state"
+                                                        class="form-control d-none" th:value="${user.state}">
+                                            </p>
+                                                <p>Pincode: <span id="pincodeDisplay" th:text="${user.pincode}"></span>
+                                                    <input type="number" id="pincodeInput" name="pincode"
+                                                        class="form-control d-none" th:value="${user.pincode}">
+                                                </p>
                                                 <a href="#" id="editButton" class="edit-button"><i
                                                         class="fas fa-edit"></i> Edit</a>
                                                 <button type="submit" id="saveButton"
@@ -286,8 +294,8 @@
         $(document).ready(function () {
             $('#editButton').on('click', function (event) {
                 event.preventDefault();
-                $('#nameDisplay, #addressDisplay').addClass('d-none');
-                $('#nameInput, #addressInput, #saveButton').removeClass('d-none');
+                $('#nameDisplay, #addressDisplay,#pincodeDisplay,#stateDisplay').addClass('d-none');
+                $('#nameInput, #addressInput, #saveButton,#pincodeInput,#stateInput').removeClass('d-none');
                 $(this).addClass('d-none');
             });
         });

@@ -45,7 +45,8 @@ public class User {
 	private String password;
 
 	private String address;
-
+	private String state;
+	private Integer pincode;
 	private Double balance;
 
 	@Column(name = "secrete_code")
@@ -57,10 +58,10 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Transaction> transactions;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UPI> upi;
-    @JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Bank> banks;
 
@@ -124,6 +125,22 @@ public class User {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public Integer getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(Integer pincode) {
+		this.pincode = pincode;
 	}
 
 	public Double getBalance() {
@@ -214,9 +231,12 @@ public class User {
 		this.role = role;
 	}
 
+	
+
 	public User(Long id, @NotEmpty @Size(min = 3, max = 12) String username, String name, String role, String email,
-			@NotEmpty String password, String address, Double balance, String secCode, Integer otp, Date lastLogin,
-			Set<Transaction> transactions, Set<UPI> upi, Set<Bank> banks, Date createdAt, Date updatedAt) {
+			@NotEmpty String password, String address, String state, Integer pincode, Double balance, String secCode,
+			Integer otp, Date lastLogin, Set<Transaction> transactions, Set<UPI> upi, Set<Bank> banks, Date createdAt,
+			Date updatedAt) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -225,6 +245,8 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.address = address;
+		this.state = state;
+		this.pincode = pincode;
 		this.balance = balance;
 		this.secCode = secCode;
 		this.otp = otp;

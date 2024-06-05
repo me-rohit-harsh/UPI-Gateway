@@ -59,7 +59,7 @@ public class TransferController {
 				userTransaction.setUser(user);
 				userTransaction.setAmount(balance);
 				userTransaction.setType("Debit");
-				userTransaction.setStatus(true);
+				userTransaction.setStatus("Successful");
 				userTransaction.setRefId(UUID.randomUUID().toString().replace("-", "").substring(0, 8));
 				userTransaction.setMethod("Wallet Transfer");
 
@@ -69,7 +69,7 @@ public class TransferController {
 				beneficiaryTransaction.setUser(beneficiaryUser);
 				beneficiaryTransaction.setAmount(balance);
 				beneficiaryTransaction.setType("Credit");
-				beneficiaryTransaction.setStatus(true);
+				beneficiaryTransaction.setStatus("Successful");
 				beneficiaryTransaction.setMethod("Wallet Transfer");
 
 				// Save the transactions
