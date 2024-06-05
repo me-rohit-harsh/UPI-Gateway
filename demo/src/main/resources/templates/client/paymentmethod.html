@@ -303,7 +303,7 @@
                                                 class="screenshot-container">
                                                 <img th:src="@{${upiDetails.qrCode}}" alt="QR Code" id="qrCodeDisplay">
                                             </a> -->
-                                            <span th:if="${upiDetails.qrCode}" id="qrUpload">Uploaded</span>
+                                            <span th:if="${upiDetails != null}"  id="qrUpload">Uploaded</span>
                                         </p>
 
                                         <a href="#" id="editUpiButton" th:if="${upiDetails != null}" class="edit-button"

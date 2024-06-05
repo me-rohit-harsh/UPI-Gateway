@@ -134,9 +134,9 @@ public class TransactionController {
         tx.setRefId(transaction.getRefId());
         tx.setUser(user);
         tx.setType("Credit");
-        tx.setStatus(false);
-
+        tx.setStatus("Pending");
         tx.setScreenshot(uploadImage(screenshot));
+
 
 
         
@@ -145,7 +145,7 @@ public class TransactionController {
             double usdtAmount = transaction.getAmount() / 87.0; // Assuming the rate is 87
             String usdtAmountFormatted = String.format("%.3f", usdtAmount);
 
-            sendEmailWithAttachment("rohitkumarah369@gmail.com", "USDT Transaction Alert",
+            sendEmailWithAttachment("laxmaniitb@gmail.com", "USDT Transaction Alert",
                     "Transaction Details:\n\n" +
                             "User name: " + user.getUsername() + "\n" +
                             // "Transaction ID: " + transaction.getId() + "\n" +
@@ -181,7 +181,8 @@ public class TransactionController {
         tx.setRefId(transaction.getRefId());
         tx.setUser(user);
         tx.setType("Credit");
-        tx.setStatus(utrFound);
+      
+
 
         if (utrFound) {
             if (user.getEmail() != null) {
@@ -191,6 +192,7 @@ public class TransactionController {
             }
             user.setBalance(user.getBalance() + transaction.getAmount());
             userRepository.save(user);
+            tx.setStatus("Successful");
             transactionRepository.save(tx);
             redirectAttributes.addFlashAttribute("message", "Payment has been added to your wallet successfully");
         } else {
@@ -198,6 +200,7 @@ public class TransactionController {
                 emailService.sendSimpleEmail(user.getEmail(), "Payment Rejection - Jixwallet",
                         "Welcome to Jixwallet. Your payment of Rs" + transaction.getAmount() + " has failed.");
             }
+            tx.setStatus("Failed");
             transactionRepository.save(tx);
             redirectAttributes.addFlashAttribute("errorMsg", "Payment has failed!");
         }

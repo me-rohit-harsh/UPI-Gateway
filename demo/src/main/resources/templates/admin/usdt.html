@@ -106,10 +106,12 @@
                                         th:id="'transaction-' + ${transaction.id}">
                                         <td th:text="${transaction.id}"></td>
                                         <td th:text="${transaction.amount}"></td>
-                                        <td><span th:if="${transaction.status}"
-                                                style="color: rgb(32, 184, 32);">Successful</span> <span
-                                                th:unless="${transaction.status}" style="color: red;">Failed</span>
-                                        </td>
+                                        <td>
+    <span th:if="${transaction.status == 'Successful'}" class="text-success">Successful</span>
+    <span th:if="${transaction.status == 'Pending'}" class="text-warning">Pending</span>
+    <span th:if="${transaction.status == 'Failed'}" class="text-danger">Failed</span>
+</td>
+
                                         <td th:text="${transaction.refId}"></td>
                                     <td>
                                         <div th:if="${transaction.screenshot != null}">
@@ -126,13 +128,13 @@
                                         </td>
                                         <td>
                                             <form th:action="@{/admin/transaction/update-status}" method="post"
-                                                th:if="${transaction.status}" style="display: inline;">
+                                                th:if="${transaction.status=='Pending'}" style="display: inline;">
                                                 <input type="hidden" name="transactionId" th:value="${transaction.id}">
                                                 <input type="hidden" name="status" value="false">
                                                 <button type="submit" class="btn btn-danger">Decline</button>
                                             </form>
                                             <form th:action="@{/admin/transaction/update-status}"
-                                                th:if="${!transaction.status}" method="post" style="display: inline;">
+                                                th:if="${transaction.status=='Pending'}" method="post" style="display: inline;">
                                                 <input type="hidden" name="transactionId" th:value="${transaction.id}">
                                                 <input type="hidden" name="status" value="true">
                                                 <button type="submit" class="btn btn-success">Approve</button>

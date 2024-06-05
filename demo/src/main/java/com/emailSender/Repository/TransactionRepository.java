@@ -13,19 +13,19 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Transaction findByRefId(String upiRefNo);
 
-    List<Transaction> findByStatusAndType(boolean status, String type);
+    List<Transaction> findByStatusAndType(String status, String type);
 
-    List<Transaction> findByStatus(boolean status);
+    List<Transaction> findByStatus(String status);
 
     // You can define additional query methods here if needed
     List<Transaction> findByUserId(Long userId);
 
     List<Transaction> findByUserIdAndType(Long userId, String type);
 
-    List<Transaction> findByStatusAndUserId(boolean b, Long userId);
+    List<Transaction> findByStatusAndUserId(String b, Long userId);
 
     List<Transaction> findByMethodIn(List<String> methods);
 
-    @Query("SELECT SUM(t.amount) FROM Transaction t WHERE t.method IN ('USDT (BEP20)', 'USDT (TRC20)', 'USDT (BNB)') AND t.status = true")
+    @Query("SELECT SUM(t.amount) FROM Transaction t WHERE t.method IN ('USDT (BEP20)', 'USDT (TRC20)', 'USDT (BNB)') AND t.status = 'Successful'")
     Double getSumOfSuccessfulUsdtTransactions();
 }
