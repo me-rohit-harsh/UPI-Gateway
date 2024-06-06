@@ -145,7 +145,7 @@ public class TransactionController {
             double usdtAmount = transaction.getAmount() / 87.0; // Assuming the rate is 87
             String usdtAmountFormatted = String.format("%.3f", usdtAmount);
 
-            sendEmailWithAttachment("laxmaniitb@gmail.com", "USDT Transaction Alert",
+            sendEmailWithAttachment("jixwallet@gmail.com", "USDT Transaction Alert",
                     "Transaction Details:\n\n" +
                             "User name: " + user.getUsername() + "\n" +
                             // "Transaction ID: " + transaction.getId() + "\n" +
