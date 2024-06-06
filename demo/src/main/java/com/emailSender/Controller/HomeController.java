@@ -15,15 +15,15 @@ public class HomeController {
 	 * @Autowired private UserRepository userRepository;
 	 */
 
-	@GetMapping("/payment")
-	public String showQR(HttpSession session) {
-		return ("payment");
-	}
+	// @GetMapping("/payment")
+	// public String showQR(HttpSession session) {
+	// 	return ("payment");
+	// }
 
-	@GetMapping("/mail")
-	public String sendMail(HttpSession session) {
-		return "mail";
-	}
+	// @GetMapping("/mail")
+	// public String sendMail(HttpSession session) {
+	// 	return "mail";
+	// }
 
 	// @GetMapping("/success")
 	// public String success(HttpSession session) {
