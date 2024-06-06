@@ -16,4 +16,3 @@ public interface UpiRepository extends JpaRepository<UPI, Long> {
     @Query("SELECT u FROM UPI u WHERE u.user.id = :userId ORDER BY u.createdAt DESC")
     List<UPI> findLatestByUserId(@Param("userId") Long userId, Pageable pageable);
 }
-
