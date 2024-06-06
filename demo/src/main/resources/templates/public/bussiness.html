@@ -96,8 +96,17 @@
                                 In</a>
                         </li> -->
                         <!-- <li class="nav-item authBtn"><a class="btn btn--nav" href="signup.html">Register</a></li> -->
-                        <li class="nav-item authBtn"><a class="btn btn--nav" href="signin">Log In <i
-                                    class="fas fa-sign-in-alt"></i></a></li>
+                <!-- Check if the user is logged in -->
+                <li th:if="${session.user != null}" class="nav-item authBtn">
+                    <a class="btn btn--nav" href="/dashboard">
+                        <i class="fa-solid fa-user"></i> <span th:text="${session.user.username}"></span>
+                    </a>
+                </li>
+                
+                <!-- Display the "Log In" button if no user is logged in -->
+                <li th:if="${session.user == null}" class="nav-item authBtn">
+                    <a class="btn btn--nav" href="/signin">Log In <i class="fas fa-sign-in-alt"></i></a>
+                </li>
                     </ul>
                 </div>
             </div>
@@ -175,10 +184,54 @@
             <a type="button" href="/signup" class="btn mb-4 mr-2">Create an account</a>
             <a href="/signin" class="btn btn--secondary mb-4"><i class="fas fa-sign-in-alt"></i>Log In</a>
         </div>
-        <footer>
-            <p>© 2024 JixWallet. All Rights Reserved.</p>
-        </footer>
+        
     </section>
+    <!-- Footer -->
+    <footer class="container bg-dark text-light pt-4 pb-4"
+        style="background: linear-gradient(to right, #636b92, #582c7e); overflow: hidden !important;">
+        <div class="container">
+            <div class="row">
+                <!-- First Column (Logo) -->
+                <div class="col-md-1">
+    
+                </div>
+                <div class="col-md-3 mb-4">
+                    <img src="images/logo.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+                </div>
+                <!-- Second Column (Links with Heading) -->
+                <div class="col-md-4 mb-4">
+                    <h5>Useful Links</h5>
+                    <hr
+                        style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
+                    <ul class="list-unstyled">
+                        <li><a href="#link1" class="text-light">Contact Us</a></li>
+                        <li><a href="#link2" class="text-light">Blog</a></li>
+                        <li><a href="#link4" class="text-light">Payment Methods</a></li>
+                        <li><a href="/signup" class="text-light">Get Started</a></li>
+                    </ul>
+                </div>
+                <!-- Third Column (Links with Heading) -->
+                <div class="col-md-4 mb-4">
+                    <h5>Company</h5>
+                    <hr
+                        style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
+                    <ul class="list-unstyled">
+                        <li><a href="#contact" class="text-light">About Us</a></li>
+                        <li><a href="#email" class="text-light">Carrier</a></li>
+                        <li><a href="#faq" class="text-light">Privacy</a></li>
+                        <li><a href="#support" class="text-light">Terms & Condition</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Footer Bottom -->
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>© 2024 JixWallet. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap JS (optional) -->
