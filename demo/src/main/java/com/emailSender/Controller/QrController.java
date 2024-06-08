@@ -39,7 +39,7 @@ public class QrController {
         double amount = Double.parseDouble(requestBody.get("amount").toString());
         try {
             // Construct UPI URL
-            String vpa = "ambitionyes@ibl"; //My Vpa
+            String vpa = "jixpay@ybl"; //My Vpa
             String upiUrl = "upi://pay?pa=" + vpa + "&am=" + amount;
 
             // Generate QR code
