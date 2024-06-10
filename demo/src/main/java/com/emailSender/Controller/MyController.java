@@ -25,6 +25,11 @@ public class MyController {
     public String showBussiness() {
         return "public/bussiness";
     }
+    @GetMapping("/help-center")
+    public String showSupport() {
+        return "public/support";
+    }
+    
 
     @PostMapping("/post")
     public ResponseEntity<String> handlePostRequest(@RequestBody String requestBody) {
