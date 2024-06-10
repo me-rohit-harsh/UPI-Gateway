@@ -1,5 +1,8 @@
 package com.emailSender.Controller;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,10 +24,12 @@ public class MyController {
     public String showHome() {
         return "public/index";
     }
+
     @GetMapping("/bussiness")
     public String showBussiness() {
         return "public/bussiness";
     }
+
     @GetMapping("/help-center")
     public String showSupport() {
         return "public/support";

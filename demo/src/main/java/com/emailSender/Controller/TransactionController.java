@@ -1,6 +1,9 @@
 package com.emailSender.Controller;
 
+import java.io.File;
 import java.io.IOException;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,16 +12,19 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.emailSender.Repository.ContactRepository;
 import com.emailSender.Repository.TransactionRepository;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.EmailService;
 import com.emailSender.Service.ImageStorageService;
+import com.emailSender.model.Contact;
 import com.emailSender.model.Transaction;
 import com.emailSender.model.User;
 
@@ -137,9 +143,6 @@ public class TransactionController {
         tx.setStatus("Pending");
         tx.setScreenshot(uploadImage(screenshot));
 
-
-
-        
         try {
             // Calculate the USDT value
             double usdtAmount = transaction.getAmount() / 87.0; // Assuming the rate is 87
@@ -181,8 +184,6 @@ public class TransactionController {
         tx.setRefId(transaction.getRefId());
         tx.setUser(user);
         tx.setType("Credit");
-      
-
 
         if (utrFound) {
             if (user.getEmail() != null) {
@@ -206,6 +207,37 @@ public class TransactionController {
         }
 
         return "redirect:/dashboard";
+    }
+
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @PostMapping("/contact")
+    public String submitContactForm(@Valid @ModelAttribute Contact contactForm,
+            BindingResult result,
+            @RequestParam("attachment") MultipartFile file, RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            return "contact";
+        }
+
+        if (!file.isEmpty()) {
+            contactForm.setAttachmentPath(uploadImage(file));
+            try {
+                sendEmailWithAttachment("rohitkumarah369@gmail.com", "New Contact Form Submmision", "Hey there", file);
+            } catch (MessagingException | IOException e) {
+                e.printStackTrace();
+                return "redirect:/help-center";
+            }
+        }
+
+        contactRepository.save(contactForm);
+        redirectAttributes.addFlashAttribute("message",
+                "Your contact form has been submited please check your mail for further updates");
+
+      
+
+        return "redirect:/help-center";
     }
 
 }
