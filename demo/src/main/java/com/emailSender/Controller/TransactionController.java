@@ -1,6 +1,9 @@
 package com.emailSender.Controller;
 
+import java.io.File;
 import java.io.IOException;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,16 +12,20 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.emailSender.Repository.ContactRepository;
 import com.emailSender.Repository.TransactionRepository;
 import com.emailSender.Repository.UserRepository;
 import com.emailSender.Service.EmailService;
 import com.emailSender.Service.ImageStorageService;
+import com.emailSender.model.Contact;
 import com.emailSender.model.Transaction;
 import com.emailSender.model.User;
 
@@ -137,9 +144,6 @@ public class TransactionController {
         tx.setStatus("Pending");
         tx.setScreenshot(uploadImage(screenshot));
 
-
-
-        
         try {
             // Calculate the USDT value
             double usdtAmount = transaction.getAmount() / 87.0; // Assuming the rate is 87
@@ -181,8 +185,6 @@ public class TransactionController {
         tx.setRefId(transaction.getRefId());
         tx.setUser(user);
         tx.setType("Credit");
-      
-
 
         if (utrFound) {
             if (user.getEmail() != null) {
@@ -206,6 +208,57 @@ public class TransactionController {
         }
 
         return "redirect:/dashboard";
+    }
+
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @PostMapping("/contact")
+    public String submitContactForm(@Valid @ModelAttribute Contact contactForm,
+            BindingResult result, HttpSession session, Model model,
+            @RequestParam("attachment") MultipartFile file, RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            return "contact";
+        }
+
+        if (!file.isEmpty()) {
+            contactForm.setAttachmentPath(uploadImage(file));
+            try {
+                String emailBody = "Subject: " + contactForm.getSubject() + "\n" +
+                        "Name: " + contactForm.getName() + "\n" +
+                        "Email: " + contactForm.getEmail() + "\n" +
+                        "Message: " + contactForm.getMessage() + "\n";
+
+                sendEmailWithAttachment("jixwallet@gmail.com", "New Contact Form Submmision - Jixwallet",
+                        emailBody, file);
+            } catch (MessagingException | IOException e) {
+                e.printStackTrace();
+                redirectAttributes.addFlashAttribute("errorMsg",
+                        "Somethingh went worng please try again!");
+                return "redirect:/help-center";
+            }
+        }
+
+        contactRepository.save(contactForm);
+        redirectAttributes.addFlashAttribute("message",
+                "Your contact form has been submited please check your mail for further updates");
+
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            // Find user by ID
+            User user = userRepository.findById(userId).orElse(null);
+            if (user.getEmail() != null) {
+                String body = "Dear Customer,\n\n" +
+                        "Thank you for contacting us. Your inquiry ID is: " + contactForm.getId() + "\n\n" +
+                        "We have received your inquiry and will get back to you as soon as possible.\n\n" +
+                        "Best regards,\n" +
+                        "Jixwallet Team";
+                emailService.sendSimpleEmail(user.getEmail(), "Inquiry  Submission Update - Jixwallet", body);
+            }
+
+        }
+        return "redirect:/help-center";
     }
 
 }

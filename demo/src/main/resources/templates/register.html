@@ -19,37 +19,62 @@
     <!-- Bootstrap CSS -->
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
     <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/css/alert.css}">
     <link rel="stylesheet" th:href="@{/css/client/auth.css}">
-    <style>
-        .index-page .header {
-            --background-color: #64A1DC;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
+    
 </head>
 
 <body class="index-page  scrolled">
 
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center">
-
-            <a href="/" class="logo d-flex align-items-center me-auto">
-                <h1 class="text-light">JIXWALLET</h1>
-            </a>
-
-            <nav id="navmenu" class="navmenu">
-
-                <a class="btn-getstarted" href="/signin" style="width: 110px; font-size: large;">Sign In</a>
-            </nav>
-
-        </div>
+    <header class="header  shadow fixed">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <img src="images/mainLogo.png" alt="" style="width: 200px;">
+                </a>
+                <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- <ul class="navbar-nav">
+                        </ul> -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/#method">Payment Method</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#">Business</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/help-center">Help Center</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#security">Security</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#FAQs">FAQs</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="login.html">
+                                    Log
+                                    In</a>
+                            </li> -->
+                        <!-- <li class="nav-item authBtn"><a class="btn btn--nav" href="signup.html">Register</a></li> -->
+                        <!-- Check if the user is logged in -->
+                        <li th:if="${session.user != null}" class="nav-item authBtn">
+                            <a class="btn btn--nav" href="/dashboard">
+                                <i class="fa-solid fa-user"></i> <span th:text="${session.user.username}"></span>
+                            </a>
+                        </li>
+    
+                        <!-- Display the "Log In" button if no user is logged in -->
+                        <li th:if="${session.user == null}" class="nav-item authBtn">
+                            <a class="btn btn--nav" href="/signin">Log In <i class="fas fa-sign-in-alt"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <main class="main mt-5" style="min-height: 90vh;">
+    <main class="main mt-5" >
         <!-- Login Register section  -->
         <section id="contact" class="contact section">
 
             <!-- Section Title -->
-            <div class="container section-title">
+            <div class="container section-title mb-5">
                 <h3 class="text-center">New Here? Register Now</h3>
                 <p class="text-center">Join us and start your journey today. Enjoy exclusive benefits and personalized
                     services tailored
@@ -90,7 +115,7 @@
                             </div>
                             <br>
                             <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary" id="submitBtn">Register</button>
+                                <button type="submit" class="btn" id="submitBtn">Register</button>
                             </div>
                         </form>
                         <div class="text-center mt-3">
@@ -108,15 +133,55 @@
         </section><!-- /Contact Section -->
     </main>
 
-    <footer id="footer" class="footer">
-        <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 ">Jixwallet</strong> <span>All Rights
-                    Reserved</span></p>
-            <div class="credits">
-                Designed by <a href="/">Jixwallet Team </a>
+        <!-- Footer -->
+        <footer class=" bg-dark text-light pt-4 pb-4"
+            style="background: linear-gradient(to right, #636b92, #582c7e); overflow: hidden !important;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+        
+                    </div> <!-- First Column (Logo) -->
+        
+                    <div class="col-md-2 mb-4">
+                        <img src="images/Logo.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+                    </div>
+        
+                    <div class="col-md-1">
+        
+                    </div> <!-- Second Column (Links with Heading) -->
+                    <div class="col-md-3 mb-4">
+                        <h5>Useful Links</h5>
+                        <hr
+                            style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
+                        <ul class="list-unstyled">
+                            <li><a href="help-center" class="text-light">Contact Us</a></li>
+                            <li><a href="#link2" class="text-light">Blog</a></li>
+                            <li><a href="#link4" class="text-light">Payment Methods</a></li>
+                            <li><a href="/signup" class="text-light">Get Started</a></li>
+                        </ul>
+                    </div>
+                    <!-- Third Column (Links with Heading) -->
+                    <div class="col-md-4 mb-4">
+                        <h5>Company</h5>
+                        <hr
+                            style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
+                        <ul class="list-unstyled">
+                            <li><a href="#contact" class="text-light">About Us</a></li>
+                            <li><a href="#email" class="text-light">Carrier</a></li>
+                            <li><a href="#faq" class="text-light">Privacy</a></li>
+                            <li><a href="#support" class="text-light">Terms & Condition</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Footer Bottom -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>© 2024 JixWallet. All Rights Reserved.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+        <!-- End Footer -->
 
 <!-- Bootstrap JS (optional) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

@@ -22,9 +22,55 @@
             display: none;
         }
 
+        /* Custom popup styles */
+        .custom-popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 90%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            border-radius: 10px;
+            text-align: center;
+            animation: fadeInOut 2s forwards;
+        }
+
+        .custom-popup.show {
+            display: block;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+
+            90% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+        }
+
         /* #fund-submit-button {
             display: block;
         } */
+        /* .btn-outline-secondary{
+               --bs-btn-border-color: none !important;
+               border: none !important;
+         } */
     </style>
 </head>
 
@@ -58,8 +104,9 @@
                 <a href="/method" class="dashboard-nav-item"><i class="fas fa-money-check-alt"></i> Payment Method </a>
                 <a href="/security" class="dashboard-nav-item"><i class="fas fa-solid fa-fingerprint"></i> Security </a>
 
-                <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
-                <div class="nav-item-divider"></div>
+                 <a href="/p2p" class="dashboard-nav-item"><i class="fas fa-cogs"></i> P2P </a>
+           <a href="/help-center" class="dashboard-nav-item"><i class="fas fa-solid fa-headset"></i> Help Center </a>
+ <div class="nav-item-divider"></div>
                 <a href="/signout" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout </a>
             </nav>
         </div>
@@ -185,17 +232,13 @@
                                                 <h5>UPI Details</h5>
                                                 <p>
                                                     <strong>Bank Name:</strong>
-                                                    <input readonly disabled style="border: none !important;"
-                                                        type="text" id="upiBankName" value="Avinash Aryan">
-                                                    <button onclick="copyToClipboard('upiBankName')"
-                                                        class="btn btn-outline-secondary btn-sm" type="button">
-                                                        <i class="fa-regular fa-copy"></i>
-                                                    </button>
+                                                    Avinash Aryan
+
                                                 </p>
                                                 <p>
                                                     <strong>UPI ID:</strong>
                                                     <input readonly disabled style="border: none !important;"
-                                                        type="text" id="upiId" value="ambitionyes@ibl">
+                                                        type="text" id="upiId" value="jixpay@ybl">
                                                     <button onclick="copyToClipboard('upiId')"
                                                         class="btn btn-outline-secondary btn-sm" type="button">
                                                         <i class="fa-regular fa-copy"></i>
@@ -331,7 +374,11 @@
                                             </div>
 
                                         </div>
-
+                                        <div id="customPopup" class="custom-popup">
+                                            <i class="fa-solid fa-circle-check fa-2x"
+                                                style="color: rgb(0, 255, 55);"></i>
+                                            <p id="popupMessage"></p>
+                                        </div>
                                         <script>
                                             function copyToClipboard(elementId) {
                                                 // Get the text from the specified element
@@ -344,13 +391,20 @@
                                                 // Copy the text to the clipboard
                                                 document.execCommand("copy");
 
-                                                // // Deselect the text
-                                                // inputElement.setSelectionRange(0, 0);
-                                                // inputElement.blur();
-                                                // inputElement.disabled = true;
+                                                // Show the custom popup
+                                                var customPopup = document.getElementById("customPopup");
+                                                var popupMessage = document.getElementById("popupMessage");
+                                                popupMessage.textContent = "Copied to clipboard: " + inputElement.value;
 
-                                                // Alert the user that the text has been copied
-                                                alert("Copied to clipboard: " + inputElement.value);
+                                                // Reset the popup's animation
+                                                customPopup.classList.remove("show");
+                                                void customPopup.offsetWidth; // Trigger a reflow, flushing the CSS changes
+                                                customPopup.classList.add("show");
+
+                                                // Hide the custom popup after 2 minutes
+                                                setTimeout(function () {
+                                                    customPopup.classList.remove("show");
+                                                }, 2000);
                                             }
 
                                             function adjustInputWidth() {
@@ -582,10 +636,13 @@
                                         <td th:text="${transaction.id}"></td>
                                         <td th:text="${transaction.amount}"></td>
                                         <td>
-    <span th:if="${transaction.status == 'Successful'}" class="text-success">Successful</span>
-    <span th:if="${transaction.status == 'Pending'}" class="text-warning">Pending</span>
-    <span th:if="${transaction.status == 'Failed'}" class="text-danger">Failed</span>
-</td>
+                                            <span th:if="${transaction.status == 'Successful'}"
+                                                class="text-success">Successful</span>
+                                            <span th:if="${transaction.status == 'Pending'}"
+                                                class="text-warning">Pending</span>
+                                            <span th:if="${transaction.status == 'Failed'}"
+                                                class="text-danger">Failed</span>
+                                        </td>
 
                                         <td th:text="${transaction.refId}"></td>
                                         <td th:text="${transaction.type}"></td>
@@ -691,7 +748,7 @@
                 case 'UPI':
                     phonepayDiv.style.display = 'block';
                     var UPILink = document.getElementById("UPILink");
-                    var UPIUrl = "phonepe://pay?pa=ambitionyes@ibl&cu=INR&am=" + totalAmount;
+                    var UPIUrl = "phonepe://pay?pa=jixpay@ybl&cu=INR&am=" + totalAmount;
                     UPILink.setAttribute("href", UPIUrl);
                     screenshot.style.display = 'none';
                     ssFieild.required = false;
@@ -736,7 +793,7 @@
             var amount = document.getElementById("amount").value;
             document.getElementById("totalAmount").innerText = amount;
             var upiLink = document.getElementById("UPILink");
-            var paytmUrl = "phonepe://pay?pa=ambitionyes@ibl&am=" + amount;
+            var paytmUrl = "phonepe://pay?pa=jixpay@ybl&am=" + amount;
             upiLink.setAttribute("href", paytmUrl);
             fetch('/generateQRCode', {
                 method: 'POST',
