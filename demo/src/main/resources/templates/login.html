@@ -24,6 +24,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/alert.css}">
     <link rel="stylesheet" th:href="@{/css/client/auth.css}">
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
     <style>
         .index-page .header {
             --background-color: #64A1DC;
@@ -32,20 +33,46 @@
 </head>
 
 <body class="index-page  scrolled">
+    <header class="header  shadow fixed">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <img src="images/mainLogo.png" alt="" style="width: 200px;">
+                </a>
+                <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- <ul class="navbar-nav">
+                            </ul> -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/#method">Payment Method</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#">Business</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/help-center">Help Center</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#security">Security</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#FAQs">FAQs</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="login.html">
+                                        Log
+                                        In</a>
+                                </li> -->
+                        <!-- <li class="nav-item authBtn"><a class="btn btn--nav" href="signup.html">Register</a></li> -->
+                        <!-- Check if the user is logged in -->
+                        <li th:if="${session.user != null}" class="nav-item authBtn">
+                            <a class="btn btn--nav" href="/dashboard">
+                                <i class="fa-solid fa-user"></i> <span th:text="${session.user.username}"></span>
+                            </a>
+                        </li>
 
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center">
-
-            <a href="/" class="logo d-flex align-items-center me-auto">
-                <h1 class="text-light">JIXWALLET</h1>
-            </a>
-
-            <nav id="navmenu" class="navmenu">
-
-                <a class="btn-getstarted" href="/signup" style="width: 120px; font-size: large;">Register</a>
-            </nav>
-
-        </div>
+                        <!-- Display the "Log In" button if no user is logged in -->
+                        <li th:if="${session.user == null}" class="nav-item authBtn">
+                            <a class="btn btn--nav" href="/signup">Register <i class="fas fa-sign-in-alt"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
     <!-- Display flash message if available -->
     <div class="alert-container">
@@ -88,7 +115,7 @@
                     class="fa-solid fa-xmark"></i></a>
         </div>
     </div>
-    <main class="main mt-5" style="min-height: 90vh;">
+    <main class="main mt-5">
         <!-- Login Register section  -->
         <section id="contact" class="contact section">
 
@@ -138,29 +165,28 @@
                     </div><!-- End Signin Form -->
                     <!-- forget password popup  -->
 
-                        <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog"
-                            data-bs-backdrop="static" aria-labelledby="raiseTicketModalLabel" aria-hidden="true"
-                            style="padding-right: 0 !important;">
-                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <form id="forgotPasswordForm" th:action="@{/forgot-password}" method="post">
-                                            <div class="mb-3">
-                                                <label for="forgot-email" class="form-label">Enter your
-                                                    Username / Email</label>
-                                                <input placeholder="Username / Email" type="text"
-                                                    name="forgotEmailOrUsername" id="forgot-email" class="form-control"
-                                                    required>
-                                            </div>
-                                            <div class="text-center">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-
+                    <div class="modal fade" id="raiseTicketModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
+                        aria-labelledby="raiseTicketModalLabel" aria-hidden="true" style="padding-right: 0 !important;">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form id="forgotPasswordForm" th:action="@{/forgot-password}" method="post">
+                                        <div class="mb-3">
+                                            <label for="forgot-email" class="form-label">Enter your
+                                                Username / Email</label>
+                                            <input placeholder="Username / Email" type="text"
+                                                name="forgotEmailOrUsername" id="forgot-email" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
                                 </div>
+
                             </div>
                         </div>
+                    </div>
 
                     <div class="col-12 col-lg-3">
 
@@ -171,19 +197,61 @@
 
         </section><!-- /Contact Section -->
     </main>
+    <!-- Footer -->
+    <footer class=" bg-dark text-light pt-4 pb-4"
+        style="background: linear-gradient(to right, #636b92, #582c7e); overflow: hidden !important;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
 
-    <footer id="footer" class="footer">
-        <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 ">Jixwallet</strong> <span>All Rights
-                    Reserved</span></p>
-            <div class="credits">
-                Designed by <a href="/">Jixwallet Team </a>
+                </div> <!-- First Column (Logo) -->
+
+                <div class="col-md-2 mb-4">
+                    <img src="images/Logo.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+                </div>
+
+                <div class="col-md-1">
+
+                </div> <!-- Second Column (Links with Heading) -->
+                <div class="col-md-3 mb-4">
+                    <h5>Useful Links</h5>
+                    <hr
+                        style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
+                    <ul class="list-unstyled">
+                        <li><a href="help-center" class="text-light">Contact Us</a></li>
+                        <li><a href="#link2" class="text-light">Blog</a></li>
+                        <li><a href="#link4" class="text-light">Payment Methods</a></li>
+                        <li><a href="/signup" class="text-light">Get Started</a></li>
+                    </ul>
+                </div>
+                <!-- Third Column (Links with Heading) -->
+                <div class="col-md-4 mb-4">
+                    <h5>Company</h5>
+                    <hr
+                        style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
+                    <ul class="list-unstyled">
+                        <li><a href="#contact" class="text-light">About Us</a></li>
+                        <li><a href="#email" class="text-light">Carrier</a></li>
+                        <li><a href="#faq" class="text-light">Privacy</a></li>
+                        <li><a href="#support" class="text-light">Terms & Condition</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Footer Bottom -->
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>© 2024 JixWallet. All Rights Reserved.</p>
+                </div>
             </div>
         </div>
     </footer>
+    <!-- End Footer -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/alert.js}"></script>
 </body>
 

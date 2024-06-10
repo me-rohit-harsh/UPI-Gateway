@@ -11,6 +11,7 @@
     <!-- Font Awesome CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/alert.css}">
     <link rel="stylesheet" th:href="@{/css/landing.css}">
     <style>
         .main-content {
@@ -109,7 +110,9 @@
     <header class="header container shadow fixed">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">JixWallet</a>
+                <a class="navbar-brand" href="/">
+                    <img src="images/mainLogo.png" alt="" style="width: 200px;">
+                </a>
                 <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -121,6 +124,7 @@
                         <li class="nav-item"><a class="nav-link" href="/#method">Payment Method</a></li>
                         <li class="nav-item"><a class="nav-link" href="/#">Business</a></li>
                         <li class="nav-item"><a class="nav-link" href="/#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/help-center">Help Center</a></li>
                         <li class="nav-item"><a class="nav-link" href="/#security">Security</a></li>
                         <li class="nav-item"><a class="nav-link" href="/#FAQs">FAQs</a></li>
                         <!-- <li class="nav-item"><a class="nav-link" href="login.html">
@@ -144,7 +148,47 @@
             </div>
         </nav>
     </header>
+<!-- Display flash message if available -->
+<div class="alert-container">
+    <!--       <div th:if="${message}" class="alert fade alert-simple alert-primary alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon fa fa-thumbs-up faa-bounce animated"></i> 
+            <strong class="font__weight-semibold">Success!</strong> <span th:text="${message}"></span>
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div> -->
+    <!-- <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon fa fa-info-circle faa-shake animated"></i>
+            <strong class="font__weight-semibold">Heads up!</strong> This alert needs your attention, but it's not super
+            important.
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div>
+        <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+            role="alert">
+            <i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>
+            <strong class="font__weight-semibold">Warning!</strong> Better check yourself, you're not looking too good.
+            <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i></a>
+        </div>-->
+    <div th:if="${errorMsg}"
+        class="alert fade alert-simple alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+        role="alert">
+        <i class="start-icon far fa-times-circle faa-pulse animated"></i>
+        <strong class="font__weight-semibold">Oh no!</strong> <span th:text="${errorMsg}"></span>
+        <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                class="fa-solid fa-xmark"></i></a>
+    </div>
 
+    <div th:if="${message}"
+        class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+        <i class="start-icon far fa-check-circle faa-tada animated"></i>
+        <strong class="font__weight-semibold">Success! </strong> <span th:text="${message}"></span>
+        <a type="button" class="btn-close close font__size-24" data-bs-dismiss="alert" aria-label="Close"><i
+                class="fa-solid fa-xmark"></i></a>
+    </div>
+</div>
 
     <section class="support" id="support">
         <div class="container-fluid">
@@ -193,7 +237,7 @@
                                 <i class="fa-brands fa-telegram icon"></i>
                                 <h5 class="card-title tColor">Telegram Support</h5>
                                 <p class="card-text tColor">Contact us on Telegram for quick support and assistance.</p>
-                                <a href="https://t.me/your_telegram_link" class="btn btn-custom">Contact on Telegram</a>
+                                <a href="https://t.me/your_telegram_link" class="btn  btn--secondary btn-custom">Contact on Telegram</a>
                             </div>
                         </div>
                     </div>
@@ -205,7 +249,7 @@
                                 <p class="card-text tColor">Send us an email and we will get back to you as soon as
                                     possible.
                                 </p>
-                                <a href="mailto:support@example.com" class="btn btn-custom">Contact via Email</a>
+                                <a href="mailto:support@example.com" class="btn  btn-custom">Contact via Email</a>
                             </div>
                         </div>
                     </div>
@@ -235,24 +279,27 @@
                 <div class="col-md-2">
 
                 </div> <!-- First Column (Logo) -->
-                <!-- 
-                    <div class="col-md-3 mb-4">
-                        <img src="images/logo.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
-                    </div> -->
-                <!-- Second Column (Links with Heading) -->
-                <div class="col-md-5 mb-4">
+
+                <div class="col-md-2 mb-4">
+                    <img src="images/Logo.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+                </div>
+
+                <div class="col-md-1">
+
+                </div> <!-- Second Column (Links with Heading) -->
+                <div class="col-md-3 mb-4">
                     <h5>Useful Links</h5>
                     <hr
                         style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
                     <ul class="list-unstyled">
-                        <li><a href="#link1" class="text-light">Contact Us</a></li>
+                        <li><a href="help-center" class="text-light">Contact Us</a></li>
                         <li><a href="#link2" class="text-light">Blog</a></li>
                         <li><a href="#link4" class="text-light">Payment Methods</a></li>
                         <li><a href="/signup" class="text-light">Get Started</a></li>
                     </ul>
                 </div>
                 <!-- Third Column (Links with Heading) -->
-                <div class="col-md-5 mb-4">
+                <div class="col-md-4 mb-4">
                     <h5>Company</h5>
                     <hr
                         style="width: 100px !important; height: 5px;background: linear-gradient(to right, #636b92, #582c7e);">
