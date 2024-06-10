@@ -15,12 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ImageStorageService {
-    private final String uploadDir;
+    private final String uploadDir="./";
 
-    public ImageStorageService() throws IOException {
-        // Initialize uploadDir in the constructor and handle IOException
-        this.uploadDir = new ClassPathResource("/static/images/").getFile().getAbsolutePath();
-    }
+    // public ImageStorageService() throws IOException {
+    //     // Initialize uploadDir in the constructor and handle IOException
+    //     this.uploadDir = new ClassPathResource("/static/images/").getFile().getAbsolutePath();
+    // }
     public String storeFile(MultipartFile file) throws IOException {
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         // String fileNameWithoutExtension = originalFileName.substring(0,

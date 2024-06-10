@@ -473,8 +473,7 @@ h1,
 }
 
 .logo {
-    height: 70px;
-    /* Adjust the height of the logo as needed */
+   width: 175px !important;
 }
 
 .modal-header {
