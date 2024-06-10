@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -214,7 +215,7 @@ public class TransactionController {
 
     @PostMapping("/contact")
     public String submitContactForm(@Valid @ModelAttribute Contact contactForm,
-            BindingResult result,
+            BindingResult result, HttpSession session, Model model,
             @RequestParam("attachment") MultipartFile file, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
@@ -224,9 +225,17 @@ public class TransactionController {
         if (!file.isEmpty()) {
             contactForm.setAttachmentPath(uploadImage(file));
             try {
-                sendEmailWithAttachment("rohitkumarah369@gmail.com", "New Contact Form Submmision", "Hey there", file);
+                String emailBody = "Subject: " + contactForm.getSubject() + "\n" +
+                        "Name: " + contactForm.getName() + "\n" +
+                        "Email: " + contactForm.getEmail() + "\n" +
+                        "Message: " + contactForm.getMessage() + "\n";
+
+                sendEmailWithAttachment("jixwallet@gmail.com", "New Contact Form Submmision - Jixwallet",
+                        emailBody, file);
             } catch (MessagingException | IOException e) {
                 e.printStackTrace();
+                redirectAttributes.addFlashAttribute("errorMsg",
+                        "Somethingh went worng please try again!");
                 return "redirect:/help-center";
             }
         }
@@ -235,8 +244,20 @@ public class TransactionController {
         redirectAttributes.addFlashAttribute("message",
                 "Your contact form has been submited please check your mail for further updates");
 
-      
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            // Find user by ID
+            User user = userRepository.findById(userId).orElse(null);
+            if (user.getEmail() != null) {
+                String body = "Dear Customer,\n\n" +
+                        "Thank you for contacting us. Your inquiry ID is: " + contactForm.getId() + "\n\n" +
+                        "We have received your inquiry and will get back to you as soon as possible.\n\n" +
+                        "Best regards,\n" +
+                        "Jixwallet Team";
+                emailService.sendSimpleEmail(user.getEmail(), "Inquiry  Submission Update - Jixwallet", body);
+            }
 
+        }
         return "redirect:/help-center";
     }
 

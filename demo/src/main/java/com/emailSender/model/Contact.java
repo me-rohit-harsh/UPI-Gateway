@@ -1,10 +1,19 @@
 package com.emailSender.model;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -24,10 +33,21 @@ public class Contact {
     private String subject;
 
     @NotBlank(message = "Message is mandatory")
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String message;
 
     private String attachmentPath;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", updatable = false)
+    private Date createdAt;
+
     // Getters and Setters
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
     public Long getId() {
         return id;
